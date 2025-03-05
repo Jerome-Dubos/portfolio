@@ -1,6 +1,5 @@
 /* Import des polices Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* Reset et base */
 *, *::before, *::after {
@@ -9,20 +8,19 @@
   box-sizing: border-box;
 }
 
-/* Variables système de design */
 :root {
   /* Couleurs principales */
-  --primary: #3a36e0;
-  --primary-light: #5e5aff;
-  --primary-dark: #2824b5;
-  --secondary: #ff7b00;
-  --secondary-light: #ff9d4a;
-  --secondary-dark: #e66e00;
+  --primary: #7c5dfa;
+  --primary-light: #9277ff;
+  --primary-dark: #5e45d6;
+  --secondary: #d4af37;
+  --secondary-light: #f5d372;
+  --secondary-dark: #b8860b;
   
   /* Couleurs neutres */
-  --dark: #1a1a2e;
-  --medium: #4a4a4a;
-  --light: #f9f9f9;
+  --dark: #232942;
+  --medium: #7e88c3;
+  --light: #f9fafe;
   --white: #ffffff;
   
   /* Couleurs d'arrière-plan et de texte sémantiques */
@@ -34,17 +32,16 @@
   --text-on-dark: var(--white);
   
   /* Couleurs d'accentuation */
-  --success: #00b090;
-  --warning: #ffbb00;
-  --error: #ff4d4f;
+  --success: #33d69f;
+  --warning: #ff9e2c;
+  --error: #ff5678;
   
   /* Dégradés */
-  --gradient-primary: linear-gradient(110deg, var(--primary), #5630e0);
+  --gradient-primary: linear-gradient(110deg, var(--primary), #7967ff);
   --gradient-secondary: linear-gradient(110deg, var(--secondary), var(--secondary-light));
   
   /* Typographie */
-  --font-headings: 'Work Sans', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-primary: 'Inter', sans-serif;
   
   /* Tailles de texte */
   --text-xs: 0.75rem;   /* 12px */
@@ -68,15 +65,15 @@
   --spacing-3xl: 4rem;    /* 64px */
   
   /* Ombres */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 20px 32px rgba(0, 0, 0, 0.12);
   
   /* Rayons des bordures */
-  --radius-sm: 0.25rem; /* 4px */
-  --radius-md: 0.5rem;  /* 8px */
-  --radius-lg: 1rem;    /* 16px */
+  --radius-sm: 0.5rem; /* 8px */
+  --radius-md: 1rem;  /* 16px */
+  --radius-lg: 1.5rem;    /* 24px */
   --radius-full: 9999px;
   
   /* Largeurs de conteneur */
@@ -105,9 +102,9 @@
 [data-theme="dark"] {
   /* Inversions des couleurs principales */
   --dark: #f2f2f2;
-  --medium: #a0a0a0;
-  --light: #121212;
-  --white: #1a1a2e;
+  --medium: #b8bedc;
+  --light: #141833;
+  --white: #1e2139;
   
   /* Mise à jour des couleurs sémantiques */
   --bg-main: var(--light);
@@ -116,12 +113,6 @@
   --text-main: var(--dark);
   --text-secondary: var(--medium);
   --text-on-dark: var(--white);
-  
-  /* Ajustement des ombres pour le mode sombre */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
 }
 
 /* Base */
@@ -131,7 +122,7 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-primary);
   color: var(--text-main);
   background-color: var(--bg-main);
   line-height: 1.6;
@@ -142,10 +133,10 @@ body {
 
 /* Typographie */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-headings);
+  font-family: var(--font-primary);
   font-weight: 600;
   line-height: 1.2;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: var(--text-main);
   transition: color var(--transition-normal) ease;
 }
@@ -153,10 +144,12 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: var(--text-5xl);
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 h2 {
   font-size: var(--text-4xl);
+  letter-spacing: -0.01em;
 }
 
 h3 {
@@ -219,6 +212,7 @@ a:hover {
 /* Sections */
 section {
   padding: var(--spacing-3xl) 0;
+  position: relative;
 }
 
 .section-title {
@@ -246,20 +240,22 @@ section {
   color: var(--text-secondary);
   max-width: 700px;
   margin: 0 auto;
+  font-size: var(--text-lg);
 }
 
 /* Boutons */
 .btn {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  font-weight: 500;
   text-align: center;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   cursor: pointer;
   transition: all var(--transition-normal) ease;
-  font-family: var(--font-body);
+  font-family: var(--font-primary);
   font-size: var(--text-base);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary {
@@ -268,19 +264,20 @@ section {
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
+  background: var(--primary-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
   background: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
+  color: var(--text-main);
+  border: 1px solid var(--medium);
 }
 
 .btn-secondary:hover {
-  background: rgba(58, 54, 224, 0.05);
+  border-color: var(--primary);
+  color: var(--primary);
   transform: translateY(-2px);
 }
 
@@ -290,7 +287,7 @@ section {
 }
 
 .btn-accent:hover {
-  background: var(--secondary-dark);
+  background: var(--secondary-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -301,17 +298,18 @@ section {
 }
 
 .btn-sm {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
   font-size: var(--text-sm);
 }
 
 /* Cartes */
 .card {
   background: var(--bg-card);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: hidden;
   transition: transform var(--transition-normal) ease, box-shadow var(--transition-normal) ease, background-color var(--transition-normal) ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .card:hover {
@@ -321,6 +319,26 @@ section {
 
 .card-content {
   padding: var(--spacing-lg);
+}
+
+/* Motifs décoratifs de fond inspirés de Scheduled */
+.bg-pattern {
+  position: absolute;
+  z-index: var(--z-negative);
+  opacity: 0.4;
+}
+
+.bg-dots {
+  background-image: radial-gradient(var(--primary) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-wave {
+  opacity: 0.1;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 /* Media Queries */
@@ -439,5 +457,5 @@ section {
 
 /* Ajustement pour la barre de navigation fixe */
 main {
-  margin-top: 80px;
+  margin-top: 70px;
 }

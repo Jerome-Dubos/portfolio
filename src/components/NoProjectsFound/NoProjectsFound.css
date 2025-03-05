@@ -1,0 +1,47 @@
+/* Message quand aucun projet trouvé */
+.no-projects-found {
+    text-align: center;
+    padding: var(--spacing-3xl) 0;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .search-large-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    opacity: 0.5;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .no-projects-found h3 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-main);
+  }
+  
+  .no-projects-found p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  /* Dark mode adjustments */
+  [data-theme="dark"] .search-large-icon {
+    color: var(--primary-light);
+  }
+  
+  /* Media Queries */
+  @media (max-width: 768px) {
+    .no-projects-found h3 {
+      font-size: var(--text-lg);
+    }
+    
+    .no-projects-found p {
+      font-size: var(--text-sm);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .search-large-icon {
+      font-size: 2.5rem;
+    }
+  }

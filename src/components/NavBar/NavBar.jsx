@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./NavBar.css";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
@@ -9,6 +9,7 @@ const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Données des liens de navigation
   const navLinks = [
@@ -16,7 +17,6 @@ const NavBar = () => {
     { path: "/services", label: "Services" },
     { path: "/projects", label: "Projets" },
     { path: "/about", label: "À propos" },
-    { path: "/testimonials", label: "Témoignages" },
   ];
 
   // Fermer le menu lors du changement de page
@@ -39,6 +39,21 @@ const NavBar = () => {
   // Toggle menu mobile
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  // Gestion du clic sur le bouton "Me contacter"
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === "/about") {
+      setTimeout(() => {
+        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      navigate("/about#contact");
+      setTimeout(() => {
+        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    }
   };
 
   return (
@@ -73,7 +88,7 @@ const NavBar = () => {
           </ul>
           <div className="nav-actions">
             <ThemeToggle />
-            <Link to="/contact" className="btn btn-primary nav-cta">Me contacter</Link>
+            <button className="btn btn-primary nav-cta" onClick={handleContactClick}>Me contacter</button>
           </div>
         </div>
         
@@ -120,7 +135,7 @@ const NavBar = () => {
                   transition={{ delay: 0.1 * navLinks.length }}
                   className="mobile-nav-item cta-item"
                 >
-                  <Link to="/contact" className="btn btn-primary w-full">Me contacter</Link>
+                  <button className="btn btn-primary w-full" onClick={handleContactClick}>Me contacter</button>
                 </motion.li>
               </ul>
             </div>

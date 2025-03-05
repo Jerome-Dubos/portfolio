@@ -51,29 +51,17 @@ const ThemeToggle = () => {
     <motion.button 
       className="theme-toggle" 
       onClick={toggleTheme}
-      whileTap={{ scale: 0.9 }}
+      whileTap={{ scale: 0.95 }}
       aria-label={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
     >
       <div className="theme-toggle-inner">
-        {theme === "dark" ? (
-          <motion.div
-            initial={{ rotate: -45, opacity: 0 }}
-            animate={{ rotate: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="toggle-icon"
-          >
-            <FaSun />
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ rotate: 45, opacity: 0 }}
-            animate={{ rotate: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="toggle-icon"
-          >
-            <FaMoon />
-          </motion.div>
-        )}
+        <motion.div
+          className="toggle-thumb"
+          layout
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        />
+        <span className="toggle-icon sun"><FaSun /></span>
+        <span className="toggle-icon moon"><FaMoon /></span>
       </div>
     </motion.button>
   );

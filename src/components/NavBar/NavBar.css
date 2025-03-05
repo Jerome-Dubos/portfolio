@@ -5,7 +5,7 @@
   width: 100%;
   z-index: var(--z-fixed);
   transition: all var(--transition-normal) ease;
-  padding: 1.25rem 0;
+  padding: 1rem 0;
   background-color: transparent;
 }
 
@@ -17,7 +17,7 @@
 }
 
 [data-theme="dark"] .navbar.scrolled {
-  background-color: rgba(26, 26, 46, 0.95);
+  background-color: rgba(30, 33, 57, 0.95);
 }
 
 .navbar-container {
@@ -38,10 +38,11 @@
 }
 
 .logo-text {
-  font-family: var(--font-headings);
+  font-family: var(--font-primary);
   font-weight: 700;
-  font-size: var(--text-xl);
-  color: var(--dark);
+  font-size: var(--text-lg);
+  color: var(--text-main);
+  letter-spacing: -0.02em;
 }
 
 .logo-accent {
@@ -68,8 +69,8 @@
 .nav-link {
   position: relative;
   display: inline-block;
-  color: var(--dark);
-  font-size: var(--text-base);
+  color: var(--text-main);
+  font-size: var(--text-sm);
   font-weight: 500;
   padding: 0.5rem 0.25rem;
   transition: color var(--transition-fast) ease;
@@ -115,19 +116,20 @@
 .menu-toggle {
   background: transparent;
   border: none;
-  color: var(--dark);
+  color: var(--text-main);
   font-size: var(--text-xl);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--spacing-xs);
-  transition: color var(--transition-fast) ease;
-  z-index: 10;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast) ease, color var(--transition-fast) ease;
 }
 
 .menu-toggle:hover {
   color: var(--primary);
+  background-color: rgba(124, 93, 250, 0.1);
 }
 
 /* Mobile Menu */
@@ -136,18 +138,16 @@
   top: 100%;
   left: 0;
   width: 100%;
-  background-color: var(--white);
+  background-color: var(--bg-card);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-}
-
-[data-theme="dark"] .mobile-menu {
-  background-color: var(--light);
+  border-bottom-left-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
 }
 
 .mobile-nav-links {
   list-style: none;
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-lg) var(--spacing-lg);
 }
 
 .mobile-nav-item {
@@ -157,8 +157,8 @@
 .mobile-nav-link {
   display: block;
   padding: var(--spacing-sm) 0;
-  color: var(--dark);
-  font-size: var(--text-lg);
+  color: var(--text-main);
+  font-size: var(--text-base);
   font-weight: 500;
   text-decoration: none;
   transition: color var(--transition-fast) ease;
@@ -191,6 +191,6 @@
   }
 
   [data-theme="dark"] .navbar {
-    background-color: rgba(26, 26, 46, 0.95);
+    background-color: rgba(30, 33, 57, 0.95);
   }
 }

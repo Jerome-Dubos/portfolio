@@ -1,0 +1,125 @@
+[
+    {
+      "id": "travel-agency",
+      "title": "Page d'accueil d'une agence de voyage",
+      "category": "html-css",
+      "tags": [
+        "HTML",
+        "CSS",
+        "Responsive"
+      ],
+      "description": "Création d'une page d'accueil pour une agence de voyage avec un design moderne et responsive.",
+      "image": "/assets/projects/travel-agency.jpg",
+      "year": "2023",
+      "github": "https://github.com/username/travel-agency",
+      "demo": "https://travel-agency-demo.com",
+      "featured": true
+    },
+    {
+      "id": "mobile-animations",
+      "title": "Animations CSS pour site mobile",
+      "category": "css",
+      "tags": [
+        "CSS",
+        "Animations",
+        "Mobile"
+      ],
+      "description": "Amélioration de l'interface utilisateur d'un site mobile avec des animations CSS pour une meilleure expérience utilisateur.",
+      "image": "/assets/projects/mobile-animations.jpg",
+      "year": "2023",
+      "github": "https://github.com/username/mobile-animations",
+      "demo": "https://mobile-animations-demo.com"
+    },
+    {
+      "id": "js-basics",
+      "title": "Premiers pas en JavaScript",
+      "category": "javascript",
+      "tags": [
+        "JavaScript",
+        "Bases",
+        "DOM"
+      ],
+      "description": "Apprentissage des fondamentaux de JavaScript à travers la création de petites applications interactives.",
+      "image": "/assets/projects/js-basics.jpg",
+      "year": "2023",
+      "github": "https://github.com/username/js-basics",
+      "demo": "https://js-basics-demo.com"
+    },
+    {
+      "id": "dynamic-webpage",
+      "title": "Page web dynamique avec JavaScript",
+      "category": "javascript",
+      "tags": [
+        "JavaScript",
+        "API",
+        "Asynchrone"
+      ],
+      "description": "Développement d'une page web dynamique utilisant JavaScript pour interagir avec une API externe.",
+      "image": "/assets/projects/dynamic-webpage.jpg",
+      "year": "2023",
+      "github": "https://github.com/username/dynamic-webpage",
+      "demo": "https://dynamic-webpage-demo.com"
+    },
+    {
+      "id": "real-estate-app",
+      "title": "Application web de location immobilière",
+      "category": "react",
+      "tags": [
+        "React",
+        "API",
+        "Responsive"
+      ],
+      "description": "Création d'une application de recherche et de visualisation de biens immobiliers avec React et une API REST.",
+      "image": "/assets/projects/real-estate-app.jpg",
+      "year": "2024",
+      "github": "https://github.com/username/real-estate-app",
+      "demo": "https://real-estate-app-demo.com",
+      "featured": true
+    },
+    {
+      "id": "seo-photo-site",
+      "title": "Optimisation SEO d'un site de photographe",
+      "category": "seo",
+      "tags": [
+        "SEO",
+        "Performance",
+        "Accessibilité"
+      ],
+      "description": "Optimisation du référencement et des performances d'un site vitrine pour un photographe professionnel.",
+      "image": "/assets/projects/seo-photo-site.jpg",
+      "year": "2024",
+      "github": "https://github.com/username/seo-photo-site",
+      "demo": "https://seo-photo-site-demo.com"
+    },
+    {
+      "id": "event-agency-debug",
+      "title": "Débogage d'un site d'agence événementielle",
+      "category": "debug",
+      "tags": [
+        "Debug",
+        "JavaScript",
+        "Performance"
+      ],
+      "description": "Identification et résolution de problèmes sur le site d'une agence événementielle pour améliorer ses performances.",
+      "image": "/assets/projects/event-agency-debug.jpg",
+      "year": "2024",
+      "github": "https://github.com/username/event-agency-debug",
+      "demo": "https://event-agency-debug-demo.com"
+    },
+    {
+      "id": "banking-app",
+      "title": "Front-end d'une application bancaire",
+      "category": "react",
+      "tags": [
+        "React",
+        "Redux",
+        "Sécurité"
+      ],
+      "description": "Implémentation du front-end d'une application bancaire sécurisée avec React et Redux pour la gestion d'état.",
+      "image": "/assets/projects/banking-app.jpg",
+      "year": "2024",
+      "github": "https://github.com/username/banking-app",
+      "demo": "https://banking-app-demo.com",
+      "featured": true
+    }
+  ]
