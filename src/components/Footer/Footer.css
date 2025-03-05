@@ -1,0 +1,323 @@
+/* Footer styles - compatible avec index.css */
+.footer {
+  background-color: #121212; /* Fond sombre fixe au lieu de var(--dark) */
+  color: #f9f9f9; /* Texte clair fixe pour éviter les problèmes avec le mode sombre */
+  position: relative;
+  font-size: var(--text-base);
+  padding-top: var(--spacing-2xl);
+}
+
+/* Section principale du footer */
+.footer-top {
+  padding: var(--spacing-2xl) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: var(--spacing-2xl);
+}
+
+/* Colonne de marque et contact */
+.footer-brand {
+  grid-column: 1;
+}
+
+.footer-logo {
+  display: inline-block;
+  margin-bottom: var(--spacing-md);
+}
+
+.logo-text {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  font-size: var(--text-2xl);
+  color: #ffffff; /* Blanc fixe */
+}
+
+.logo-accent {
+  color: var(--primary);
+}
+
+.footer-description {
+  color: #f9f9f9; /* Couleur fixe au lieu de var(--light) */
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+  font-size: var(--text-base);
+}
+
+.footer-contact {
+  margin-top: var(--spacing-lg);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.contact-icon {
+  color: var(--primary);
+  margin-right: var(--spacing-sm);
+  font-size: var(--text-xl);
+}
+
+.contact-item a,
+.contact-item span {
+  color: #f9f9f9; /* Couleur fixe */
+  transition: color var(--transition-fast) ease;
+  font-weight: 500;
+}
+
+.contact-item a:hover {
+  color: var(--primary);
+}
+
+/* Colonnes de navigation */
+.footer-nav {
+  grid-column: 2 / 4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.footer-col h3 {
+  color: #ffffff; /* Blanc fixe */
+  font-size: var(--text-lg);
+  margin-bottom: var(--spacing-md);
+  font-weight: 700;
+  position: relative;
+}
+
+.footer-col h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--primary);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-links a {
+  color: #f9f9f9; /* Couleur fixe */
+  transition: all var(--transition-fast) ease;
+  display: inline-block;
+  font-size: var(--text-base);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  transform: translateX(3px);
+}
+
+/* Newsletter */
+.footer-newsletter {
+  grid-column: 4;
+}
+
+.footer-newsletter h3 {
+  color: #ffffff; /* Blanc fixe */
+  font-size: var(--text-lg);
+  margin-bottom: var(--spacing-md);
+  font-weight: 700;
+  position: relative;
+}
+
+.footer-newsletter h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: var(--primary);
+}
+
+.footer-newsletter p {
+  margin-bottom: var(--spacing-md);
+  color: #f9f9f9; /* Couleur fixe */
+  font-size: var(--text-base);
+}
+
+.newsletter-form {
+  margin-bottom: var(--spacing-lg);
+}
+
+.newsletter-input-group {
+  display: flex;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-xs);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.newsletter-input-group input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: var(--text-base);
+}
+
+.newsletter-input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-input-group input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.newsletter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast) ease;
+  font-size: var(--text-lg);
+}
+
+.newsletter-btn:hover {
+  background: var(--primary-dark);
+}
+
+.newsletter-success {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--success);
+  font-size: var(--text-sm);
+  margin-top: var(--spacing-xs);
+  font-weight: 500;
+}
+
+/* Réseaux sociaux */
+.footer-social {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  transition: all var(--transition-normal) ease;
+  font-size: var(--text-lg);
+}
+
+.footer-social a:hover {
+  background: var(--primary);
+  transform: translateY(-3px);
+}
+
+/* Pied de page avec copyright */
+.footer-bottom {
+  padding: var(--spacing-lg) 0;
+  text-align: center;
+  font-size: var(--text-sm);
+  color: #f9f9f9; /* Couleur fixe */
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.footer-bottom .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heart {
+  color: #ff4d4f;
+  display: inline-block;
+  animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Media Queries */
+@media (max-width: 1200px) {
+  .footer-main {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  .footer-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  
+  .footer-nav {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+  
+  .footer-newsletter {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  
+  .footer-brand,
+  .footer-nav,
+  .footer-newsletter {
+    grid-column: 1;
+  }
+  
+  .footer-brand {
+    grid-row: 1;
+  }
+  
+  .footer-nav {
+    grid-row: 2;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .footer-newsletter {
+    grid-row: 3;
+  }
+  
+  .footer-bottom .container {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
+@media (max-width: 576px) {
+  .footer-nav {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  
+  .footer-top {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+  }
+}
