@@ -5,7 +5,7 @@ import SectionTitle from '../SectionTitle/SectionTitle';
 import './TestimonialsSection.css';
 
 const testimonialsData = {
-  title: "Ce que mes clients disent",
+  title: "Votre avis compte",
   subtitle: "Découvrez les expériences des personnes avec qui j'ai collaboré",
   items: [
     {
