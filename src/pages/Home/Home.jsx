@@ -29,7 +29,7 @@ const Home = () => {
       </div>
       
       <div id="cta" className="cta-section">
-        <cta-section />
+        <CtaSection />
       </div>
     </div>
   );

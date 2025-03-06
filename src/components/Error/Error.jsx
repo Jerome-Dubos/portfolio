@@ -1,14 +1,30 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaHome, 
-  FaEnvelope, 
-  FaExclamationTriangle 
+  FaTools 
 } from 'react-icons/fa';
+import { IoConstructOutline } from 'react-icons/io5';
 import './Error.css';
 
 const Error = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Gestion du bouton "En savoir plus" similaire à la NavBar
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === "/about") {
+      // Si l'utilisateur est déjà sur la page "À propos", faire défiler jusqu'à la section contact
+      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // Sinon, naviguer vers la page "À propos" puis faire défiler jusqu'à la section contact
+      navigate("/about#contact");
+      setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500);
+    }
+  };
+
   return (
     <div className="error-page">
       <div className="error-container">
@@ -19,7 +35,7 @@ const Error = () => {
           transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
         >
           <div className="error-icon">
-            <FaExclamationTriangle />
+            <IoConstructOutline />
           </div>
           
           <motion.div 
@@ -32,14 +48,15 @@ const Error = () => {
               stiffness: 150 
             }}
           >
-            404
+            En construction
           </motion.div>
           
-          <h1>Oops! Page Introuvable</h1>
+          <h1>Page en développement</h1>
           
           <p className="error-description">
-            La page que vous recherchez semble avoir disparu dans le néant numérique. 
-            Peut-être a-t-elle été déplacée, supprimée ou n'a jamais existé.
+            Cette page est actuellement en cours de développement. 
+            Je travaille activement à créer du contenu innovant et pertinent. 
+            Revenez bientôt pour découvrir les dernières mises à jour !
           </p>
           
           <div className="error-actions">
@@ -56,9 +73,12 @@ const Error = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link to="/contact" className="btn btn-secondary">
-                <FaEnvelope /> Nous contacter
-              </Link>
+              <button 
+                className="btn btn-secondary" 
+                onClick={handleContactClick}
+              >
+                <FaTools /> En savoir plus
+              </button>
             </motion.div>
           </div>
         </motion.div>
@@ -69,51 +89,8 @@ const Error = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <img 
-            src={`/assets/illustrations/404-${document.documentElement.getAttribute('data-theme') || 'dark'}.svg`} 
-            alt="Page non trouvée" 
-          />
+          <IoConstructOutline className="construction-icon" />
         </motion.div>
-      </div>
-
-      {/* Éléments décoratifs */}
-      <div className="error-decoration">
-        <motion.div 
-          className="error-bubble error-bubble-1"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ 
-            scale: 1, 
-            opacity: 0.2,
-            transition: { 
-              duration: 1, 
-              delay: 0.5 
-            } 
-          }}
-        />
-        <motion.div 
-          className="error-bubble error-bubble-2"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ 
-            scale: 1, 
-            opacity: 0.1,
-            transition: { 
-              duration: 1, 
-              delay: 0.7 
-            } 
-          }}
-        />
-        <motion.div 
-          className="error-bubble error-bubble-3"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ 
-            scale: 1, 
-            opacity: 0.3,
-            transition: { 
-              duration: 1, 
-              delay: 0.9 
-            } 
-          }}
-        />
       </div>
     </div>
   );

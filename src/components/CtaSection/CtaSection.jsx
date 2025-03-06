@@ -1,21 +1,12 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import handleContactClick from '../../utils/handleContactClick'; // Importation de la fonction
 import './CtaSection.css';
 
-// Données statiques de la section CTA
-const ctaData = {
-  title: "Prêt à concrétiser votre projet ?",
-  description: "Discutons de vos besoins et de la manière dont je peux vous aider à atteindre vos objectifs.",
-  button: {
-    text: "Me contacter",
-    url: "/contact",
-    type: "accent",
-    size: "lg"
-  }
-};
-
 const CtaSection = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <section className="cta-section">
       <div className="container">
@@ -26,15 +17,16 @@ const CtaSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2>{ctaData.title}</h2>
-          <p>{ctaData.description}</p>
+          <h2>Prêt à concrétiser votre projet ?</h2>
+          <p>Discutons de vos besoins et de la manière dont je peux vous aider à atteindre vos objectifs.</p>
           
-          <Link 
-            to={ctaData.button.url} 
-            className={`btn ${ctaData.button.type ? `btn-${ctaData.button.type}` : 'btn-primary'} ${ctaData.button.size ? `btn-${ctaData.button.size}` : ''}`}
+          <motion.button 
+            onClick={(e) => handleContactClick(navigate, location, e)} 
+            className="btn btn-primary"
+            whileHover={{ scale: 1.03 }}
           >
-            {ctaData.button.text}
-          </Link>
+            Me contacter
+          </motion.button>
         </motion.div>
       </div>
     </section>
