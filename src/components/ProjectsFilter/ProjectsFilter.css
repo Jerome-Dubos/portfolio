@@ -1,105 +1,101 @@
-/* Composant de filtres pour les projets */
+/* Projects Filter Styles */
 .projects-filters {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: var(--spacing-lg);
     margin-bottom: var(--spacing-2xl);
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
   }
   
   .filter-categories {
     display: flex;
-    gap: var(--spacing-sm);
+    justify-content: center;
     flex-wrap: wrap;
+    gap: var(--spacing-md);
   }
   
   .filter-btn {
-    padding: 0.5rem 1rem;
-    background-color: transparent;
-    border: 1px solid var(--primary);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid rgba(var(--gold-rgb), 0.15);
+    padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-full);
+    font-weight: 500;
+    transition: all var(--transition-medium);
     cursor: pointer;
-    font-size: var(--text-sm);
-    color: var(--text-main);
-    transition: all var(--transition-normal) ease;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
   }
   
   .filter-btn:hover {
-    background-color: rgba(124, 93, 250, 0.1);
-    transform: translateY(-2px);
+    background: rgba(var(--gold-rgb), 0.1);
+    color: var(--text-primary);
+    border-color: rgba(var(--gold-rgb), 0.3);
   }
   
   .filter-btn.active {
-    background-color: var(--primary);
-    color: white;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: #ffffff;
+    box-shadow: var(--glow-gold-soft);
+    border-color: transparent;
   }
   
   .search-container {
-    flex: 1;
-    max-width: 350px;
+    display: flex;
+    justify-content: center;
   }
   
   .search-input-group {
-    display: flex;
-    align-items: center;
-    background-color: var(--bg-main);
-    border-radius: var(--radius-full);
-    padding: 0.5rem 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%;
+    max-width: 400px;
   }
   
-  .search-icon {
+  .search-input-group .search-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--text-secondary);
-    margin-right: var(--spacing-sm);
+    pointer-events: none;
   }
   
   .search-input-group input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    font-size: var(--text-sm);
-    color: var(--text-main);
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) calc(var(--spacing-md) * 3);
+    background: var(--bg-card);
+    border: 1px solid rgba(var(--gold-rgb), 0.15);
+    border-radius: var(--radius-full);
+    color: var(--text-primary);
+    transition: all var(--transition-medium);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .search-input-group input:focus {
     outline: none;
+    border-color: var(--gold);
+    box-shadow: var(--glow-gold-soft);
   }
   
   .search-input-group input::placeholder {
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
   }
   
-  /* Dark mode adjustments */
-  [data-theme="dark"] .filter-btn {
-    border-color: var(--primary-light);
-  }
-  
-  [data-theme="dark"] .filter-btn:hover {
-    background-color: rgba(146, 119, 255, 0.1);
-  }
-  
-  [data-theme="dark"] .search-input-group {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Media Queries */
-  @media (max-width: 1024px) {
-    .projects-filters {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    
+  /* Média queries pour la responsivité */
+  @media (max-width: 768px) {
     .filter-categories {
+      flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: var(--spacing-md);
     }
-    
-    .search-container {
-      max-width: 100%;
-    }
-  }
   
-  @media (max-width: 480px) {
     .filter-btn {
-      font-size: var(--text-xs);
-      padding: 0.4rem 0.8rem;
+      padding: var(--spacing-sm);
+      font-size: 0.9rem;
+    }
+  
+    .search-input-group {
+      max-width: 100%;
+      padding: 0 var(--spacing-md);
     }
   }

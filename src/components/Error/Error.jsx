@@ -70,7 +70,7 @@ const Error = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <img 
-            src="/assets/404-illustration.svg" 
+            src={`/assets/illustrations/404-${document.documentElement.getAttribute('data-theme') || 'dark'}.svg`} 
             alt="Page non trouvée" 
           />
         </motion.div>

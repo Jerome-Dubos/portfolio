@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HeroWave from '../DecorativeElements/HeroWave';
-import { DotsPattern } from '../DecorativeElements/DecorativeShapes';
+import { FaArrowRight } from 'react-icons/fa';
 import './Banner.css';
 
 // Données statiques du banner
@@ -21,13 +21,13 @@ const bannerData = {
   ctaButtons: [
     {
       text: "Voir mes projets",
-      url: "/projects",
+      action: "projects",
       type: "primary",
       size: "lg"
     },
     {
       text: "Me contacter",
-      url: "/contact", 
+      action: "contact", 
       type: "secondary",
       size: "lg"
     }
@@ -36,11 +36,12 @@ const bannerData = {
 };
 
 const Banner = () => {
-  const [displayedText, setDisplayedText] = React.useState('');
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const navigate = useNavigate();
+  const [displayedText, setDisplayedText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
   
   // Animation du texte typewriter
-  React.useEffect(() => {
+  useEffect(() => {
     if (currentIndex < bannerData.subtitle.typewriter.length) {
       const timeout = setTimeout(() => {
         setDisplayedText(prev => prev + bannerData.subtitle.typewriter[currentIndex]);
@@ -51,17 +52,55 @@ const Banner = () => {
     }
   }, [currentIndex]);
 
+  // Gestion des actions des boutons
+  const handleButtonClick = (action) => {
+    switch(action) {
+      case 'projects':
+        window.scrollTo(0, document.getElementById('projects')?.offsetTop || 0);
+        break;
+      case 'contact':
+        window.scrollTo(0, document.getElementById('contact')?.offsetTop || 0);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+  };
+
   return (
     <section className="banner">
-      <DotsPattern height="50%" opacity={0.03} />
+      <div className="glow-orb"></div>
+      <div className="glow-orb secondary"></div>
+      <div className="glow-orb tertiary"></div>
+      <div className="golden-mist"></div>
+      
       <div className="container banner-container">
-        <div className="banner-content">
+        <motion.div 
+          className="banner-content"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {bannerData.badge && (
             <motion.div 
               className="banner-badge"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              variants={itemVariants}
             >
               <span className="badge">{bannerData.badge}</span>
             </motion.div>
@@ -69,9 +108,7 @@ const Banner = () => {
           
           <motion.h1 
             className="banner-title"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            variants={itemVariants}
           >
             {bannerData.title.first && <>{bannerData.title.first}<br /></>}
             {bannerData.title.highlighted && <span className="gradient-text">{bannerData.title.highlighted}</span>}
@@ -81,9 +118,7 @@ const Banner = () => {
           {bannerData.subtitle && (
             <motion.p 
               className="banner-subtitle"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              variants={itemVariants}
             >
               {bannerData.subtitle.prefix}
               <span className="typewriter">{displayedText}</span>
@@ -95,30 +130,45 @@ const Banner = () => {
           {bannerData.ctaButtons && bannerData.ctaButtons.length > 0 && (
             <motion.div 
               className="banner-cta"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              variants={itemVariants}
             >
               {bannerData.ctaButtons.map((button, index) => (
-                <Link 
+                <motion.div
                   key={index}
-                  to={button.url} 
-                  className={`btn btn-${button.type} ${button.size ? `btn-${button.size}` : ''}`}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: index === 0 
+                      ? "0 0 25px rgba(212, 177, 95, 0.3)" 
+                      : "0 8px 15px rgba(0, 0, 0, 0.1)"
+                  }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  {button.text}
-                </Link>
+                  <button 
+                    onClick={() => handleButtonClick(button.action)} 
+                    className={`btn btn-${button.type} ${button.size ? `btn-${button.size}` : ''}`}
+                  >
+                    {button.text}
+                    {index === 0 && <FaArrowRight className="btn-icon" />}
+                  </button>
+                </motion.div>
               ))}
             </motion.div>
           )}
-        </div>
+        </motion.div>
         
         {bannerData.image && (
           <motion.div 
             className="banner-image"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ 
+              duration: 0.8, 
+              delay: 0.4,
+              type: "spring",
+              stiffness: 100
+            }}
           >
+            <div className="image-glow"></div>
             <img src={bannerData.image} alt="Illustration" />
           </motion.div>
         )}

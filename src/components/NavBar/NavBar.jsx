@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import "./NavBar.css";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { FaBars, FaTimes } from "react-icons/fa";
+import "./NavBar.css";
 
 const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -57,11 +57,11 @@ const NavBar = () => {
   };
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+    <nav className={`navbar glass ${scrolled ? "scrolled" : ""}`}>
       <div className="container navbar-container">
         <div className="logo">
           <Link to="/" className="logo-link">
-            <span className="logo-text">Dev<span className="logo-accent">Portfolio</span></span>
+            <span className="logo-text">Dev<span className="logo-accent">Portfoliooooo</span></span>
           </Link>
         </div>
         
@@ -79,7 +79,11 @@ const NavBar = () => {
                     <motion.div 
                       className="nav-indicator" 
                       layoutId="navIndicator"
-                      transition={{ type: "spring", duration: 0.5 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 300, 
+                        damping: 30
+                      }}
                     />
                   )}
                 </Link>
@@ -88,16 +92,32 @@ const NavBar = () => {
           </ul>
           <div className="nav-actions">
             <ThemeToggle />
-            <button className="btn btn-primary nav-cta" onClick={handleContactClick}>Me contacter</button>
+            <motion.button 
+              className="btn btn-primary nav-cta"
+              onClick={handleContactClick}
+              whileHover={{ 
+                scale: 1.03,
+                boxShadow: "0 0 15px rgba(212, 175, 55, 0.5)" 
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Me contacter
+            </motion.button>
           </div>
         </div>
         
         {/* Menu toggle pour mobile */}
         <div className="mobile-controls">
           <ThemeToggle />
-          <button className="menu-toggle" onClick={toggleMenu} aria-label="Menu">
+          <motion.button 
+            className="menu-toggle" 
+            onClick={toggleMenu} 
+            aria-label="Menu"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             {menuOpen ? <FaTimes /> : <FaBars />}
-          </button>
+          </motion.button>
         </div>
       </div>
       
@@ -105,18 +125,23 @@ const NavBar = () => {
       <AnimatePresence>
         {menuOpen && (
           <motion.div 
-            className="mobile-menu"
+            className="mobile-menu glass"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ 
+              duration: 0.3,
+              type: "spring",
+              stiffness: 300,
+              damping: 30
+            }}
           >
             <div className="container">
               <ul className="mobile-nav-links">
                 {navLinks.map((link) => (
                   <motion.li 
                     key={link.path}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 * navLinks.indexOf(link) }}
                     className="mobile-nav-item"
@@ -130,12 +155,17 @@ const NavBar = () => {
                   </motion.li>
                 ))}
                 <motion.li
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * navLinks.length }}
                   className="mobile-nav-item cta-item"
                 >
-                  <button className="btn btn-primary w-full" onClick={handleContactClick}>Me contacter</button>
+                  <button 
+                    className="btn btn-primary w-full"
+                    onClick={handleContactClick}
+                  >
+                    Me contacter
+                  </button>
                 </motion.li>
               </ul>
             </div>

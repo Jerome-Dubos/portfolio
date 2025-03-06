@@ -1,15 +1,68 @@
+/* Home Page Styles */
 .home-page {
-  overflow-x: hidden;
-}
-
-/* Espacements supplémentaires entre les sections si nécessaire */
-.home-page section + section {
-  margin-top: 0;
-}
-
-/* Ajustements spécifiques pour mobile */
-@media (max-width: 768px) {
-  .home-page {
+    background-color: var(--bg-body);
+    position: relative;
     overflow-x: hidden;
   }
-}
+  
+  /* Décoration de fond subtile */
+  .home-page::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+      circle, 
+      rgba(var(--gold-rgb), 0.05), 
+      transparent 70%
+    );
+    border-radius: 50%;
+    z-index: var(--z-negative);
+    opacity: 0.5;
+    filter: blur(50px);
+  }
+  
+  .home-page::after {
+    content: '';
+    position: absolute;
+    bottom: -200px;
+    right: -200px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+      circle, 
+      rgba(var(--gold-rgb), 0.05), 
+      transparent 70%
+    );
+    border-radius: 50%;
+    z-index: var(--z-negative);
+    opacity: 0.5;
+    filter: blur(50px);
+  }
+  
+  /* Sections spacing */
+  .home-page > section {
+    position: relative;
+    z-index: var(--z-elevate);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .home-page::before,
+    .home-page::after {
+      width: 300px;
+      height: 300px;
+      opacity: 0.3;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .home-page::before,
+    .home-page::after {
+      width: 200px;
+      height: 200px;
+      opacity: 0.2;
+    }
+  }

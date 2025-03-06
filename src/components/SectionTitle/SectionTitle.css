@@ -1,41 +1,69 @@
+/* Section Title Styles */
 .section-title {
     margin-bottom: var(--spacing-2xl);
+    position: relative;
+  }
+  
+  .section-title.text-center {
+    text-align: center;
   }
   
   .section-title h2 {
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: var(--spacing-md);
     position: relative;
     display: inline-block;
   }
   
-  .section-title h2:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background: var(--primary);
+  .section-title.text-center h2 {
+    display: block;
   }
   
-  .section-title.text-left h2:after {
-    left: 0;
-    transform: none;
+  .section-title h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      var(--gold), 
+      transparent
+    );
+  }
+  
+  .section-title.text-center h2::after {
+    left: 50%;
   }
   
   .section-subtitle {
     color: var(--text-secondary);
     max-width: 700px;
-    margin: var(--spacing-md) auto 0;
-    font-size: var(--text-lg);
+    margin: 0 auto;
+    line-height: 1.6;
   }
   
-  .text-left .section-subtitle {
-    margin-left: 0;
+  .section-title.text-center .section-subtitle {
+    text-align: center;
   }
   
+  /* Média queries pour la responsivité */
   @media (max-width: 768px) {
+    .section-title {
+      margin-bottom: var(--spacing-xl);
+    }
+  
+    .section-title h2 {
+      font-size: 2rem;
+    }
+  
     .section-subtitle {
-      font-size: var(--text-base);
+      font-size: 0.9rem;
     }
   }

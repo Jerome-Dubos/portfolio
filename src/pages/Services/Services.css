@@ -1,66 +1,121 @@
+/* Services Page Styles */
 .services {
-    padding: 80px 10%;
-    text-align: center;
-    background: linear-gradient(135deg, #000012, #1a1a35);
-    color: #fdf7f1;
+    position: relative;
+    padding: var(--spacing-3xl) var(--spacing-lg);
+    background-color: var(--bg-body);
+    overflow: hidden;
   }
   
   .services-title {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(90deg, #ca8a7c, #884861);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
   
   .services-intro {
-    font-size: 1.4rem;
-    margin-bottom: 40px;
-    color: #fdf0d2;
+    text-align: center;
+    color: var(--text-secondary);
     max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto var(--spacing-2xl);
+    line-height: 1.6;
   }
   
   .services-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
   }
   
   .service-card {
-    background: #1a1a35;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid #7165c5;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    text-align: center;
+    transition: all var(--transition-medium);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(var(--gold-rgb), 0.1);
+    position: relative;
+    overflow: hidden;
   }
   
   .service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgba(113, 101, 197, 0.5);
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg), var(--glow-gold-soft);
   }
   
   .service-icon {
-    font-size: 3.5rem;
-    display: block;
-    margin-bottom: 15px;
-    color: #b65741;
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+    display: inline-block;
   }
   
   .service-title {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-    color: #fdf0d2;
+    margin-bottom: var(--spacing-md);
+    background: linear-gradient(90deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   
   .service-description {
-    font-size: 1.2rem;
-    color: #ceb0f1;
+    color: var(--text-secondary);
+    line-height: 1.6;
   }
   
+  /* Effet de glow subtil */
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at center, 
+      rgba(var(--gold-rgb), 0.05), 
+      transparent 70%
+    );
+    z-index: -1;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  /* Média queries pour la responsivité */
+  @media (max-width: 1024px) {
+    .services-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .services {
+      padding: var(--spacing-2xl) var(--spacing-md);
+    }
+  
+    .services-title {
+      font-size: 2.5rem;
+    }
+  
+    .services-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .service-card {
+      padding: var(--spacing-xl);
+    }
+  
+    .service-icon {
+      font-size: 2.5rem;
+    }
+  
+    .service-title {
+      font-size: 1.5rem;
+    }
+  
+    .service-description {
+      font-size: 0.9rem;
+    }
+  }

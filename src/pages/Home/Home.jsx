@@ -51,7 +51,7 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Section Banner (anciennement Hero) */}
+      {/* Section Banner */}
       <Banner data={data.banner} />
       
       {/* Section Technologies */}
