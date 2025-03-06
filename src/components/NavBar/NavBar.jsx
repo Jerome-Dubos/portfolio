@@ -1,3 +1,4 @@
+// NavBar.jsx
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,7 +15,11 @@ const navLinks = [
 ];
 
 const NavBar = () => {
-  const [state, setState] = useState({ menuOpen: false, scrolled: false });
+  const [state, setState] = useState({ 
+    menuOpen: false, 
+    scrolled: false,
+    hidden: false 
+  });
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -24,13 +29,26 @@ const NavBar = () => {
   }, [location]);
 
   // Détecter le scroll pour appliquer le style scrolled à la navbar
+  // et gérer la visibilité sur la page d'accueil
   useEffect(() => {
     const handleScroll = () => {
-      setState((prev) => ({ ...prev, scrolled: window.scrollY > 20 }));
+      const isHome = location.pathname === "/";
+      const scrollY = window.scrollY;
+      
+      setState((prev) => ({ 
+        ...prev, 
+        scrolled: scrollY > 20,
+        hidden: isHome && scrollY <= 20 
+      }));
     };
+    
+    // Initialiser l'état hidden lors du chargement de la page
+    const isHome = location.pathname === "/";
+    setState(prev => ({ ...prev, hidden: isHome && window.scrollY <= 20 }));
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   // Gestion du bouton "Me contacter"
   const handleContactClick = (e) => {
@@ -46,7 +64,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className={`navbar glass ${state.scrolled ? "scrolled" : ""}`}>
+    <nav className={`navbar glass ${state.scrolled ? "scrolled" : ""} ${state.hidden ? "hidden" : ""}`}>
       <div className="container navbar-container">
         {/* Logo */}
         <Link to="/" className="logo-link">

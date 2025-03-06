@@ -1,6 +1,4 @@
-html {
-  overflow-x: hidden;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 /* Variables globales du mode sombre par défaut */
 :root {
   /* Couleurs principales */
@@ -109,6 +107,10 @@ html {
 }
 
 /* Styles de base */
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'SF Pro Display', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-body);
@@ -119,8 +121,13 @@ body {
   padding: 0;
 }
 
-/* Import des polices Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+main {
+  padding-top: 70px;
+}
+
+.home-page {
+  margin-top: -70px;
+}
 
 /* Reset et base */
 *, *::before, *::after {
@@ -530,9 +537,4 @@ section {
   .btn {
     padding: 0.7rem 1.4rem;
   }
-}
-
-/* Ajustement pour la barre de navigation fixe */
-main {
-  margin-top: 70px;
 }

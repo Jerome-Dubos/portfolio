@@ -286,3 +286,10 @@
     font-size: 1.3rem;
   }
 }
+
+/* Ajouter à la fin de NavBar.css */
+.navbar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
