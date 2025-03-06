@@ -5,35 +5,16 @@ import HeroWave from '../DecorativeElements/HeroWave';
 import { FaArrowRight } from 'react-icons/fa';
 import './Banner.css';
 
-/* Données statiques du banner */
-const bannerData = {
-  badge: "Disponible pour missions freelance",
-  title: {
-    first: "Transformez votre vision en",
-    highlighted: "expériences digitales",
-    last: "exceptionnelles"
-  },
-  subtitle: {
-    typewriter: "Web Developer",
-    suffix: " spécialisé en création d'interfaces modernes et performantes avec React et Vue.js"
-  },
-  ctaButtons: [
-    { text: "Voir mes projets", action: "projects", type: "primary" },
-    { text: "Me contacter", action: "contact", type: "secondary" }
-  ],
-  image: "../../assets/images/illustration.webp"
-};
-
 const Banner = () => {
   const navigate = useNavigate();
   const [typewriter, setTypewriter] = useState({ text: '', index: 0 });
 
   /* Effet d'écriture Typewriter */
   useEffect(() => {
-    if (typewriter.index < bannerData.subtitle.typewriter.length) {
+    if (typewriter.index < "Web Developer".length) {
       const timeout = setTimeout(() => {
         setTypewriter((prev) => ({
-          text: prev.text + bannerData.subtitle.typewriter[prev.index],
+          text: prev.text + "Web Developer"[prev.index],
           index: prev.index + 1
         }));
       }, 100);
@@ -59,6 +40,20 @@ const Banner = () => {
       <div className="glow-orb secondary"></div>
       <div className="glow-orb tertiary"></div>
       <div className="golden-mist"></div>
+      
+      {/* Effets de glow améliorés */}
+      <div className="immersive-effects">
+        <div className="flow-line flow-line-1"></div>
+        <div className="flow-line flow-line-2"></div>
+        <div className="flow-line flow-line-3"></div>
+        <div className="particle-container">
+          {[...Array(20)].map((_, index) => (
+            <div key={index} className={`particle particle-${index + 1}`}></div>
+          ))}
+        </div>
+        <div className="light-pulse"></div>
+        <div className="digital-waves"></div>
+      </div>
 
       {/* Conteneur principal */}
       <div className="container banner-container">
@@ -72,64 +67,75 @@ const Banner = () => {
         >
 
           {/* Badge "Disponible pour missions freelance" */}
-          {bannerData.badge && (
-            <motion.div className="banner-badge" variants={fadeInUp}>
-              <span className="badge">{bannerData.badge}</span>
-            </motion.div>
-          )}
+          <motion.div className="banner-badge" variants={fadeInUp}>
+            <span className="badge">Disponible pour missions freelance</span>
+          </motion.div>
 
           {/* Titre principal avec effet de mise en valeur */}
           <motion.h1 className="banner-title" variants={fadeInUp}>
-            {bannerData.title.first} <br />
-            <span className="gradient-text">{bannerData.title.highlighted}</span> <br />
-            {bannerData.title.last}
+            Transformez votre vision en <br />
+            <span className="gradient-text">expériences digitales</span> <br />
+            exceptionnelles
           </motion.h1>
 
           {/* Sous-titre avec effet typewriter */}
           <motion.p className="banner-subtitle" variants={fadeInUp}>
             <span className="typewriter">{typewriter.text}</span>
             <span className="cursor"></span>
-            {bannerData.subtitle.suffix}
+            {" spécialisé en création d'interfaces modernes et performantes avec React et Vue.js"}
           </motion.p>
 
           {/* Boutons d'action (CTA) */}
           <motion.div className="banner-cta" variants={fadeInUp}>
-            {bannerData.ctaButtons.map((button, index) => (
-              <motion.button
-                key={index}
-                onClick={() => handleButtonClick(button.action)}
-                className={`btn btn-${button.type}`}
-                whileHover={{ 
-                  scale: 1.05, 
-                  boxShadow: index === 0 
-                    ? "0 0 25px rgba(212, 177, 95, 0.3)" 
-                    : "0 8px 15px rgba(0, 0, 0, 0.1)"
-                }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {button.text} {index === 0 && <FaArrowRight className="btn-icon" />}
-              </motion.button>
-            ))}
+            <motion.button
+              onClick={() => handleButtonClick("projects")}
+              className="btn btn-primary"
+              whileHover={{ 
+                scale: 1.05, 
+                boxShadow: "0 0 25px rgba(212, 177, 95, 0.3)"
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Voir mes projets <FaArrowRight className="btn-icon" />
+            </motion.button>
+
+            <motion.button
+              onClick={() => handleButtonClick("contact")}
+              className="btn btn-secondary"
+              whileHover={{ 
+                scale: 1.05, 
+                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.1)"
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Me contacter
+            </motion.button>
           </motion.div>
         </motion.div>
 
-        {/* Illustration du banner */}
-        {bannerData.image && (
-          <motion.div 
-            className="banner-image"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ 
-              duration: 0.8, 
-              delay: 0.4,
-              type: "spring",
-              stiffness: 100
-            }}
-          >
-            <div className="image-glow"></div>
-            <img src={bannerData.image} alt="Illustration" />
-          </motion.div>
-        )}
+        {/* Élément de glow interactif remplaçant la vidéo */}
+        <motion.div 
+          className="interactive-glow"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ 
+            duration: 0.8, 
+            delay: 0.4,
+            type: "spring",
+            stiffness: 100
+          }}
+        >
+          <div className="glow-container">
+            <div className="glow-effect main-glow"></div>
+            <div className="glow-effect secondary-glow"></div>
+            <div className="glow-effect accent-glow"></div>
+            <div className="spark-container">
+              {[...Array(8)].map((_, index) => (
+                <div key={index} className={`spark spark-${index + 1}`}></div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Élément décoratif en bas */}

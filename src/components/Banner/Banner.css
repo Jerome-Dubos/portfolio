@@ -1,10 +1,11 @@
 .banner {
-  padding: 180px 0 100px;
+  padding: 80px 0 70px;
   position: relative;
   background-color: var(--bg-body);
   color: var(--text-primary);
   overflow: hidden;
 }
+
 /* Orbes lumineux améliorés avec effet halo */
 .glow-orb {
   position: absolute;
@@ -42,6 +43,86 @@
   filter: blur(50px);
 }
 
+/* Effets de glow immersifs */
+.immersive-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Lignes fluides */
+.flow-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(var(--gold-rgb), 0.1), 
+    rgba(var(--gold-rgb), 0.3), 
+    rgba(var(--gold-rgb), 0.1), 
+    transparent
+  );
+  filter: blur(1px);
+  opacity: 0;
+  z-index: 0;
+}
+
+.flow-line-1 {
+  width: 80%;
+  top: 20%;
+  right: -20%;
+  animation: flowLine 15s ease-in-out infinite, fadeInOut 15s ease-in-out infinite;
+  transform: rotate(5deg);
+}
+
+.flow-line-2 {
+  width: 60%;
+  top: 40%;
+  left: -10%;
+  animation: flowLine 18s ease-in-out infinite 2s, fadeInOut 18s ease-in-out infinite 2s;
+  transform: rotate(-8deg);
+}
+
+.flow-line-3 {
+  width: 70%;
+  top: 70%;
+  right: -15%;
+  animation: flowLine 20s ease-in-out infinite 1s, fadeInOut 20s ease-in-out infinite 1s;
+  transform: rotate(3deg);
+}
+
+@keyframes flowLine {
+  0% { transform: translateX(-100%) rotate(var(--rotate, 5deg)); }
+  100% { transform: translateX(100%) rotate(var(--rotate, 5deg)); }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+}
+
+/* Particules flottantes */
+.particle-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background-color: rgba(var(--gold-rgb), 0.3);
+  border-radius: 50%;
+  filter: blur(1px);
+  opacity: 0;
+  z-index: 0;
+}
+
 @keyframes float {
   0% {
     transform: translate(0px, 0px);
@@ -55,6 +136,193 @@
   100% {
     transform: translate(0px, 0px);
   }
+}
+
+/* Générer des animations variées pour chaque particule */
+.particle-1 { top: 15%; left: 25%; animation: particleFloat 18s infinite 0s, particleFade 18s infinite 0s; }
+.particle-2 { top: 25%; left: 40%; animation: particleFloat 24s infinite 1s, particleFade 24s infinite 1s; }
+.particle-3 { top: 45%; left: 15%; animation: particleFloat 20s infinite 2s, particleFade 20s infinite 2s; }
+.particle-4 { top: 60%; left: 30%; animation: particleFloat 22s infinite 3s, particleFade 22s infinite 3s; }
+.particle-5 { top: 75%; left: 50%; animation: particleFloat 19s infinite 4s, particleFade 19s infinite 4s; }
+.particle-6 { top: 35%; left: 65%; animation: particleFloat 21s infinite 5s, particleFade 21s infinite 5s; }
+.particle-7 { top: 50%; left: 75%; animation: particleFloat 23s infinite 6s, particleFade 23s infinite 6s; }
+.particle-8 { top: 20%; left: 85%; animation: particleFloat 17s infinite 7s, particleFade 17s infinite 7s; }
+.particle-9 { top: 85%; left: 20%; animation: particleFloat 25s infinite 8s, particleFade 25s infinite 8s; }
+.particle-10 { top: 10%; left: 60%; animation: particleFloat 16s infinite 9s, particleFade 16s infinite 9s; }
+.particle-11 { top: 30%; left: 70%; animation: particleFloat 24s infinite 10s, particleFade 24s infinite 10s; }
+.particle-12 { top: 70%; left: 10%; animation: particleFloat 22s infinite 11s, particleFade 22s infinite 11s; }
+.particle-13 { top: 40%; left: 45%; animation: particleFloat 20s infinite 12s, particleFade 20s infinite 12s; }
+.particle-14 { top: 65%; left: 60%; animation: particleFloat 18s infinite 13s, particleFade 18s infinite 13s; }
+.particle-15 { top: 80%; left: 40%; animation: particleFloat 21s infinite 14s, particleFade 21s infinite 14s; }
+.particle-16 { top: 15%; left: 15%; animation: particleFloat 19s infinite 15s, particleFade 19s infinite 15s; }
+.particle-17 { top: 90%; left: 80%; animation: particleFloat 23s infinite 16s, particleFade 23s infinite 16s; }
+.particle-18 { top: 55%; left: 85%; animation: particleFloat 17s infinite 17s, particleFade 17s infinite 17s; }
+.particle-19 { top: 5%; left: 50%; animation: particleFloat 25s infinite 18s, particleFade 25s infinite 18s; }
+.particle-20 { top: 75%; left: 75%; animation: particleFloat 16s infinite 19s, particleFade 16s infinite 19s; }
+
+@keyframes particleFloat {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(20px, -20px); }
+  50% { transform: translate(-20px, -40px); }
+  75% { transform: translate(-30px, 20px); }
+}
+
+@keyframes particleFade {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 0.8; }
+}
+
+/* Pulse de lumière */
+.light-pulse {
+  position: absolute;
+  top: 50%;
+  right: 25%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.1), transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: blur(40px);
+  animation: pulse 10s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.3); }
+}
+
+/* Vagues digitales */
+.digital-waves {
+  position: absolute;
+  bottom: 15%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, 
+    transparent, 
+    rgba(var(--gold-rgb), 0.15) 1px, 
+    transparent 2px, 
+    transparent 10px
+  );
+  opacity: 0.5;
+  filter: blur(1px);
+  animation: waveMove 20s linear infinite;
+  z-index: 0;
+}
+
+@keyframes waveMove {
+  0% { background-position: 0px 0; }
+  100% { background-position: 200px 0; }
+}
+
+/* Élément de glow interactif qui remplace la vidéo */
+.interactive-glow {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  max-width: 500px;
+  position: relative;
+  z-index: 2;
+}
+
+.glow-container {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.glow-effect {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+}
+
+.main-glow {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.3), transparent 70%);
+  animation: mainGlowPulse 10s infinite alternate;
+}
+
+.secondary-glow {
+  width: 200px;
+  height: 200px;
+  top: 30%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+  animation: secondaryGlowFloat 15s infinite;
+}
+
+.accent-glow {
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  right: 20%;
+  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.2), transparent 70%);
+  animation: accentGlowFloat 12s infinite reverse;
+}
+
+@keyframes mainGlowPulse {
+  0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
+  50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+  100% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.9); }
+}
+
+@keyframes secondaryGlowFloat {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(30px, -30px); }
+  50% { transform: translate(10px, -50px); }
+  75% { transform: translate(-20px, -20px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes accentGlowFloat {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-30px, 20px); }
+  66% { transform: translate(10px, 40px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Étincelles dorées */
+.spark-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.spark {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: rgba(var(--gold-rgb), 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(var(--gold-rgb), 0.4);
+  opacity: 0;
+}
+
+.spark-1 { top: 20%; left: 30%; animation: sparkle 4s infinite 0s; }
+.spark-2 { top: 70%; left: 40%; animation: sparkle 5s infinite 1s; }
+.spark-3 { top: 40%; left: 80%; animation: sparkle 6s infinite 2s; }
+.spark-4 { top: 60%; left: 60%; animation: sparkle 4.5s infinite 3s; }
+.spark-5 { top: 30%; left: 50%; animation: sparkle 5.5s infinite 1.5s; }
+.spark-6 { top: 80%; left: 20%; animation: sparkle 4.2s infinite 2.5s; }
+.spark-7 { top: 50%; left: 70%; animation: sparkle 3.8s infinite 0.5s; }
+.spark-8 { top: 25%; left: 75%; animation: sparkle 4.8s infinite 1.8s; }
+
+@keyframes sparkle {
+  0%, 100% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.5); opacity: 1; }
 }
 
 .banner-container {
@@ -218,36 +486,6 @@
   z-index: 2;
 }
 
-.banner-image {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-  max-width: 500px;
-  position: relative;
-}
-
-.image-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 150%;
-  height: 150%;
-  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.08), transparent 70%);
-  z-index: -1;
-  filter: blur(50px);
-  border-radius: 50%;
-  opacity: 0.7;
-}
-
-.banner-image img {
-  width: 100%;
-  height: auto;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-  position: relative;
-  z-index: 1;
-}
-
 .banner-wave {
   position: absolute;
   bottom: -1px;
@@ -292,6 +530,7 @@
   position: relative;
   isolation: isolate;
   z-index: 1;
+  overflow: hidden;
 }
 
 .banner-cta .btn-primary::before {
@@ -366,11 +605,12 @@
 /* Media Queries */
 @media (max-width: 1024px) {
   .banner {
-    padding: 140px 0 80px;
+    padding: 100px 0 80px;
   }
   
   .banner-container {
     flex-direction: column;
+    margin-top: -40px;
   }
   
   .banner-content {
@@ -387,7 +627,7 @@
     font-size: 3rem;
   }
   
-  .banner-image {
+  .interactive-glow {
     max-width: 70%;
     margin: 0 auto;
   }
@@ -399,7 +639,11 @@
 
 @media (max-width: 768px) {
   .banner {
-    padding: 120px 0 60px;
+    padding: 80px 0 60px;
+  }
+  
+  .banner-container {
+    margin-top: -30px;
   }
   
   .banner-title {
@@ -410,14 +654,22 @@
     font-size: 1.1rem;
   }
   
-  .banner-image {
+  .interactive-glow {
     max-width: 80%;
+  }
+  
+  .glow-container {
+    height: 300px;
   }
 }
 
 @media (max-width: 480px) {
   .banner {
-    padding: 100px 0 50px;
+    padding: 60px 0 50px;
+  }
+  
+  .banner-container {
+    margin-top: -20px;
   }
   
   .banner-title {
@@ -438,8 +690,12 @@
     width: 100%;
   }
   
-  .banner-image {
+  .interactive-glow {
     max-width: 90%;
+  }
+  
+  .glow-container {
+    height: 250px;
   }
   
   .badge {
