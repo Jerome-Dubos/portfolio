@@ -22,11 +22,25 @@ const NavBar = () => {
     setState((prev) => ({ ...prev, menuOpen: false }));
   }, [location]);
 
-  // Gestion du clic sur un lien de navigation
+  useEffect(() => {
+    const handleScroll = () => {
+      setState((prev) => ({
+        ...prev,
+        scrolled: window.scrollY > 50,
+        hidden: location.pathname === "/" && window.scrollY === 0,
+      }));
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [location.pathname]);
+
   const handleNavClick = (e, path) => {
     if (location.pathname === path) {
-      e.preventDefault(); // Empêche le rechargement
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll en haut en douceur
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       navigate(path);
     }
