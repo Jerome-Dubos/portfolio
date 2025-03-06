@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import HeroWave from '../DecorativeElements/HeroWave';
 import { FaArrowRight } from 'react-icons/fa';
 import './Banner.css';
 
-// Données statiques du banner
+/* Données statiques du banner */
 const bannerData = {
   badge: "Disponible pour missions freelance",
   title: {
@@ -14,148 +14,106 @@ const bannerData = {
     last: "exceptionnelles"
   },
   subtitle: {
-    prefix: "",
     typewriter: "Web Developer",
     suffix: " spécialisé en création d'interfaces modernes et performantes avec React et Vue.js"
   },
   ctaButtons: [
-    {
-      text: "Voir mes projets",
-      action: "projects",
-      type: "primary",
-      size: "lg"
-    },
-    {
-      text: "Me contacter",
-      action: "contact", 
-      type: "secondary",
-      size: "lg"
-    }
+    { text: "Voir mes projets", action: "projects", type: "primary" },
+    { text: "Me contacter", action: "contact", type: "secondary" }
   ],
-  image: "/assets/hero-illustration.svg"
+  image: "../../assets/images/illustration.webp"
 };
 
 const Banner = () => {
   const navigate = useNavigate();
-  const [displayedText, setDisplayedText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
-  // Animation du texte typewriter
+  const [typewriter, setTypewriter] = useState({ text: '', index: 0 });
+
+  /* Effet d'écriture Typewriter */
   useEffect(() => {
-    if (currentIndex < bannerData.subtitle.typewriter.length) {
+    if (typewriter.index < bannerData.subtitle.typewriter.length) {
       const timeout = setTimeout(() => {
-        setDisplayedText(prev => prev + bannerData.subtitle.typewriter[currentIndex]);
-        setCurrentIndex(prevIndex => prevIndex + 1);
+        setTypewriter((prev) => ({
+          text: prev.text + bannerData.subtitle.typewriter[prev.index],
+          index: prev.index + 1
+        }));
       }, 100);
-      
       return () => clearTimeout(timeout);
     }
-  }, [currentIndex]);
+  }, [typewriter]);
 
-  // Gestion des actions des boutons
+  /* Gestion du clic sur les boutons CTA */
   const handleButtonClick = (action) => {
-    switch(action) {
-      case 'projects':
-        window.scrollTo(0, document.getElementById('projects')?.offsetTop || 0);
-        break;
-      case 'contact':
-        window.scrollTo(0, document.getElementById('contact')?.offsetTop || 0);
-        break;
-      default:
-        break;
+    const target = document.getElementById(action);
+    if (target) {
+      window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
     }
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
-  };
+  /* Variants d'animation */
+  const fadeInUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } } };
 
   return (
     <section className="banner">
+      {/* Orbes lumineux pour effet visuel */}
       <div className="glow-orb"></div>
       <div className="glow-orb secondary"></div>
       <div className="glow-orb tertiary"></div>
       <div className="golden-mist"></div>
-      
+
+      {/* Conteneur principal */}
       <div className="container banner-container">
+        
+        {/* Contenu textuel */}
         <motion.div 
-          className="banner-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          className="banner-content" 
+          initial="hidden" 
+          animate="visible" 
+          variants={{ visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } } }}
         >
+
+          {/* Badge "Disponible pour missions freelance" */}
           {bannerData.badge && (
-            <motion.div 
-              className="banner-badge"
-              variants={itemVariants}
-            >
+            <motion.div className="banner-badge" variants={fadeInUp}>
               <span className="badge">{bannerData.badge}</span>
             </motion.div>
           )}
-          
-          <motion.h1 
-            className="banner-title"
-            variants={itemVariants}
-          >
-            {bannerData.title.first && <>{bannerData.title.first}<br /></>}
-            {bannerData.title.highlighted && <span className="gradient-text">{bannerData.title.highlighted}</span>}
-            {bannerData.title.last && <><br />{bannerData.title.last}</>}
+
+          {/* Titre principal avec effet de mise en valeur */}
+          <motion.h1 className="banner-title" variants={fadeInUp}>
+            {bannerData.title.first} <br />
+            <span className="gradient-text">{bannerData.title.highlighted}</span> <br />
+            {bannerData.title.last}
           </motion.h1>
-          
-          {bannerData.subtitle && (
-            <motion.p 
-              className="banner-subtitle"
-              variants={itemVariants}
-            >
-              {bannerData.subtitle.prefix}
-              <span className="typewriter">{displayedText}</span>
-              <span className="cursor"></span>
-              {bannerData.subtitle.suffix}
-            </motion.p>
-          )}
-          
-          {bannerData.ctaButtons && bannerData.ctaButtons.length > 0 && (
-            <motion.div 
-              className="banner-cta"
-              variants={itemVariants}
-            >
-              {bannerData.ctaButtons.map((button, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: index === 0 
-                      ? "0 0 25px rgba(212, 177, 95, 0.3)" 
-                      : "0 8px 15px rgba(0, 0, 0, 0.1)"
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <button 
-                    onClick={() => handleButtonClick(button.action)} 
-                    className={`btn btn-${button.type} ${button.size ? `btn-${button.size}` : ''}`}
-                  >
-                    {button.text}
-                    {index === 0 && <FaArrowRight className="btn-icon" />}
-                  </button>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+
+          {/* Sous-titre avec effet typewriter */}
+          <motion.p className="banner-subtitle" variants={fadeInUp}>
+            <span className="typewriter">{typewriter.text}</span>
+            <span className="cursor"></span>
+            {bannerData.subtitle.suffix}
+          </motion.p>
+
+          {/* Boutons d'action (CTA) */}
+          <motion.div className="banner-cta" variants={fadeInUp}>
+            {bannerData.ctaButtons.map((button, index) => (
+              <motion.button
+                key={index}
+                onClick={() => handleButtonClick(button.action)}
+                className={`btn btn-${button.type}`}
+                whileHover={{ 
+                  scale: 1.05, 
+                  boxShadow: index === 0 
+                    ? "0 0 25px rgba(212, 177, 95, 0.3)" 
+                    : "0 8px 15px rgba(0, 0, 0, 0.1)"
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                {button.text} {index === 0 && <FaArrowRight className="btn-icon" />}
+              </motion.button>
+            ))}
+          </motion.div>
         </motion.div>
-        
+
+        {/* Illustration du banner */}
         {bannerData.image && (
           <motion.div 
             className="banner-image"
@@ -173,7 +131,8 @@ const Banner = () => {
           </motion.div>
         )}
       </div>
-      
+
+      {/* Élément décoratif en bas */}
       <HeroWave className="banner-wave" />
     </section>
   );

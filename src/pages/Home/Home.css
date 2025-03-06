@@ -1,10 +1,9 @@
-/* Home Page Styles */
 .home-page {
-    background-color: var(--bg-body);
-    position: relative;
-    overflow-x: hidden;
-  }
-  
+  min-height: 100vh; 
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
   /* Décoration de fond subtile */
   .home-page::before {
     content: '';

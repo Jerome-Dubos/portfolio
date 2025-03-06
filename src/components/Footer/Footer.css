@@ -1,24 +1,53 @@
-/* Styles pour le Footer */
 .footer {
-    width: 100%;
-    background: var(--bg-elevated);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    border-top: 1px solid var(--gold-dark);
-  }
-  
-  .footer p {
-    color: var(--text-secondary);
-    font-size: 1rem;
-  }
-  
-  .footer a {
-    color: var(--gold);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .footer a:hover {
-    color: var(--gold-light);
-  }
+  background: var(--bg-elevated);
+  padding: var(--spacing-lg) 0;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-container {
+  max-width: var(--container-lg);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+.footer-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.footer-icon {
+  font-size: 1.5rem;
+  color: var(--gold);
+  transition: color var(--transition-fast), transform var(--transition-medium);
+}
+
+.footer-icon:hover {
+  color: var(--gold-light);
+  transform: scale(1.1);
+}
+
+.legal-button {
+  background: none;
+  border: none;
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color var(--transition-fast);
+}
+
+.legal-button:hover {
+  color: var(--gold-light);
+}

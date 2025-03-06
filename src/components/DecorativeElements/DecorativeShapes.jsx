@@ -12,8 +12,8 @@ export const CircleShape = ({ className, color, size = 200, top, left, right, bo
     left: left,
     right: right,
     bottom: bottom,
-    zIndex: -2, // Modifié pour être en-dessous des waves
-    filter: 'blur(50px)', // Ajout d'un effet de flou pour plus de subtilité
+    zIndex: -2,
+    filter: 'blur(50px)',
   };
 
   return <div className={className} style={style}></div>;
