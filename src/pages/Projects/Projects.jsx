@@ -9,12 +9,11 @@ import { CircleShape } from '../../components/DecorativeElements/DecorativeShape
 import { ProjectsCacheManager } from '../../utils/ProjectsCacheManager';
 import './Projects.css';
 
-// Constantes pour la normalisation
+// Normalisation
 const normalizeName = (name, preserveCase = false) => 
   name ? (preserveCase ? name.trim().replace(/\s+/g, ' ') : name.toLowerCase().trim().replace(/\s+/g, ' ')) : '';
 
 const Projects = () => {
-  // États de gestion des projets
   const [projects, setProjects] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all');
@@ -22,29 +21,24 @@ const Projects = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Chargement des projets avec gestion de cache
   const fetchProjects = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      // Vérifier le cache
       const cachedProjects = ProjectsCacheManager.getCachedProjects();
+
       if (cachedProjects) {
         processProjects(cachedProjects);
         return;
       }
-
-      // Charger depuis le fichier JSON
       const response = await fetch('/data/projects.json');
-      
       if (!response.ok) {
         throw new Error(`Erreur de chargement : ${response.status}`);
       }
-      
+
       const data = await response.json();
       
-      // Validation et prétraitement des projets
       const validProjects = data.filter(project => 
         project.id && 
         project.title && 
@@ -56,10 +50,7 @@ const Projects = () => {
         originalCategory: project.category
       }));
 
-      // Sauvegarder dans le cache
       ProjectsCacheManager.saveProjects(validProjects);
-      
-      // Traiter les projets
       processProjects(validProjects);
 
     } catch (err) {
@@ -70,9 +61,7 @@ const Projects = () => {
     }
   }, []);
 
-  // Traitement des projets chargés
   const processProjects = (loadedProjects) => {
-    // Extraction des catégories uniques avec préservation de la casse originale
     const uniqueCategories = ['all', ...new Set(
       loadedProjects.map(p => p.originalCategory)
     )];
@@ -81,23 +70,19 @@ const Projects = () => {
     setCategories(uniqueCategories);
   };
 
-  // Chargement initial des projets
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
 
-  // Filtrage des projets
   const filteredProjects = useMemo(() => {
     let results = projects;
 
-    // Filtre par catégorie
     if (activeFilter !== 'all') {
       results = results.filter(project => 
         normalizeName(project.normalizedCategory) === normalizeName(activeFilter)
       );
     }
 
-    // Filtre par terme de recherche
     if (searchTerm) {
       const term = normalizeName(searchTerm);
       results = results.filter(project => 
@@ -110,13 +95,11 @@ const Projects = () => {
     return results;
   }, [projects, activeFilter, searchTerm]);
 
-  // Réinitialisation des filtres
   const resetFilters = () => {
     setActiveFilter('all');
     setSearchTerm('');
   };
 
-  // Gestion des états de chargement et d'erreur
   if (isLoading) {
     return <Loader />;
   }
@@ -144,6 +127,7 @@ const Projects = () => {
   }
 
   return (
+    
     <div className="projects-page">
       <CircleShape 
         top="-200px" 
@@ -153,6 +137,7 @@ const Projects = () => {
         opacity={0.05} 
       />
       
+      {/* Filtres */}
       <section className="projects-showcase">
         <div className="container">
           <ProjectsFilter 

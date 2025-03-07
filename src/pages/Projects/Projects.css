@@ -1,4 +1,3 @@
-/* Projects Page Styles */
 .projects-page {
     position: relative;
     background-color: var(--bg-body);
@@ -10,7 +9,6 @@
     padding: var(--spacing-3xl) 0;
   }
   
-  /* Décoration de fond subtile */
   .projects-page::before,
   .projects-page::after {
     content: '';
@@ -60,7 +58,6 @@
     gap: var(--spacing-lg);
   }
   
-  /* Responsive adjustments */
   @media (max-width: 1280px) {
     .featured-grid,
     .projects-grid {
