@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import './ProjectsFilter.css';
 
-const ProjectsFilter = ({ 
-  categories, 
-  activeFilter, 
-  setActiveFilter, 
-  searchTerm, 
-  setSearchTerm 
-}) => {
+const ProjectsFilter = ({ activeFilter, setActiveFilter, searchTerm, setSearchTerm }) => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch('/data/projects.json')
+      .then(response => response.json())
+      .then(data => {
+        const uniqueCategories = [...new Set(data.map(project => project.category))];
+        setCategories(uniqueCategories);
+      })
+      .catch(error => console.error('Erreur de chargement des catégories:', error));
+  }, []);
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+  };
+
   return (
     <div className="projects-filters">
-      {/* Filtres par catégorie */}
       <div className="filter-categories">
+        <motion.button
+          key="all"
+          className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
+          onClick={() => setActiveFilter('all')}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Tous les projets
+        </motion.button>
         {categories.map((category) => (
           <motion.button
-            key={category.id}
-            className={`filter-btn ${activeFilter === category.id ? 'active' : ''}`}
-            onClick={() => setActiveFilter(category.id)}
+            key={category}
+            className={`filter-btn ${activeFilter === category ? 'active' : ''}`}
+            onClick={() => setActiveFilter(category)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            {category.name}
+            {category}
           </motion.button>
         ))}
       </div>
@@ -38,6 +56,15 @@ const ProjectsFilter = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             aria-label="Rechercher un projet"
           />
+          {searchTerm && (
+            <button 
+              className="search-clear-btn" 
+              onClick={handleClearSearch}
+              aria-label="Effacer la recherche"
+            >
+              <FaTimes />
+            </button>
+          )}
         </div>
       </div>
     </div>

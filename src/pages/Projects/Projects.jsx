@@ -1,83 +1,160 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import ProjectsFilter from '../../components/ProjectsFilter/ProjectsFilter';
 import NoProjectsFound from '../../components/NoProjectsFound/NoProjectsFound';
+import Loader from '../../components/Loader/Loader';
 import { CircleShape } from '../../components/DecorativeElements/DecorativeShapes';
+import { ProjectsCacheManager } from '../../utils/ProjectsCacheManager';
 import './Projects.css';
 
+// Constantes pour la normalisation
+const normalizeName = (name, preserveCase = false) => 
+  name ? (preserveCase ? name.trim().replace(/\s+/g, ' ') : name.toLowerCase().trim().replace(/\s+/g, ' ')) : '';
+
 const Projects = () => {
-  // État pour les filtres et la recherche
+  // États de gestion des projets
+  const [projects, setProjects] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [activeFilter, setActiveFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredProjects, setFilteredProjects] = useState([]);
-  
-  // État pour les données des projets
-  const [projects, setProjects] = useState([]);
-  
-  // Chargement des données des projets depuis le fichier JSON
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch('/data/projects.json');
-        const data = await response.json();
-        setProjects(data);
-      } catch (error) {
-        console.error('Erreur lors du chargement des projets:', error);
-      }
-    };
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    fetchProjects();
+  // Chargement des projets avec gestion de cache
+  const fetchProjects = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Vérifier le cache
+      const cachedProjects = ProjectsCacheManager.getCachedProjects();
+      if (cachedProjects) {
+        processProjects(cachedProjects);
+        return;
+      }
+
+      // Charger depuis le fichier JSON
+      const response = await fetch('/data/projects.json');
+      
+      if (!response.ok) {
+        throw new Error(`Erreur de chargement : ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Validation et prétraitement des projets
+      const validProjects = data.filter(project => 
+        project.id && 
+        project.title && 
+        project.category && 
+        project.description
+      ).map(project => ({
+        ...project,
+        normalizedCategory: normalizeName(project.category, true),
+        originalCategory: project.category
+      }));
+
+      // Sauvegarder dans le cache
+      ProjectsCacheManager.saveProjects(validProjects);
+      
+      // Traiter les projets
+      processProjects(validProjects);
+
+    } catch (err) {
+      console.error('Erreur de chargement des projets :', err);
+      setError('Impossible de charger les projets. Veuillez réessayer.');
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
-  
-  // Catégories pour les filtres
-  const categories = [
-    { id: 'all', name: 'Tous les projets' },
-    { id: 'html-css', name: 'HTML & CSS' },
-    { id: 'javascript', name: 'JavaScript' },
-    { id: 'react', name: 'React' },
-    { id: 'seo', name: 'SEO & Performance' },
-    { id: 'debug', name: 'Débogage' }
-  ];
-  
-  // Réinitialiser les filtres
+
+  // Traitement des projets chargés
+  const processProjects = (loadedProjects) => {
+    // Extraction des catégories uniques avec préservation de la casse originale
+    const uniqueCategories = ['all', ...new Set(
+      loadedProjects.map(p => p.originalCategory)
+    )];
+
+    setProjects(loadedProjects);
+    setCategories(uniqueCategories);
+  };
+
+  // Chargement initial des projets
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
+
+  // Filtrage des projets
+  const filteredProjects = useMemo(() => {
+    let results = projects;
+
+    // Filtre par catégorie
+    if (activeFilter !== 'all') {
+      results = results.filter(project => 
+        normalizeName(project.normalizedCategory) === normalizeName(activeFilter)
+      );
+    }
+
+    // Filtre par terme de recherche
+    if (searchTerm) {
+      const term = normalizeName(searchTerm);
+      results = results.filter(project => 
+        normalizeName(project.title).includes(term) || 
+        normalizeName(project.description).includes(term) || 
+        project.tags?.some(tag => normalizeName(tag).includes(term))
+      );
+    }
+
+    return results;
+  }, [projects, activeFilter, searchTerm]);
+
+  // Réinitialisation des filtres
   const resetFilters = () => {
     setActiveFilter('all');
     setSearchTerm('');
   };
-  
-  // Filtrer les projets en fonction du filtre actif et du terme de recherche
-  useEffect(() => {
-    let results = projects;
-    
-    // Filtre par catégorie
-    if (activeFilter !== 'all') {
-      results = results.filter(project => project.category === activeFilter);
-    }
-    
-    // Filtre par terme de recherche
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      results = results.filter(project => 
-        project.title.toLowerCase().includes(term) || 
-        project.description.toLowerCase().includes(term) || 
-        project.tags.some(tag => tag.toLowerCase().includes(term))
-      );
-    }
-    
-    setFilteredProjects(results);
-  }, [activeFilter, searchTerm, projects]);
-  
+
+  // Gestion des états de chargement et d'erreur
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <div className="projects-page error-container">
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="error-message"
+        >
+          {error}
+        </motion.p>
+        <motion.button 
+          onClick={fetchProjects}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="btn btn-primary"
+        >
+          Réessayer
+        </motion.button>
+      </div>
+    );
+  }
+
   return (
     <div className="projects-page">
-      {/* ... */}
+      <CircleShape 
+        top="-200px" 
+        right="-200px" 
+        size={400} 
+        color="var(--primary)" 
+        opacity={0.05} 
+      />
       
-      {/* Section des projets */}
       <section className="projects-showcase">
         <div className="container">
-          {/* Filtres des projets */}
           <ProjectsFilter 
             categories={categories}
             activeFilter={activeFilter}
@@ -86,9 +163,14 @@ const Projects = () => {
             setSearchTerm={setSearchTerm}
           />
           
-          {/* Projets mis en avant (si sur la catégorie "Tous les projets") */}
+          {/* Projets mis en avant */}
           {activeFilter === 'all' && !searchTerm && (
-            <div className="featured-projects">
+            <motion.div 
+              className="featured-projects"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
               <SectionTitle 
                 title="Projets à la une" 
                 subtitle="Mes projets les plus représentatifs"
@@ -107,21 +189,44 @@ const Projects = () => {
                     />
                   ))}
               </div>
-            </div>
+            </motion.div>
           )}
           
-          {/* Tous les projets ou projets filtrés */}
-          <div className="all-projects">
+          
+          <motion.div 
+            className="all-projects"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <SectionTitle 
-              title={activeFilter === 'all' && !searchTerm ? "Tous les projets" : "Projets filtrés"}
-              subtitle={`${filteredProjects.length} projet${filteredProjects.length > 1 ? 's' : ''} trouvé${filteredProjects.length > 1 ? 's' : ''}`}
+              title={activeFilter === 'all' && !searchTerm 
+                ? "Tous les projets" 
+                : "Projets filtrés"}
+              subtitle={`${filteredProjects.length} projet${
+                filteredProjects.length > 1 ? 's' : ''
+              } trouvé${filteredProjects.length > 1 ? 's' : ''}`}
               center={false}
             />
             
             {filteredProjects.length === 0 ? (
               <NoProjectsFound resetFilters={resetFilters} />
             ) : (
-              <div className="projects-grid">
+              <motion.div 
+                className="projects-grid"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { 
+                    opacity: 1,
+                    transition: {
+                      delayChildren: 0.2,
+                      staggerChildren: 0.1
+                    }
+                  }
+                }}
+                initial="hidden"
+                animate="visible"
+              >
                 {filteredProjects.map((project, index) => (
                   <ProjectCard 
                     key={project.id}
@@ -129,13 +234,11 @@ const Projects = () => {
                     delay={index * 0.1}
                   />
                 ))}
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
-      
-      {/* ... */}
     </div>
   );
 };
