@@ -19,7 +19,7 @@ const About = () => {
             transition={{ duration: 0.4 }}
           >
             <div className="personal-image">
-              <img src="/path/to/your/photo.jpg" alt="Jérôme Dubos" />
+              <img src="/images/profile.webp" alt="Jérôme Dubos" />
               <div className="image-overlay"></div>
             </div>
             <div className="personal-text">
