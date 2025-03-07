@@ -6,7 +6,6 @@ import CtaSection from "../../components/CtaSection/CtaSection";
 import "./Services.css";
 
 const Services = () => {
-  // Données des services avec icônes
   const servicesList = [
     { 
       title: "Développement Web", 
@@ -14,9 +13,8 @@ const Services = () => {
       icon: <FaCode />,
       features: [
         "Sites vitrines et portfolios",
-        "Applications web React/Vue.js",
-        "Intégration de CMS",
-        "Sites e-commerce"
+        "Applications web React",
+        "Sites dynamiques avec modifications intuitives"
       ] 
     },
     { 
@@ -26,7 +24,6 @@ const Services = () => {
       features: [
         "Maquettes et prototypes",
         "Design responsive",
-        "Audit UX",
         "Refonte graphique"
       ] 
     },
@@ -78,7 +75,7 @@ const Services = () => {
 
   return (
     <div className="services-page">
-      {/* En-tête de la page */}
+      {/* En-tête */}
       <section className="services-header">
         <div className="container">
           <motion.div 
@@ -95,7 +92,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Section d'introduction */}
+      {/* Introduction */}
       <section className="services-intro">
         <div className="container">
           <motion.div 
@@ -117,7 +114,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Liste des services */}
+      {/* Services */}
       <section className="services-grid-section">
         <div className="container">
           <div className="services-grid">
@@ -146,7 +143,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Section sur la méthodologie */}
+      {/* Méthodologie */}
       <section className="methodology-section">
         <div className="container">
           <motion.div 
@@ -171,7 +168,7 @@ const Services = () => {
               >
                 <div className="step-number">1</div>
                 <div className="step-content">
-                  <h3>Analyse & Consultation</h3>
+                  <h3>Analyse</h3>
                   <p>Compréhension approfondie de vos besoins, objectifs et contraintes pour définir ensemble les solutions les plus adaptées.</p>
                 </div>
               </motion.div>
@@ -199,7 +196,7 @@ const Services = () => {
               >
                 <div className="step-number">3</div>
                 <div className="step-content">
-                  <h3>Développement & Tests</h3>
+                  <h3>Développement</h3>
                   <p>Réalisation technique selon les meilleures pratiques et tests rigoureux pour garantir qualité et performance.</p>
                 </div>
               </motion.div>
@@ -222,7 +219,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Section des tarifs */}
+      {/* Tarifs */}
       <section className="pricing-section">
         <div className="container">
           <motion.div 
@@ -251,7 +248,7 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Section CTA */}
+      {/* CTA */}
       <CtaSection />
     </div>
   );
