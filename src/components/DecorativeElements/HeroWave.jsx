@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import './HeroWave.css';
 
-const HeroWave = ({ className }) => {
+const HeroWave = ({ 
+  className,
+  animated = true,
+  customGradient = null,
+  accentColor = null,
+  starsDensity = 'medium'
+}) => {
   const [theme, setTheme] = useState(document.documentElement.getAttribute('data-theme') || 'dark');
 
   useEffect(() => {
-    const handleThemeChange = () => {
-      setTheme(document.documentElement.getAttribute('data-theme') || 'dark');
-    };
-
-    const observer = new MutationObserver((mutations) => {
+    const handleThemeChange = (mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
-          handleThemeChange();
+          setTheme(document.documentElement.getAttribute('data-theme') || 'dark');
         }
       });
-    });
+    };
 
-    observer.observe(document.documentElement, { attributes: true });
+    const observer = new MutationObserver(handleThemeChange);
+    
+    observer.observe(document.documentElement, { 
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
 
     return () => {
       observer.disconnect();
     };
   }, []);
 
-  // Définir les couleurs en fonction du thème
-  const gradientColors = {
+  const gradientColors = customGradient || {
     dark: {
       start: "rgba(10, 10, 10, 0.8)",
       middle: "rgba(15, 15, 15, 0.85)",
@@ -39,13 +45,51 @@ const HeroWave = ({ className }) => {
   };
 
   const currentColors = gradientColors[theme];
+  const goldColor = accentColor || 'var(--gold-soft)';
+  const goldLightColor = accentColor ? `${accentColor}80` : 'var(--gold-light)';
+
+  const getStars = () => {
+    let starsCount;
+    switch(starsDensity) {
+      case 'low':
+        starsCount = 4;
+        break;
+      case 'high':
+        starsCount = 12;
+        break;
+      case 'medium':
+      default:
+        starsCount = 8;
+        break;
+    }
+
+    const stars = [];
+    for (let i = 0; i < starsCount; i++) {
+      const x = Math.floor(Math.random() * 1400) + 20;
+      const y = Math.floor(Math.random() * 150) + 80;
+      const size = (Math.random() * 1.5) + 0.5;
+      const color = Math.random() > 0.5 ? goldColor : goldLightColor;
+      stars.push(
+        <circle 
+          key={i} 
+          cx={x} 
+          cy={y} 
+          r={size} 
+          fill={color} 
+          opacity={(Math.random() * 0.5) + 0.3}
+        />
+      );
+    }
+    return stars;
+  };
 
   return (
     <svg 
-      className={`hero-wave ${className || ''}`} 
+      className={`hero-wave ${animated ? 'animate-wave' : ''} ${className || ''}`} 
       xmlns="http://www.w3.org/2000/svg" 
       viewBox="0 0 1440 320" 
       preserveAspectRatio="none"
+      aria-hidden="true"
     >
       <defs>
         <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -58,6 +102,11 @@ const HeroWave = ({ className }) => {
           <feGaussianBlur stdDeviation="2" result="blur" />
           <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
+
+        <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="4" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
       
       <path 
@@ -67,18 +116,15 @@ const HeroWave = ({ className }) => {
       
       <path 
         fill="none" 
-        stroke="var(--gold-soft)" 
+        stroke={goldColor} 
         strokeOpacity="0.15" 
         strokeWidth="1" 
         filter="url(#glow)"
         d="M0,64L48,80C96,96,192,128,288,144C384,160,480,160,576,149.3C672,139,768,117,864,122.7C960,128,1056,160,1152,165.3C1248,171,1344,149,1392,138.7L1440,128"
       />
       
-      <g opacity="0.4">
-        <circle cx="200" cy="140" r="2" fill="var(--gold)" />
-        <circle cx="600" cy="128" r="1.5" fill="var(--gold-light)" />
-        <circle cx="1000" cy="180" r="2" fill="var(--gold)" />
-        <circle cx="1300" cy="100" r="1.5" fill="var(--gold-light)" />
+      <g opacity="0.4" filter="url(#softGlow)">
+        {getStars()}
       </g>
     </svg>
   );
