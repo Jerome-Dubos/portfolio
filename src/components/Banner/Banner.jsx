@@ -11,7 +11,7 @@ const Banner = () => {
   const location = useLocation();
   const [typewriter, setTypewriter] = useState({ text: '', index: 0 });
 
-  /* Effet d'écriture Typewriter */
+  // Effet d'écriture Typewriter
   useEffect(() => {
     if (typewriter.index < "Web Developer".length) {
       const timeout = setTimeout(() => {
@@ -24,28 +24,25 @@ const Banner = () => {
     }
   }, [typewriter]);
 
-  // Animation variants
+  //Animations
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
-  // Fonction pour défiler vers la section suivante
+  // Défilement vers la section suivante
   const scrollToNextSection = () => {
     const nextSection = document.querySelector('.banner').nextElementSibling;
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  // Délai pour l'indicateur de défilement
   const getScrollIndicatorDelay = () => {
-    return 1.2; // Délai en secondes
+    return 1.2;
   };
 
   return (
     <section className="banner">
-      {/* Effets background */}
       <div className="glow-orb"></div>
       <div className="glow-orb secondary"></div>
       <div className="glow-orb tertiary"></div>

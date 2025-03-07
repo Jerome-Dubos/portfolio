@@ -9,8 +9,6 @@
   justify-content: center;
 }
 
-
-/* Orbes lumineux améliorés avec effet halo */
 .glow-orb {
   position: absolute;
   top: 20%;
@@ -47,7 +45,6 @@
   filter: blur(50px);
 }
 
-/* Effets de glow immersifs */
 .immersive-effects {
   position: absolute;
   top: 0;
@@ -58,7 +55,6 @@
   overflow: hidden;
 }
 
-/* Lignes fluides */
 .flow-line {
   position: absolute;
   height: 2px;
@@ -108,7 +104,6 @@
   20%, 80% { opacity: 1; }
 }
 
-/* Particules flottantes */
 .particle-container {
   position: absolute;
   width: 100%;
@@ -142,7 +137,6 @@
   }
 }
 
-/* Générer des animations variées pour chaque particule */
 .particle-1 { top: 15%; left: 25%; animation: particleFloat 18s infinite 0s, particleFade 18s infinite 0s; }
 .particle-2 { top: 25%; left: 40%; animation: particleFloat 24s infinite 1s, particleFade 24s infinite 1s; }
 .particle-3 { top: 45%; left: 15%; animation: particleFloat 20s infinite 2s, particleFade 20s infinite 2s; }
@@ -176,7 +170,6 @@
   25%, 75% { opacity: 0.8; }
 }
 
-/* Pulse de lumière */
 .light-pulse {
   position: absolute;
   top: 50%;
@@ -197,7 +190,6 @@
   50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.3); }
 }
 
-/* Vagues digitales */
 .digital-waves {
   position: absolute;
   bottom: 15%;
@@ -221,7 +213,6 @@
   100% { background-position: 200px 0; }
 }
 
-/* Élément de glow interactif qui remplace la vidéo */
 .interactive-glow {
   flex: 1;
   display: flex;
@@ -296,7 +287,6 @@
   100% { transform: translate(0, 0); }
 }
 
-/* Étincelles dorées */
 .spark-container {
   position: absolute;
   width: 100%;
@@ -366,7 +356,6 @@
   overflow: hidden;
 }
 
-/* Effet subtil de brillance sur le badge */
 .badge::before {
   content: '';
   position: absolute;
@@ -413,7 +402,6 @@
   position: relative;
 }
 
-/* Effet de soulignement élégant */
 .gradient-text::after {
   content: '';
   position: absolute;
@@ -425,7 +413,6 @@
   opacity: 0.5;
 }
 
-/* Ajouter un halo subtil */
 .gradient-text::before {
   content: '';
   position: absolute;
@@ -455,7 +442,6 @@
   position: relative;
 }
 
-/* Effet halo pour le texte typewriter */
 .typewriter::after {
   content: '';
   position: absolute;
@@ -500,7 +486,6 @@
   pointer-events: none;
 }
 
-/* Effet de brume dorée */
 .golden-mist {
   position: absolute;
   width: 100%;
@@ -524,13 +509,11 @@
   pointer-events: none;
 }
 
-/* Modifications spécifiques pour les boutons dans la bannière */
 .banner-cta .btn-primary:hover,
 .banner-cta .btn-secondary:hover {
   transform: translateY(-3px);
 }
 
-/* Indicateur de défilement */
 .scroll-indicator {
   position: absolute;
   bottom: 100px;
@@ -567,7 +550,6 @@
   filter: drop-shadow(0 0 8px rgba(var(--gold-rgb), 0.5));
 }
 
-/* Animation subtile de lueur */
 .scroll-indicator::after {
   content: '';
   position: absolute;
@@ -587,7 +569,6 @@
   50% { opacity: 0.5; }
 }
 
-/* Media Queries */
 @media (max-width: 1024px) {
   .banner {
     min-height: 100vh;
@@ -725,7 +706,6 @@
   }
 }
 
-/* Ajustement pour les écrans très petits en hauteur */
 @media (max-height: 600px) {
   .banner {
     min-height: auto;
