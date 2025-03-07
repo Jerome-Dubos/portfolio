@@ -47,7 +47,6 @@
 [id] {
   scroll-margin-top: 50px;
 }
-  
 
 @media (max-width: 1024px) {
   .home-page::before,
