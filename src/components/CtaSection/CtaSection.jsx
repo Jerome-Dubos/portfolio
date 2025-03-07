@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
-import handleContactClick from '../../utils/handleContactClick'; // Importation de la fonction
+import handleContactClick from '../../utils/handleContactClick';
 import './CtaSection.css';
 
 const CtaSection = () => {
