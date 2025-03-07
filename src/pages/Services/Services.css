@@ -1,4 +1,3 @@
-/* Services Page Styles */
 .services-page {
   min-height: 100vh;
   background-color: var(--bg-body);
@@ -6,7 +5,6 @@
   overflow: hidden;
 }
 
-/* En-tête de la page */
 .services-header {
   padding: var(--spacing-3xl) 0 var(--spacing-xl);
   text-align: center;
@@ -78,7 +76,6 @@
   line-height: 1.6;
 }
 
-/* Section d'introduction */
 .services-intro {
   padding: var(--spacing-2xl) 0;
   background: var(--bg-elevated);
@@ -98,7 +95,6 @@
   margin-top: var(--spacing-lg);
 }
 
-/* Grille des services */
 .services-grid-section {
   padding: var(--spacing-3xl) 0;
   position: relative;
@@ -199,7 +195,6 @@
   font-weight: bold;
 }
 
-/* Section de méthodologie */
 .methodology-section {
   padding: var(--spacing-3xl) 0;
   background: var(--bg-elevated);
@@ -266,7 +261,6 @@
   margin: 0;
 }
 
-/* Section de tarifs */
 .pricing-section {
   padding: var(--spacing-3xl) 0;
   position: relative;
@@ -288,7 +282,6 @@
   margin-bottom: var(--spacing-md);
 }
 
-/* Media Queries */
 @media (max-width: 1024px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
