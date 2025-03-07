@@ -24,8 +24,45 @@ const Banner = () => {
     }
   }, [typewriter]);
 
+  // Animation variants
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
+  // Fonction pour défiler vers la section suivante
+  const scrollToNextSection = () => {
+    const nextSection = document.querySelector('.banner').nextElementSibling;
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Délai pour l'indicateur de défilement
+  const getScrollIndicatorDelay = () => {
+    return 1.2; // Délai en secondes
+  };
+
   return (
     <section className="banner">
+      {/* Effets background */}
+      <div className="glow-orb"></div>
+      <div className="glow-orb secondary"></div>
+      <div className="glow-orb tertiary"></div>
+      <div className="golden-mist"></div>
+      <div className="immersive-effects">
+        <div className="flow-line flow-line-1"></div>
+        <div className="flow-line flow-line-2"></div>
+        <div className="flow-line flow-line-3"></div>
+        <div className="particle-container">
+          {[...Array(20)].map((_, index) => (
+            <div key={index} className={`particle particle-${index + 1}`}></div>
+          ))}
+        </div>
+        <div className="light-pulse"></div>
+        <div className="digital-waves"></div>
+      </div>
+
       <div className="container banner-container">
         <motion.div 
           className="banner-content"
@@ -33,11 +70,21 @@ const Banner = () => {
           animate="visible"
           variants={{ visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } } }}
         >
+          <motion.div className="banner-badge" variants={fadeInUp}>
+            <span className="badge">Disponible pour missions freelance</span>
+          </motion.div>
+
           <motion.h1 className="banner-title">
             Transformez votre vision en <br />
             <span className="gradient-text">expérience digitale</span> <br />
             exceptionnelle
           </motion.h1>
+
+          <motion.p className="banner-subtitle" variants={fadeInUp}>
+            <span className="typewriter">{typewriter.text}</span>
+            <span className="cursor"></span>
+            {" spécialisé en création d'interfaces modernes et performantes avec React"}
+          </motion.p>
 
           <motion.div className="banner-cta">
             <motion.button
@@ -59,7 +106,51 @@ const Banner = () => {
             </motion.button>
           </motion.div>
         </motion.div>
+
+        <motion.div 
+          className="interactive-glow"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ 
+            duration: 0.8, 
+            delay: 0.4,
+            type: "spring",
+            stiffness: 100
+          }}
+        >
+          <div className="glow-container">
+            <div className="glow-effect main-glow"></div>
+            <div className="glow-effect secondary-glow"></div>
+            <div className="glow-effect accent-glow"></div>
+            <div className="spark-container">
+              {[...Array(8)].map((_, index) => (
+                <div key={index} className={`spark spark-${index + 1}`}></div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      <motion.div 
+        className="scroll-indicator"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: getScrollIndicatorDelay(), duration: 0.8 }}
+        onClick={scrollToNextSection}
+      >
+        <motion.div 
+          className="scroll-arrow"
+          animate={{ y: [0, 10, 0] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            repeatType: "loop"
+          }}
+        >
+          <FaArrowDown />
+        </motion.div>
+        <span>En savoir plus</span>
+      </motion.div>
 
       <HeroWave className="banner-wave" />
     </section>
