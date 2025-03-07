@@ -16,14 +16,12 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
-    // Ici, tu peux ajouter l'intégration avec une API ou un service d'email
     alert("Message envoyé avec succès !");
     setFormData({ name: "", email: "", message: "" });
   };
 
   return (
     <section className="contact-section">
-      <h2 className="contact-title">Me Contacter</h2>
       <form className="contact-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Nom</label>

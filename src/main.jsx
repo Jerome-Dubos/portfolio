@@ -25,17 +25,19 @@ const router = createBrowserRouter([
       },
       { 
         path: '/services', 
-        element: <Error />
+        element: <Services />
       },
       { 
         path: '/about', 
-        element: <Error />
+        element: <About />
       }
     ],
   },
-]);
+], {
+  // Ajout d'options pour améliorer le comportement de navigation
+  basename: '/',
+});
 
-// Rendu de l'application
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />

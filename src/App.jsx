@@ -11,14 +11,14 @@ const pageVariants = {
   animate: {
     opacity: 1,
     transition: {
-      duration: 0.4,
+      duration: 0.3,
       ease: "easeInOut"
     }
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.2,
       ease: "easeOut"
     }
   }
@@ -26,6 +26,7 @@ const pageVariants = {
 
 export default function App() {
   const location = useLocation();
+  
   // Remonter en haut de la page lors du changement de route
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,8 +35,8 @@ export default function App() {
   return (
     <>
       <NavBar />
-      <main>
-        <AnimatePresence mode="wait">
+      <main id="main-content">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={location.pathname}
             initial="initial"
@@ -43,6 +44,7 @@ export default function App() {
             exit="exit"
             variants={pageVariants}
             className="page-container"
+            style={{ width: '100%', display: 'block', minHeight: '100vh' }}
           >
             <Outlet />
           </motion.div>
