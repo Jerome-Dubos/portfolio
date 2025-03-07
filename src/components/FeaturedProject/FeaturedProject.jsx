@@ -12,10 +12,16 @@ const FeaturedProject = () => {
     fetch("/data/projects.json")
       .then((response) => response.json())
       .then((data) => {
-        // Trouver le dernier projet (le plus récent)
-        const latestProject = data.reduce((latest, current) => 
-          (new Date(current.year) > new Date(latest.year)) ? current : latest
-        );
+        const latestProject = data.reduce((latest, current) => {
+          const [latestMonth, latestYear] = latest.year.split("/").map(Number);
+          const [currentMonth, currentYear] = current.year.split("/").map(Number);
+
+          const latestDate = new Date(latestYear, latestMonth - 1); // Mois commence à 0
+          const currentDate = new Date(currentYear, currentMonth - 1);
+
+          return currentDate > latestDate ? current : latest;
+        });
+
         setProject(latestProject);
       })
       .catch((error) => console.error("Erreur lors du chargement du projet:", error));
@@ -55,9 +61,11 @@ const FeaturedProject = () => {
               <Link to={project.demo} className="btn btn-primary btn-cta" target="_blank" rel="noopener noreferrer">
                 Voir le site <FaArrowRight className="btn-icon" />
               </Link>
-              <Link to={project.github} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-                Code source
-              </Link>
+              {project.github && (
+                <Link to={project.github} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                  Code source
+                </Link>
+              )}
             </div>
           </motion.div>
           
