@@ -17,56 +17,27 @@ const router = createBrowserRouter([
     children: [
       { 
         index: true, 
-        element: <Home />,
-        handle: {
-          title: 'Accueil | Portfolio Développeur Web',
-          description: 'Portfolio de développeur web spécialisé en React, Vue et UI/UX Design.'
-        }
+        element: <Home />
       },
       { 
         path: '/projects', 
-        element: <Projects />,
-        handle: {
-          title: 'Projets | Portfolio Développeur Web',
-          description: 'Découvrez mes projets récents en développement web et interface utilisateur.'
-        } 
+        element: <Projects />
       },
       { 
         path: '/services', 
-        element: <Services />,
-        handle: {
-          title: 'Services | Portfolio Développeur Web',
-          description: 'Découvrez les services proposés en développement web, design UI/UX et optimisation SEO.'
-        } 
+        element: <Services />
       },
       { 
         path: '/about', 
-        element: <About />,
-        handle: {
-          title: 'À Propos | Portfolio Développeur Web',
-          description: 'Découvrez mon parcours, mes valeurs et contactez-moi pour discuter de vos projets.'
-        } 
+        element: <About />
       }
     ],
   },
 ]);
 
-const TitleUpdater = () => {
-  const defaultTitle = 'Portfolio Développeur Web';
-  
-  React.useEffect(() => {
-    document.querySelector('meta[name="description"]')?.setAttribute(
-      'content', 
-      'Développeur Web Frontend spécialisé en React, Vue et UI/UX Design.'
-    );
-  }, []);
-
-  return null;
-};
-
+// Rendu de l'application
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <TitleUpdater />
     <RouterProvider router={router} />
   </React.StrictMode>
 );

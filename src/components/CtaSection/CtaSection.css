@@ -39,14 +39,6 @@
   line-height: 1.6;
 }
 
-.cta-content .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-}
-
 /* Effet de glow subtil */
 .cta-content::before {
   content: '';
@@ -76,11 +68,6 @@
   }
 
   .cta-content p {
-    font-size: 1rem;
-  }
-
-  .cta-content .btn {
-    padding: 0.9rem 1.8rem;
     font-size: 1rem;
   }
 }

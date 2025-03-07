@@ -74,7 +74,7 @@ const Banner = () => {
             <span className="badge">Disponible pour missions freelance</span>
           </motion.div>
 
-          <motion.h1 className="banner-title">
+          <motion.h1 className="banner-title" variants={fadeInUp}>
             Transformez votre vision en <br />
             <span className="gradient-text">expérience digitale</span> <br />
             exceptionnelle
@@ -86,10 +86,10 @@ const Banner = () => {
             {" spécialisé en création d'interfaces modernes et performantes avec React"}
           </motion.p>
 
-          <motion.div className="banner-cta">
+          <motion.div className="banner-cta" variants={fadeInUp}>
             <motion.button
               onClick={() => navigate('/projects')}
-              className="btn btn-primary"
+              className="btn btn-primary btn-cta btn-glow-hover"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >

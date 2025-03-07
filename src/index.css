@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-/* Variables globales du mode sombre par défaut */
+
+/* ===== VARIABLES GLOBALES ===== */
 :root {
   /* Couleurs principales */
   --bg-body: #000000;
@@ -12,7 +13,7 @@
   --text-tertiary: rgba(255, 255, 255, 0.5);
 
   /* Accents dorés - Palette plus subtile et élégante */
-  --gold: #d4b15f; /* Doré champage légèrement moins saturé */
+  --gold: #d4b15f; /* Doré champagne légèrement moins saturé */
   --gold-light: #f5e5b3; /* Doré pâle plus subtil */
   --gold-dark: #9c7a2c; /* Doré foncé plus chaleureux */
   --gold-soft: #dbc596; /* Doré intermédiaire doux */
@@ -75,7 +76,7 @@
   --container-xl: 1280px;
 }
 
-/* Mode clair avec fond crème et accents dorés */
+/* ===== MODE CLAIR ===== */
 [data-theme="light"] {
   /* Fond crème */
   --bg-body: #f8f5f0;
@@ -106,7 +107,7 @@
   --shadow-gold: 0 4px 12px rgba(var(--gold-rgb), 0.1);
 }
 
-/* Styles de base */
+/* ===== STYLES DE BASE ===== */
 html {
   overflow-x: hidden;
 }
@@ -136,7 +137,7 @@ main {
   box-sizing: border-box;
 }
 
-/* Typographie */
+/* ===== TYPOGRAPHIE ===== */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -178,9 +179,10 @@ a:hover {
   color: var(--gold-light);
 }
 
+/* ===== ÉLÉMENTS RÉUTILISABLES ===== */
 /* Titres avec effet doré */
-.gold-title {
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+.gold-title, .gold-accent {
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -220,7 +222,7 @@ a:hover {
   border: 1px solid rgba(42, 37, 32, 0.05);
 }
 
-/* Layout */
+/* ===== LAYOUT ===== */
 .container {
   width: 100%;
   margin: auto;
@@ -232,7 +234,8 @@ a:hover {
 @media (min-width: 1024px) { .container { max-width: var(--container-lg); } }
 @media (min-width: 1280px) { .container { max-width: var(--container-xl); } }
 
-/* Boutons avec effet verre amélioré */
+/* ===== SYSTÈME DE BOUTONS ===== */
+/* Base pour tous les boutons */
 .btn {
   padding: 0.8rem 1.6rem;
   border-radius: var(--radius-full);
@@ -266,6 +269,7 @@ a:hover {
   -webkit-backdrop-filter: blur(8px);
 }
 
+/* Bouton primaire avec dégradé doré */
 .btn-primary {
   background: linear-gradient(135deg, 
     rgba(var(--gold-rgb), 0.8), 
@@ -278,6 +282,7 @@ a:hover {
   border: 1px solid rgba(var(--gold-rgb), 0.3);
 }
 
+/* Effet brillant sur le bouton primaire */
 .btn-primary::before {
   content: '';
   position: absolute;
@@ -307,7 +312,7 @@ a:hover {
   box-shadow: var(--glow-gold), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-
+/* Bouton secondaire avec effet de verre */
 .btn-secondary {
   background: rgba(255, 255, 255, 0.03);
   color: var(--text-primary);
@@ -325,11 +330,13 @@ a:hover {
   color: var(--gold-light);
 }
 
+/* Variante grande taille */
 .btn-lg {
   padding: 1rem 2rem;
   font-size: 1.1rem;
 }
 
+/* Icône dans le bouton */
 .btn-icon {
   margin-left: 0.5rem;
   transition: transform 0.3s;
@@ -337,6 +344,41 @@ a:hover {
 
 .btn:hover .btn-icon {
   transform: translateX(3px);
+}
+
+/* Variante du bouton avec effet de surbrillance intense au survol */
+.btn-glow-hover:hover {
+  box-shadow: var(--glow-gold-intense);
+}
+
+/* Variante du bouton pour les CTA (calls-to-action) */
+.btn-cta {
+  position: relative;
+  isolation: isolate;
+  z-index: 1;
+}
+
+.btn-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 60%,
+    transparent 70%
+  );
+  transform: translateX(-100%) rotate(30deg);
+  transition: transform 0.5s ease;
+}
+
+.btn-cta:hover::before {
+  transform: translateX(100%) rotate(30deg);
 }
 
 /* Ajustements pour les boutons en mode clair */
@@ -352,7 +394,40 @@ a:hover {
   color: var(--gold-dark);
 }
 
-/* Cards */
+/* Variante du bouton outline */
+.btn-outline {
+  background: transparent;
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  color: var(--gold);
+}
+
+.btn-outline:hover {
+  background: rgba(var(--gold-rgb), 0.08);
+  border-color: rgba(var(--gold-rgb), 0.5);
+  color: var(--gold-light);
+}
+
+/* Variante du bouton désactivé */
+.btn-disabled, .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive pour les boutons */
+@media (max-width: 480px) {
+  .btn {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.95rem;
+  }
+  
+  .btn-lg {
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+  }
+}
+
+/* ===== CARDS ===== */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -384,35 +459,16 @@ a:hover {
   border: 1px solid rgba(42, 37, 32, 0.05);
 }
 
-/* Sections */
+/* ===== SECTIONS ===== */
 section {
   padding: var(--spacing-3xl) 0;
 }
 
-.section-title {
-  text-align: center;
-  margin-bottom: var(--spacing-2xl);
-}
-
-.section-title h2 {
-  position: relative;
-  display: inline-block;
-}
-
-.section-title h2:after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-
+/* ===== EFFETS VISUELS ===== */
 /* Effet glow sur hover */
 .glow-on-hover {
   transition: all var(--transition-medium);
+  position: relative;
 }
 
 .glow-on-hover:hover {
@@ -442,46 +498,231 @@ section {
   opacity: 1;
 }
 
-/* Ajustements pour la barre de navigation en mode clair */
-[data-theme="light"] .navbar {
-  background: rgba(248, 245, 240, 0.8);
-  box-shadow: 0 2px 10px rgba(42, 37, 32, 0.08);
+/* Effet de glow générique pour les cartes et sections */
+.glow-effect {
+  position: relative;
 }
 
-[data-theme="light"] .navbar.scrolled {
-  background: rgba(245, 240, 230, 0.9);
+.glow-effect::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center, 
+    rgba(var(--gold-rgb), 0.05), 
+    transparent 70%
+  );
+  z-index: -1;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-/* Ajustements pour le badge en mode clair */
-[data-theme="light"] .badge {
-  background-color: rgba(var(--gold-rgb), 0.1);
-  border: 1px solid rgba(var(--gold-rgb), 0.2);
+/* ===== ANIMATIONS ===== */
+/* Animation de flottement pour les éléments décoratifs */
+@keyframes float {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  33% {
+    transform: translate(-15px, -15px);
+  }
+  66% {
+    transform: translate(15px, 15px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
 }
 
-/* Ajustements pour le theme toggle en mode clair */
-[data-theme="light"] .theme-toggle-inner {
-  background: rgba(245, 240, 230, 0.9);
-  border: 1px solid rgba(var(--gold-rgb), 0.3);
+.float {
+  animation: float 12s ease-in-out infinite;
 }
 
-[data-theme="light"] .toggle-icon.moon {
-  color: rgba(42, 37, 32, 0.7);
+.float-slow {
+  animation: float 15s ease-in-out infinite;
 }
 
-/* Adaptation des orbes lumineux pour le mode clair */
-[data-theme="light"] .glow-orb {
-  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.12), transparent 70%);
+.float-fast {
+  animation: float 8s ease-in-out infinite;
 }
 
-[data-theme="light"] .glow-orb.secondary {
-  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.08), transparent 70%);
+/* Animation d'apparition */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-[data-theme="light"] .glow-orb.tertiary {
-  background: radial-gradient(circle, rgba(var(--gold-rgb), 0.1), transparent 70%);
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-/* Scrollbar */
+/* ===== UTILITAIRES LAYOUT ===== */
+/* Centrage vertical et horizontal */
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Espacement vertical entre les éléments d'une liste */
+.stack > * + * {
+  margin-top: var(--spacing-md);
+}
+
+.stack-lg > * + * {
+  margin-top: var(--spacing-lg);
+}
+
+/* Grille responsive */
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* ===== STYLES DE CARTE BASE ===== */
+/* Style de base pour les cartes */
+.card-base {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-medium);
+  border: 1px solid rgba(var(--gold-rgb), 0.1);
+}
+
+.card-base:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), var(--glow-gold-soft);
+}
+
+/* Variante avec effet de verre */
+.card-glass {
+  background: rgba(20, 20, 20, var(--glass-opacity-medium));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+[data-theme="light"] .card-glass {
+  background: rgba(245, 240, 230, var(--glass-opacity-medium));
+  border: 1px solid rgba(42, 37, 32, 0.05);
+}
+
+/* Variante avec mise en évidence */
+.card-elevated {
+  background: var(--bg-elevated);
+  border: 1px solid rgba(var(--gold-rgb), 0.15);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ===== UTILITAIRES TEXTE ===== */
+/* Textes tronqués */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-multi-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Nombre de lignes avant troncature */
+  -webkit-box-orient: vertical;
+}
+
+/* Alignements texte */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Couleurs texte */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+/* ===== ESPACEMENT ===== */
+/* Marges */
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+.mb-2xl { margin-bottom: var(--spacing-2xl); }
+.mb-3xl { margin-bottom: var(--spacing-3xl); }
+
+.mt-xs { margin-top: var(--spacing-xs); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+.mt-2xl { margin-top: var(--spacing-2xl); }
+.mt-3xl { margin-top: var(--spacing-3xl); }
+
+/* Rembourrage */
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+.p-2xl { padding: var(--spacing-2xl); }
+.p-3xl { padding: var(--spacing-3xl); }
+
+/* ===== FLEXBOX UTILITAIRES ===== */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-grow { flex-grow: 1; }
+.gap-xs { gap: var(--spacing-xs); }
+.gap-sm { gap: var(--spacing-sm); }
+.gap-md { gap: var(--spacing-md); }
+.gap-lg { gap: var(--spacing-lg); }
+.gap-xl { gap: var(--spacing-xl); }
+
+/* ===== RESPONSIVE ===== */
+.hide-on-mobile {
+  display: initial;
+}
+
+.show-on-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none;
+  }
+  
+  .show-on-mobile {
+    display: initial;
+  }
+}
+
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -504,7 +745,7 @@ section {
   background: rgba(42, 37, 32, 0.05);
 }
 
-/* Media Queries pour la réactivité */
+/* ===== MEDIA QUERIES GÉNÉRALES ===== */
 @media (max-width: 1024px) {
   h1 {
     font-size: 3rem;
@@ -532,9 +773,5 @@ section {
   
   h2 {
     font-size: 1.75rem;
-  }
-  
-  .btn {
-    padding: 0.7rem 1.4rem;
   }
 }

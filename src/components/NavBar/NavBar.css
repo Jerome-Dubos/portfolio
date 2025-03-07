@@ -22,6 +22,12 @@
   border-bottom: 1px solid rgba(var(--gold-rgb), 0.08);
 }
 
+.navbar.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 .navbar-container {
   display: flex;
   justify-content: space-between;
@@ -102,6 +108,7 @@
   display: flex;
   list-style: none;
   margin-right: var(--spacing-xl);
+  position: relative; /* Pour l'indicateur de navigation */
 }
 
 .nav-item {
@@ -131,53 +138,21 @@
 
 .nav-indicator {
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  z-index: 1;
   border-radius: var(--radius-full);
+  left: 0;
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-}
-
-.nav-cta {
-  white-space: nowrap;
-}
-
-.btn.nav-cta {
-  background: rgba(var(--gold-rgb), 0.15);
-  color: var(--gold-soft);
-  border: 1px solid rgba(var(--gold-rgb), 0.3);
-  overflow: hidden;
-  position: relative;
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-}
-
-.btn.nav-cta::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0)
-  );
-  border-radius: inherit;
-}
-
-.btn.nav-cta:hover {
-  background: rgba(var(--gold-rgb), 0.25);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 0 10px rgba(var(--gold-rgb), 0.2);
 }
 
 .mobile-controls {
@@ -266,6 +241,19 @@
   opacity: 0.5;
 }
 
+.nav-actions .btn-icon {
+  margin-left: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.nav-actions .btn:hover .btn-icon {
+  transform: translateX(3px);
+}
+
+/* Style pour les éléments à largeur complète dans le menu mobile */
+.mobile-nav-item .btn {
+  width: 100%;
+}
 
 @media (max-width: 1024px) {
   .desktop-menu {
@@ -285,11 +273,4 @@
   .logo-text {
     font-size: 1.3rem;
   }
-}
-
-/* Ajouter à la fin de NavBar.css */
-.navbar.hidden {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
 }

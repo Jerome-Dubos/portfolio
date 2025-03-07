@@ -524,86 +524,10 @@
   pointer-events: none;
 }
 
-/* Button styling specific to banner */
-.banner-cta .btn {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.banner-cta .btn-primary {
-  position: relative;
-  isolation: isolate;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.banner-cta .btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.1) 40%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.1) 60%,
-    transparent 70%
-  );
-  transform: translateX(-100%) rotate(30deg);
-}
-
-.banner-cta .btn-primary:hover::before {
-  transform: translateX(100%) rotate(30deg);
-}
-
-.banner-cta .btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--glow-gold-intense);
-}
-
-/* Enhanced glass for secondary button */
-.banner-cta .btn-secondary {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(var(--gold-rgb), 0.15);
-  background-color: rgba(255, 255, 255, 0.03);
-  position: relative;
-  overflow: hidden;
-}
-
-.banner-cta .btn-secondary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.01)
-  );
-  border-radius: inherit;
-}
-
+/* Modifications spécifiques pour les boutons dans la bannière */
+.banner-cta .btn-primary:hover,
 .banner-cta .btn-secondary:hover {
-  background-color: rgba(var(--gold-rgb), 0.08);
-  border-color: rgba(var(--gold-rgb), 0.3);
   transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-  color: var(--gold-light);
-}
-
-.banner-cta .btn-icon {
-  opacity: 0.8;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.banner-cta .btn:hover .btn-icon {
-  transform: translateX(4px);
-  opacity: 1;
 }
 
 /* Indicateur de défilement */

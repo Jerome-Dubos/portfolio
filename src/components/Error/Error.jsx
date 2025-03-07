@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   FaHome, 
-  FaTools 
+  FaTools,
+  FaArrowRight
 } from 'react-icons/fa';
 import { IoConstructOutline } from 'react-icons/io5';
 import './Error.css';
@@ -64,8 +65,8 @@ const Error = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Link to="/" className="btn btn-primary">
-                <FaHome /> Retour à l'accueil
+              <Link to="/" className="btn btn-primary btn-cta btn-glow-hover">
+                <FaHome /> Retour à l'accueil <FaArrowRight className="btn-icon" />
               </Link>
             </motion.div>
             

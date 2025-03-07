@@ -52,8 +52,8 @@ const FeaturedProject = () => {
             </div>
             
             <div className="project-links">
-              <Link to={project.demo} className="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                Voir le site <FaArrowRight />
+              <Link to={project.demo} className="btn btn-primary btn-cta" target="_blank" rel="noopener noreferrer">
+                Voir le site <FaArrowRight className="btn-icon" />
               </Link>
               <Link to={project.github} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                 Code source
@@ -67,8 +67,8 @@ const FeaturedProject = () => {
         </motion.div>
         
         <div className="all-projects-btn-container">
-          <Link to="/projects" className="btn btn-outline-primary btn-lg">
-            Voir tous mes projets <FaArrowRight />
+          <Link to="/projects" className="btn btn-outline btn-lg btn-glow-hover">
+            Voir tous mes projets <FaArrowRight className="btn-icon" />
           </Link>
         </div>
       </div>

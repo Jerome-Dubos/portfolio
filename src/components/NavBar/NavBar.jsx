@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import handleContactClick from "../../utils/handleContactClick"; // Import centralisé
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
 import "./NavBar.css";
 
 const navLinks = [
@@ -17,6 +17,8 @@ const NavBar = () => {
   const [state, setState] = useState({ menuOpen: false, scrolled: false, hidden: false });
   const location = useLocation();
   const navigate = useNavigate();
+  const navItemsRef = useRef([]);
+  const [indicatorStyle, setIndicatorStyle] = useState({});
 
   useEffect(() => {
     setState((prev) => ({ ...prev, menuOpen: false }));
@@ -37,6 +39,32 @@ const NavBar = () => {
     };
   }, [location.pathname]);
 
+  // Mise à jour de l'indicateur basée sur l'élément actif
+  useEffect(() => {
+    const activeIndex = navLinks.findIndex(link => link.path === location.pathname);
+    
+    if (activeIndex !== -1 && navItemsRef.current[activeIndex]) {
+      const activeItem = navItemsRef.current[activeIndex];
+      const navLinksElement = document.querySelector('.nav-links');
+      
+      if (activeItem && navLinksElement) {
+        const { width, left } = activeItem.getBoundingClientRect();
+        const navLeft = navLinksElement.getBoundingClientRect().left;
+        
+        // Position relative à .nav-links
+        const relativeLeft = left - navLeft;
+        
+        setIndicatorStyle({
+          width: `${width}px`,
+          left: `${relativeLeft}px`,
+          opacity: 1
+        });
+      }
+    } else {
+      setIndicatorStyle({ opacity: 0 });
+    }
+  }, [location.pathname, navItemsRef.current.length]);
+
   const handleNavClick = (e, path) => {
     if (location.pathname === path) {
       e.preventDefault();
@@ -49,33 +77,51 @@ const NavBar = () => {
   return (
     <nav className={`navbar glass ${state.scrolled ? "scrolled" : ""} ${state.hidden ? "hidden" : ""}`}>
       <div className="container navbar-container">
-        <Link to="/" className="logo-link">
+        <Link 
+          to="/" 
+          className="logo-link"
+          onClick={(e) => handleNavClick(e, "/")}
+        >
           <span className="logo-text">Dubos <span className="logo-accent">Web Services</span></span>
         </Link>
 
         <div className="desktop-menu">
           <ul className="nav-links">
-            {navLinks.map(({ path, label }) => (
-              <li key={path} className="nav-item">
+            {navLinks.map(({ path, label }, index) => (
+              <li 
+                key={path} 
+                className="nav-item"
+                ref={el => navItemsRef.current[index] = el}
+              >
                 <Link
                   to={path}
                   className={`nav-link ${location.pathname === path ? "active" : ""}`}
                   onClick={(e) => handleNavClick(e, path)}
                 >
                   {label}
-                  {location.pathname === path && <motion.div className="nav-indicator" layoutId="navIndicator" />}
                 </Link>
               </li>
             ))}
+            <motion.div 
+              className="nav-indicator"
+              initial={false}
+              animate={indicatorStyle}
+              transition={{ 
+                type: "spring",
+                stiffness: 300,
+                damping: 30
+              }}
+            />
           </ul>
           <div className="nav-actions">
             <ThemeToggle />
             <motion.button 
-              className="btn btn-primary nav-cta" 
+              className="btn btn-primary btn-cta btn-glow-hover" 
               onClick={(e) => handleContactClick(navigate, location, e)} 
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
             >
-              Me contacter
+              Me contacter <FaArrowRight className="btn-icon" />
             </motion.button>
           </div>
         </div>
@@ -93,7 +139,12 @@ const NavBar = () => {
 
       <AnimatePresence>
         {state.menuOpen && (
-          <motion.div className="mobile-menu glass">
+          <motion.div className="mobile-menu glass"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+          >
             <ul className="mobile-nav-links">
               {navLinks.map(({ path, label }) => (
                 <li key={path} className="mobile-nav-item">
@@ -106,13 +157,15 @@ const NavBar = () => {
                   </Link>
                 </li>
               ))}
-              <li className="mobile-nav-item">
-                <button 
-                  className="btn btn-primary w-full" 
+              <li className="mobile-nav-item cta-item">
+                <motion.button 
+                  className="btn btn-primary btn-cta btn-glow-hover w-full" 
                   onClick={(e) => handleContactClick(navigate, location, e)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  Me contacter
-                </button>
+                  Me contacter <FaArrowRight className="btn-icon" />
+                </motion.button>
               </li>
             </ul>
           </motion.div>

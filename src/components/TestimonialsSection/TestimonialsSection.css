@@ -39,6 +39,14 @@
   overflow: hidden; /* Empêche tout dépassement de contenu */
 }
 
+/* Définition manquante précédemment mais référencée dans le composant et les media queries */
+.quote-icon {
+  font-size: 2.5rem;
+  color: var(--gold);
+  margin-bottom: var(--spacing-md);
+  opacity: 0.7;
+}
+
 .testimonial-text {
   font-size: 1.2rem;
   color: var(--text-secondary);
@@ -111,50 +119,38 @@
 
 /* Flèches de navigation */
 .slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--gold);
-    border: none;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-    z-index: 10;
-  }
-  
-  .slider-arrow.prev {
-    left: 20px;
-  }
-  
-  .slider-arrow.next {
-    right: 20px;
-  }
-  
-  .slider-arrow:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-50%) scale(1.1);
-  }
-  
-  .visible {
-    display: flex !important;
-  }
-  
-
-/* Section CTA */
-.testimonials-cta {
-  margin-top: var(--spacing-2xl);
-  text-align: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--gold);
+  border: none;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 10;
 }
 
-.testimonials-cta p {
-  color: var(--text-secondary);
-  margin-bottom: var(--spacing-md);
+.slider-arrow.prev {
+  left: 20px;
+}
+
+.slider-arrow.next {
+  right: 20px;
+}
+
+.slider-arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.visible {
+  display: flex !important;
 }
 
 /* Effet de glow subtil */

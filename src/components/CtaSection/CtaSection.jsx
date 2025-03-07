@@ -22,7 +22,7 @@ const CtaSection = () => {
           
           <motion.button 
             onClick={(e) => handleContactClick(navigate, location, e)} 
-            className="btn btn-primary"
+            className="btn btn-primary btn-lg btn-cta btn-glow-hover"
             whileHover={{ scale: 1.03 }}
           >
             Me contacter

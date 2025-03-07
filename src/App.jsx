@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import NavBar from './components/NavBar/NavBar.jsx';
 import Footer from './components/Footer/Footer.jsx';
 
-// Variants pour les animations
 const pageVariants = {
   initial: {
     opacity: 0,
@@ -27,7 +26,6 @@ const pageVariants = {
 
 export default function App() {
   const location = useLocation();
-  
   // Remonter en haut de la page lors du changement de route
   useEffect(() => {
     window.scrollTo(0, 0);

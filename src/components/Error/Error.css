@@ -96,13 +96,6 @@
   gap: var(--spacing-md);
 }
 
-.error-actions .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-}
-
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .error-container {

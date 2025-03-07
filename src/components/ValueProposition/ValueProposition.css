@@ -1,146 +1,146 @@
 /* Value Proposition Styles */
 .value-section {
-    position: relative;
-    padding: var(--spacing-3xl) 0;
-    background-color: var(--bg-body);
-    overflow: hidden;
-  }
-  
-  .value-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-2xl);
-  }
-  
-  .value-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-2xl);
-    text-align: center;
-    transition: all var(--transition-medium);
-    box-shadow: var(--shadow-md);
-    border: 1px solid rgba(var(--gold-rgb), 0.1);
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .value-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg), var(--glow-gold-soft);
-  }
-  
-  .value-icon {
-    font-size: 3rem;
-    color: var(--gold);
-    margin-bottom: var(--spacing-lg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
-  .value-icon::before {
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(
-      circle, 
-      rgba(var(--gold-rgb), 0.1), 
-      transparent 70%
-    );
-    border-radius: 50%;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity var(--transition-medium);
-  }
-  
-  .value-card:hover .value-icon::before {
-    opacity: 1;
-  }
-/* Value Proposition Styles (continued) */
+  position: relative;
+  padding: var(--spacing-3xl) 0;
+  background-color: var(--bg-body);
+  overflow: hidden;
+}
+
+.value-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+.value-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  text-align: center;
+  transition: all var(--transition-medium);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(var(--gold-rgb), 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg), var(--glow-gold-soft);
+}
+
+.value-icon {
+  font-size: 3rem;
+  color: var(--gold);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.value-icon::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(
+    circle, 
+    rgba(var(--gold-rgb), 0.1), 
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.value-card:hover .value-icon::before {
+  opacity: 1;
+}
+
 .value-card h3 {
-    margin-bottom: var(--spacing-md);
-    background: linear-gradient(90deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  margin-bottom: var(--spacing-md);
+  background: linear-gradient(90deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.value-card > p {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+}
+
+.value-features {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.value-features li {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.value-features li svg {
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+/* Effet de glow subtil */
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center, 
+    rgba(var(--gold-rgb), 0.05), 
+    transparent 70%
+  );
+  z-index: -1;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Média queries pour la responsivité */
+@media (max-width: 1024px) {
+  .value-cards {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
+}
+
+@media (max-width: 768px) {
+  .value-section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .value-cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+
+  .value-card {
+    padding: var(--spacing-xl);
+  }
+
+  .value-icon {
+    font-size: 2.5rem;
+  }
+
+  .value-card h3 {
+    font-size: 1.5rem;
+  }
+
   .value-card > p {
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-lg);
-    line-height: 1.6;
+    font-size: 0.9rem;
   }
-  
-  .value-features {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-  }
-  
-  .value-features li {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-sm);
-  }
-  
-  .value-features li svg {
-    color: var(--gold);
-    font-size: 1rem;
-  }
-  
-  /* Effet de glow subtil */
-  .value-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-      circle at center, 
-      rgba(var(--gold-rgb), 0.05), 
-      transparent 70%
-    );
-    z-index: -1;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  
-  /* Média queries pour la responsivité */
-  @media (max-width: 1024px) {
-    .value-cards {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .value-section {
-      padding: var(--spacing-2xl) 0;
-    }
-  
-    .value-cards {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-lg);
-    }
-  
-    .value-card {
-      padding: var(--spacing-xl);
-    }
-  
-    .value-icon {
-      font-size: 2.5rem;
-    }
-  
-    .value-card h3 {
-      font-size: 1.5rem;
-    }
-  
-    .value-card > p {
-      font-size: 0.9rem;
-    }
-  }
+}
