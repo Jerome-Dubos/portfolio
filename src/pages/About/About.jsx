@@ -1,90 +1,93 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGraduationCap, FaCocktail, FaCode } from 'react-icons/fa';
-import SectionTitle from '../../components/SectionTitle/SectionTitle';
+import { FaGraduationCap, FaCode, FaCocktail } from 'react-icons/fa';
 import ContactForm from '../../components/ContactForm/ContactForm';
-import { CircleShape } from '../../components/DecorativeElements/DecorativeShapes';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 import './About.css';
+
+const timelineData = [
+  {
+    year: "2016 - 2024",
+    title: "Barman - Mixologue",
+    description: "Création et réalisations de cocktails, gestion d'etablissements et service clients.",
+    icon: <FaCocktail />,
+    type: "work"
+  },
+  {
+    year: "2024 - 2025",
+    title: "Formation Développement Web",
+    description: "Apprentissage intensif des technologies web modernes, transformant ma passion créative en compétences numériques.",
+    icon: <FaGraduationCap />,
+    type: "education"
+  },
+  {
+    year: "Depuis 2025",
+    title: "Développement Freelance à Temps Plein",
+    description: "Lancement officiel de mon activité de développeur web freelance.",
+    icon: <FaCode />,
+    type: "work"
+  }
+];
 
 const About = () => {
   return (
     <div className="about-page">
-      {/* Section Présentation Personnelle */}
-      <section className="personal-introduction">
+      <section className="about-banner">
         <div className="container">
           <motion.div 
-            className="personal-content"
+            className="about-content"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="personal-image">
-              <img src="/images/profile.webp" alt="Jérôme Dubos" />
-              <div className="image-overlay"></div>
+            <div className="about-image-container">
+              <img 
+                src="/images/profile.webp" 
+                alt="Jérôme Dubos" 
+                className="about-profile-image" 
+              />
             </div>
-            <div className="personal-text">
-              <h1 className="personal-title">
-                Jérôme <span className="gradient-text">Dubos</span>
-              </h1>
-              <p className="personal-description">
-                Artisan du digital, je transforme des concepts en expériences numériques uniques. 
-                Mon parcours atypique - d'un bar élégant aux interfaces web sophistiquées - 
-                reflète ma passion pour la créativité et l'innovation.
+            <div className="about-text">
+              <h1>Jérôme Dubos</h1>
+              <h2 className="about-subtitle">Développeur Web Freelance</h2>
+              <p>
+                Après plusieurs années dans l’univers des bars à cocktails, 
+                j’ai choisi de me réinventer à travers une reconversion dans 
+                le développement web. Aujourd’hui, je suis développeur web freelance, 
+                combinant créativité et technicité pour concevoir des sites modernes et dynamiques.
               </p>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Section Parcours Luxueux */}
-      <section className="luxe-journey-section">
+
+      <section className="timeline-section">
         <div className="container">
           <SectionTitle 
             title="Mon Parcours" 
-            subtitle="L'évolution d'un artisan créatif" 
+            subtitle="Une histoire de croissance, d'apprentissage et de passion"
           />
           
-          <div className="luxe-timeline">
-            {[
-              {
-                year: "2015 - 2020",
-                title: "Maître Barman",
-                icon: <FaCocktail />,
-                description: "Artisan des cocktails dans des établissements de prestige. Chaque boisson était une création unique, mêlant précision technique et expression artistique.",
-                side: "left"
-              },
-              {
-                year: "2020 - 2021",
-                title: "Formation Développement Web",
-                icon: <FaGraduationCap />,
-                description: "Apprentissage intensif des technologies web modernes, transformant ma passion créative en compétences numériques raffinées.",
-                side: "right"
-              },
-              {
-                year: "Depuis 2025",
-                title: "Développeur Web Freelance",
-                icon: <FaCode />,
-                description: "Création de Dubos Web Services, où chaque projet web devient une œuvre d'art numérique, alliant élégance technique et vision créative.",
-                side: "left"
-              }
-            ].map((item, index) => (
+          <div className="timeline">
+            {timelineData.map((item, index) => (
               <motion.div 
-                key={index}
-                className={`luxe-timeline-item ${item.side}`}
-                initial={{ opacity: 0, x: item.side === 'left' ? -50 : 50 }}
+                key={index} 
+                className={`timeline-item ${item.type}`}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ 
-                  duration: 0.6, 
+                  duration: 0.5, 
                   delay: index * 0.2 
                 }}
               >
-                <div className="luxe-timeline-content">
-                  <div className="luxe-timeline-icon">
+                <div className="timeline-content">
+                  <div className="timeline-icon">
                     {item.icon}
                   </div>
-                  <div className="luxe-timeline-details">
-                    <div className="luxe-timeline-year">{item.year}</div>
+                  <div className="timeline-details">
+                    <span className="timeline-year">{item.year}</span>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                   </div>
@@ -95,15 +98,9 @@ const About = () => {
         </div>
       </section>
 
-      {/* Section Contact */}
-      <section id="contact" className="contact-section">
-        <div className="container">
-          <SectionTitle 
-            title="Parlons Projet" 
-            subtitle="Transformer vos idées en expériences numériques exceptionnelles" 
-          />
-          <ContactForm />
-        </div>
+
+      <section id="contact">
+        <ContactForm />
       </section>
     </div>
   );
