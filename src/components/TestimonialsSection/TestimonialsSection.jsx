@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaQuoteLeft, FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import SectionTitle from '../SectionTitle/SectionTitle';
+import TestimonialFormModal from './TestimonialFormModal';
 import './TestimonialsSection.css';
 
 const testimonialsData = {
@@ -12,7 +13,6 @@ const testimonialsData = {
       id: 1,
       name: "Alice Dupont",
       position: "CEO - StartUpTech",
-      image: "/assets/testimonials/client1.jpg",
       rating: 5,
       text: "Travailler avec ce développeur a été une expérience exceptionnelle. Sa capacité à comprendre nos besoins et à les transformer en solutions techniques élégantes est impressionnante."
     },
@@ -20,7 +20,6 @@ const testimonialsData = {
       id: 2,
       name: "Marc Lefevre",
       position: "Freelance Designer",
-      image: "/assets/testimonials/client2.jpg",
       rating: 5,
       text: "J'ai collaboré sur plusieurs projets avec ce développeur, et je suis toujours aussi impressionné par son travail. Sa maîtrise technique et sa créativité font de lui un partenaire idéal."
     },
@@ -28,7 +27,6 @@ const testimonialsData = {
       id: 3,
       name: "Sophie Lambert",
       position: "Fondatrice - ShopOnline",
-      image: "/assets/testimonials/client3.jpg",
       rating: 5,
       text: "Notre site e-commerce avait besoin d'une refonte complète, et ce développeur a réussi à transformer notre vision en réalité. Notre taux de conversion a augmenté de 40% !"
     }
@@ -39,6 +37,7 @@ const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const autoplayRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const nextTestimonial = () => {
     setDirection(1);
@@ -56,6 +55,27 @@ const TestimonialsSection = () => {
     }, 8000);
     return () => clearInterval(autoplayRef.current);
   }, [activeIndex]);
+  
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  };
+  
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (!autoplayRef.current) {
+      autoplayRef.current = setInterval(() => {
+        nextTestimonial();
+      }, 8000);
+    }
+  };
+  
+  const handleSubmitTestimonial = (testimonialData) => {
+    console.log("Témoignage soumis:", testimonialData);
+  };
   
   return (
     <section className="testimonials-section">
@@ -84,10 +104,7 @@ const TestimonialsSection = () => {
                     <FaStar key={index} className={index < testimonialsData.items[activeIndex].rating ? 'star active' : 'star'} />
                   ))}
                 </div>
-                <div className="testimonial-author">
-                  <div className="author-image">
-                    <img src={testimonialsData.items[activeIndex].image} alt={testimonialsData.items[activeIndex].name} loading="lazy" />
-                  </div>
+                <div className="testimonial-author no-image">
                   <div className="author-info">
                     <h3>{testimonialsData.items[activeIndex].name}</h3>
                     <p>{testimonialsData.items[activeIndex].position}</p>
@@ -100,6 +117,23 @@ const TestimonialsSection = () => {
             <FaArrowRight />
           </button>
         </div>
+        
+        <div className="testimonial-cta">
+          <motion.button 
+            className="btn btn-primary btn-cta btn-glow-hover" 
+            onClick={handleOpenModal}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Partager votre expérience
+          </motion.button>
+        </div>
+        
+        <TestimonialFormModal 
+          isOpen={isModalOpen} 
+          onClose={handleCloseModal} 
+          onSubmit={handleSubmitTestimonial} 
+        />
       </div>
     </section>
   );
