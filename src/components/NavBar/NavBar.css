@@ -98,7 +98,6 @@
   transform-origin: left;
 }
 
-/* Desktop Menu */
 .desktop-menu {
   display: flex;
   align-items: center;
@@ -108,7 +107,7 @@
   display: flex;
   list-style: none;
   margin-right: var(--spacing-xl);
-  position: relative; /* Pour l'indicateur de navigation */
+  position: relative;
 }
 
 .nav-item {
@@ -250,7 +249,6 @@
   transform: translateX(3px);
 }
 
-/* Style pour les éléments à largeur complète dans le menu mobile */
 .mobile-nav-item .btn {
   width: 100%;
 }

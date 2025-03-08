@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import handleContactClick from "../../utils/handleContactClick"; // Import centralisé
+import handleContactClick from "../../utils/handleContactClick";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
 import "./NavBar.css";
@@ -39,7 +39,6 @@ const NavBar = () => {
     };
   }, [location.pathname]);
 
-  // Mise à jour de l'indicateur basée sur l'élément actif
   useEffect(() => {
     const activeIndex = navLinks.findIndex(link => link.path === location.pathname);
     
@@ -51,7 +50,6 @@ const NavBar = () => {
         const { width, left } = activeItem.getBoundingClientRect();
         const navLeft = navLinksElement.getBoundingClientRect().left;
         
-        // Position relative à .nav-links
         const relativeLeft = left - navLeft;
         
         setIndicatorStyle({
