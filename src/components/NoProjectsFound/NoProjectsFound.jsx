@@ -14,12 +14,14 @@ const NoProjectsFound = ({ resetFilters }) => {
       <FaSearch className="search-large-icon" />
       <h3>Aucun projet ne correspond à votre recherche</h3>
       <p>Essayez de modifier vos critères de recherche ou de réinitialiser les filtres.</p>
-      <button 
-        className="btn btn-primary"
+      <motion.button 
+        className="btn btn-primary btn-cta btn-glow-hover"
         onClick={resetFilters}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.98 }}
       >
-        Voir tous les projets
-      </button>
+        Réinitialiser les filtres de recherche
+      </motion.button>
     </motion.div>
   );
 };
