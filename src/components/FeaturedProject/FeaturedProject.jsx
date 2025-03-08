@@ -16,7 +16,7 @@ const FeaturedProject = () => {
           const [latestMonth, latestYear] = latest.year.split("/").map(Number);
           const [currentMonth, currentYear] = current.year.split("/").map(Number);
 
-          const latestDate = new Date(latestYear, latestMonth - 1); // Mois commence à 0
+          const latestDate = new Date(latestYear, latestMonth - 1);
           const currentDate = new Date(currentYear, currentMonth - 1);
 
           return currentDate > latestDate ? current : latest;
