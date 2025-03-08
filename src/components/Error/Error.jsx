@@ -7,24 +7,12 @@ import {
   FaArrowRight
 } from 'react-icons/fa';
 import { IoConstructOutline } from 'react-icons/io5';
+import handleContactClick from '../../utils/handleContactClick';
 import './Error.css';
 
 const Error = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  // Gestion du bouton "En savoir plus" similaire à la NavBar
-  const handleContactClick = (e) => {
-    e.preventDefault();
-    if (location.pathname === "/about") {
-      // Si l'utilisateur est déjà sur la page "À propos", faire défiler jusqu'à la section contact
-      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      // Sinon, naviguer vers la page "À propos" puis faire défiler jusqu'à la section contact
-      navigate("/about#contact");
-      setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500);
-    }
-  };
 
   return (
     <div className="error-page">
@@ -69,14 +57,14 @@ const Error = () => {
                 <FaHome /> Retour à l'accueil <FaArrowRight className="btn-icon" />
               </Link>
             </motion.div>
-            
+
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <button 
                 className="btn btn-secondary" 
-                onClick={handleContactClick}
+                onClick={(e) => handleContactClick(navigate, location, e)}
               >
                 <FaTools /> En savoir plus
               </button>
