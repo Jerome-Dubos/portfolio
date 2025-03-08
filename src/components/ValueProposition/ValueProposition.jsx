@@ -5,14 +5,12 @@ import SectionTitle from '../SectionTitle/SectionTitle';
 import { CircleShape } from '../DecorativeElements/DecorativeShapes';
 import './ValueProposition.css';
 
-// Map des icônes
 const iconMap = {
   FaCode: FaCode,
   FaRocket: FaRocket,
   FaLaptopCode: FaLaptopCode
 };
 
-// Données statiques pour les valeurs
 const valueData = {
   title: "Pourquoi me choisir ?",
   subtitle: "Je combine expertise technique et approche centrée sur les besoins clients",
