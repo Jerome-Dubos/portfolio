@@ -1,39 +1,65 @@
 const nodemailer = require('nodemailer');
 
-// Configurer le transporteur d'email
+// Configuration du transporteur d'email
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // ou un autre service comme 'outlook', 'yahoo', etc.
+    service: 'gmail', 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    }
+    },
+    // Configuration de sécurité supplémentaire
+    secure: true,
+    port: 465,
+    logger: true,
+    debug: true
 });
 
-// Fonction pour envoyer un email de notification
+// Fonction pour envoyer un email de notification de témoignage
 const sendNotificationEmail = async (testimonial) => {
     try {
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: process.env.ADMIN_EMAIL,
-            subject: 'Nouvel avis soumis',
+            subject: 'Nouveau témoignage en attente d\'approbation',
             html: `
-        <h2>Un nouveau témoignage a été soumis</h2>
-        <p><strong>Nom :</strong> ${testimonial.name}</p>
-        <p><strong>Poste / Entreprise :</strong> ${testimonial.position}</p>
-        <p><strong>Note :</strong> ${testimonial.rating}/5</p>
-        <p><strong>Message :</strong> ${testimonial.text}</p>
-        <p><strong>Date de soumission :</strong> ${new Date(testimonial.createdAt).toLocaleString('fr-FR')}</p>
-        <p>Connectez-vous au <a href="${process.env.ADMIN_URL || 'http://localhost:5173/admin'}">panneau d'administration</a> pour approuver ou supprimer cet avis.</p>
-      `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #333;">Nouveau témoignage</h2>
+                    <p><strong>Nom :</strong> ${testimonial.name}</p>
+                    <p><strong>Poste / Entreprise :</strong> ${testimonial.position}</p>
+                    <p><strong>Note :</strong> ${testimonial.rating}/5</p>
+                    <div style="background-color: #f4f4f4; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                        <p><strong>Message :</strong></p>
+                        <p>${testimonial.text}</p>
+                    </div>
+                    <p style="color: #666;">
+                        <a href="${process.env.ADMIN_URL}">Connectez-vous à l'administration</a> pour approuver ou rejeter ce témoignage.
+                    </p>
+                    <p style="color: #999; font-size: 0.8em;">
+                        Date de soumission : ${new Date(testimonial.createdAt).toLocaleString('fr-FR')}
+                    </p>
+                </div>
+            `
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log('Email envoyé avec succès:', info.response);
+        console.log('Email de notification envoyé avec succès:', info.response);
         return true;
     } catch (error) {
-        console.error('Erreur lors de l\'envoi de l\'email:', error);
+        console.error('Erreur lors de l\'envoi de l\'email de notification:', error);
         return false;
     }
 };
 
-module.exports = { sendNotificationEmail };
+// Tester la connexion
+transporter.verify((error, success) => {
+    if (error) {
+        console.error('Erreur de configuration du transporteur email:', error);
+    } else {
+        console.log('Configuration du serveur email prête');
+    }
+});
+
+module.exports = { 
+    transporter, 
+    sendNotificationEmail 
+};

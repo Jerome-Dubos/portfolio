@@ -1,5 +1,28 @@
 import "./ContactForm.css";
 import { useState, useEffect } from "react";
+import { FaCheck, FaTimes, FaExclamationTriangle } from "react-icons/fa";
+
+// Composant de Modal
+const Modal = ({ isOpen, type, message, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className={`modal ${type}`}>
+        <div className="modal-icon">
+          {type === 'success' && <FaCheck />}
+          {type === 'error' && <FaExclamationTriangle />}
+        </div>
+        <div className="modal-content">
+          <p>{message}</p>
+        </div>
+        <button className="modal-close" onClick={onClose}>
+          <FaTimes />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +40,12 @@ const ContactForm = () => {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modal, setModal] = useState({
+    isOpen: false,
+    type: null,
+    message: ""
+  });
 
   // Regex patterns
   const patterns = {
@@ -33,6 +62,22 @@ const ContactForm = () => {
     phone: "Veuillez entrer un numéro de téléphone français valide",
     message: "Votre message doit contenir entre 10 et 500 caractères",
   };
+
+  // Fermeture automatique de la modal après 5 secondes
+  useEffect(() => {
+    let timeoutId;
+    if (modal.isOpen) {
+      timeoutId = setTimeout(() => {
+        setModal({ isOpen: false, type: null, message: "" });
+      }, 5000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [modal]);
 
   const validateField = (name, value) => {
     if (!value) {
@@ -70,7 +115,7 @@ const ContactForm = () => {
     setIsFormValid(isValid);
   }, [validation, formData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Valider tous les champs avant l'envoi
@@ -91,19 +136,54 @@ const ContactForm = () => {
     const isFormValid = requiredFields.every(field => validationResults[field].isValid);
     
     if (isFormValid) {
-      console.log("Form submitted:", formData);
-      alert("Message envoyé avec succès !");
-      
-      // Réinitialiser le formulaire
-      setFormData({ name: "", email: "", phone: "", message: "" });
-      setValidation({
-        name: { isValid: null, errorMessage: "" },
-        email: { isValid: null, errorMessage: "" },
-        phone: { isValid: null, errorMessage: "" },
-        message: { isValid: null, errorMessage: "" },
-      });
-    } else {
-      alert("Veuillez corriger les erreurs dans le formulaire");
+      try {
+        setIsSubmitting(true);
+
+        const response = await fetch('http://localhost:5000/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Succès
+          setModal({ 
+            isOpen: true, 
+            type: 'success', 
+            message: 'Votre message a été envoyé avec succès !' 
+          });
+          
+          // Réinitialiser le formulaire
+          setFormData({ name: "", email: "", phone: "", message: "" });
+          setValidation({
+            name: { isValid: null, errorMessage: "" },
+            email: { isValid: null, errorMessage: "" },
+            phone: { isValid: null, errorMessage: "" },
+            message: { isValid: null, errorMessage: "" },
+          });
+        } else {
+          // Erreur côté serveur
+          setModal({ 
+            isOpen: true, 
+            type: 'error', 
+            message: result.message || "Une erreur s'est produite lors de l'envoi du message" 
+          });
+        }
+      } catch (error) {
+        // Erreur de réseau
+        console.error("Erreur lors de l'envoi du formulaire :", error);
+        setModal({ 
+          isOpen: true, 
+          type: 'error', 
+          message: "Une erreur de réseau s'est produite" 
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -115,11 +195,20 @@ const ContactForm = () => {
 
   return (
     <section className="contact-section">
+      {/* Modal de notification */}
+      <Modal 
+        isOpen={modal.isOpen}
+        type={modal.type}
+        message={modal.message}
+        onClose={() => setModal({ isOpen: false, type: null, message: "" })}
+      />
+
       <div className="container">
         <h2 className="contact-title">Contactez-nous</h2>
         <div className="form-legend">
           <span className="required">*</span> <span className="legend-text">Champs obligatoires</span>
         </div>
+
         <form className="contact-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Nom <span className="required">*</span></label>
@@ -187,9 +276,9 @@ const ContactForm = () => {
           <button 
             type="submit" 
             className={`submit-btn ${isFormValid ? 'submit-valid' : ''}`}
-            disabled={!isFormValid && Object.keys(validation).some(field => validation[field].isValid === false)}
+            disabled={(!isFormValid && Object.keys(validation).some(field => validation[field].isValid === false)) || isSubmitting}
           >
-            Envoyer
+            {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
           </button>
         </form>
       </div>

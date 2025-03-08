@@ -9,8 +9,24 @@ const createTestimonial = async (req, res) => {
     const { name, position, rating, text } = req.body;
 
     if (!name || !position || !rating || !text) {
-      res.status(400).json({ message: 'Veuillez remplir tous les champs' });
-      return;
+      return res.status(400).json({ message: 'Veuillez remplir tous les champs' });
+    }
+
+    // Validation supplémentaire
+    if (name.length < 2 || name.length > 50) {
+      return res.status(400).json({ message: 'Le nom doit contenir entre 2 et 50 caractères' });
+    }
+
+    if (position.length < 2 || position.length > 50) {
+      return res.status(400).json({ message: 'Le poste/entreprise doit contenir entre 2 et 50 caractères' });
+    }
+
+    if (text.length < 10 || text.length > 500) {
+      return res.status(400).json({ message: 'Le témoignage doit contenir entre 10 et 500 caractères' });
+    }
+
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ message: 'La note doit être entre 1 et 5' });
     }
 
     const testimonial = await Testimonial.create({
@@ -22,121 +38,25 @@ const createTestimonial = async (req, res) => {
     });
 
     // Envoyer une notification par email
-    sendNotificationEmail(testimonial)
-      .then(success => {
-        if (!success) {
-          console.log('L\'email de notification n\'a pas pu être envoyé, mais le témoignage a été créé');
-        }
-      })
-      .catch(err => {
-        console.error('Erreur d\'envoi d\'email:', err);
-      });
+    try {
+      await sendNotificationEmail(testimonial);
+    } catch (emailError) {
+      console.error('Erreur lors de l\'envoi de l\'email de notification:', emailError);
+    }
 
     res.status(201).json({
       success: true,
+      message: 'Votre témoignage a été soumis et sera examiné par l\'administrateur.',
       data: testimonial
     });
-  } catch (error) {
-    console.error(error);
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(val => val.message);
-      res.status(400).json({ message: messages.join(', ') });
-    } else {
-      res.status(500).json({ message: 'Erreur serveur' });
-    }
-  }
-};
 
-// @desc    Obtenir tous les témoignages approuvés
-// @route   GET /api/testimonials
-// @access  Public
-const getApprovedTestimonials = async (req, res) => {
-  try {
-    const testimonials = await Testimonial.find({ isApproved: true }).sort({ createdAt: -1 });
-    
-    res.status(200).json({
-      success: true,
-      count: testimonials.length,
-      data: testimonials
+  } catch (error) {
+    console.error('Erreur lors de la création du témoignage:', error);
+    res.status(500).json({ 
+      message: 'Erreur serveur lors de la soumission du témoignage',
+      error: error.message 
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erreur serveur' });
   }
 };
 
-// @desc    Obtenir tous les témoignages (pour l'admin)
-// @route   GET /api/testimonials/all
-// @access  Private
-const getAllTestimonials = async (req, res) => {
-  try {
-    const testimonials = await Testimonial.find().sort({ createdAt: -1 });
-    
-    res.status(200).json({
-      success: true,
-      count: testimonials.length,
-      data: testimonials
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erreur serveur' });
-  }
-};
-
-// @desc    Approuver un témoignage
-// @route   PUT /api/testimonials/:id/approve
-// @access  Private
-const approveTestimonial = async (req, res) => {
-  try {
-    const testimonial = await Testimonial.findById(req.params.id);
-    
-    if (!testimonial) {
-      res.status(404).json({ message: 'Témoignage non trouvé' });
-      return;
-    }
-    
-    testimonial.isApproved = true;
-    await testimonial.save();
-    
-    res.status(200).json({
-      success: true,
-      data: testimonial
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erreur serveur' });
-  }
-};
-
-// @desc    Rejeter/Supprimer un témoignage
-// @route   DELETE /api/testimonials/:id
-// @access  Private
-const deleteTestimonial = async (req, res) => {
-  try {
-    const testimonial = await Testimonial.findById(req.params.id);
-    
-    if (!testimonial) {
-      res.status(404).json({ message: 'Témoignage non trouvé' });
-      return;
-    }
-    
-    // Utiliser deleteOne() au lieu de remove()
-    await Testimonial.deleteOne({ _id: req.params.id });
-    
-    res.status(200).json({
-      success: true,
-      data: {}
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erreur serveur' });
-  }
-};
-
-module.exports = {
-  createTestimonial,
-  getApprovedTestimonials,
-  getAllTestimonials,
-  approveTestimonial,
-  deleteTestimonial
-};
+module.exports = { createTestimonial };
