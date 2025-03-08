@@ -2,7 +2,6 @@ import "./ContactForm.css";
 import { useState, useEffect } from "react";
 import { FaCheck, FaTimes, FaExclamationTriangle } from "react-icons/fa";
 
-// Composant de Modal
 const Modal = ({ isOpen, type, message, onClose }) => {
   if (!isOpen) return null;
 
@@ -47,15 +46,13 @@ const ContactForm = () => {
     message: ""
   });
 
-  // Regex patterns
   const patterns = {
     name: /^[a-zA-ZÀ-ÿ\s]{2,40}$/,
     email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
-    phone: /^(\+33|0)[1-9](\d{2}){4}$/, // Format français: +33612345678 ou 0612345678
+    phone: /^(\+33|0)[1-9](\d{2}){4}$/,
     message: /^.{10,500}$/,
   };
 
-  // Messages d'erreur
   const errorMessages = {
     name: "Veuillez entrer un nom valide (2-40 caractères, lettres uniquement)",
     email: "Veuillez entrer une adresse email valide",
@@ -63,13 +60,12 @@ const ContactForm = () => {
     message: "Votre message doit contenir entre 10 et 500 caractères",
   };
 
-  // Fermeture automatique de la modal après 5 secondes
   useEffect(() => {
     let timeoutId;
     if (modal.isOpen) {
       timeoutId = setTimeout(() => {
         setModal({ isOpen: false, type: null, message: "" });
-      }, 5000);
+      }, 3000);
     }
 
     return () => {
@@ -101,14 +97,11 @@ const ContactForm = () => {
     });
   };
 
-  // Valider et mettre à jour l'état du formulaire
   useEffect(() => {
     const formFields = Object.keys(formData);
     const isValid = formFields.every(field => {
-      // Le téléphone est optionnel
       if (field === 'phone' && !formData[field]) return true;
       
-      // Pour les autres champs, ils doivent être valides
       return validation[field].isValid === true;
     });
     
@@ -118,10 +111,8 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Valider tous les champs avant l'envoi
     const validationResults = {};
     Object.keys(formData).forEach(field => {
-      // Ne pas valider le téléphone s'il est vide
       if (field === 'phone' && !formData[field]) {
         validationResults[field] = { isValid: null, errorMessage: "" };
       } else {
@@ -131,7 +122,6 @@ const ContactForm = () => {
     
     setValidation(validationResults);
     
-    // Vérifier si tous les champs obligatoires sont valides
     const requiredFields = ['name', 'email', 'message'];
     const isFormValid = requiredFields.every(field => validationResults[field].isValid);
     
@@ -150,14 +140,12 @@ const ContactForm = () => {
         const result = await response.json();
 
         if (response.ok) {
-          // Succès
           setModal({ 
             isOpen: true, 
             type: 'success', 
             message: 'Votre message a été envoyé avec succès !' 
           });
           
-          // Réinitialiser le formulaire
           setFormData({ name: "", email: "", phone: "", message: "" });
           setValidation({
             name: { isValid: null, errorMessage: "" },
@@ -166,7 +154,6 @@ const ContactForm = () => {
             message: { isValid: null, errorMessage: "" },
           });
         } else {
-          // Erreur côté serveur
           setModal({ 
             isOpen: true, 
             type: 'error', 
@@ -174,7 +161,6 @@ const ContactForm = () => {
           });
         }
       } catch (error) {
-        // Erreur de réseau
         console.error("Erreur lors de l'envoi du formulaire :", error);
         setModal({ 
           isOpen: true, 
@@ -187,7 +173,6 @@ const ContactForm = () => {
     }
   };
 
-  // Classe CSS dynamique en fonction de l'état de validation
   const getInputClass = (field) => {
     if (validation[field].isValid === null) return "";
     return validation[field].isValid ? "input-valid" : "input-invalid";
@@ -195,7 +180,6 @@ const ContactForm = () => {
 
   return (
     <section className="contact-section">
-      {/* Modal de notification */}
       <Modal 
         isOpen={modal.isOpen}
         type={modal.type}

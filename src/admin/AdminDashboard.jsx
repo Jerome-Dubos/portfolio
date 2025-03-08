@@ -44,12 +44,10 @@ const AdminDashboard = ({ onLogout }) => {
     }
   };
   
-  // Récupérer les témoignages au chargement et chaque fois que refreshTrigger change
   useEffect(() => {
     fetchTestimonials();
   }, [refreshTrigger]);
   
-  // Fonction pour déclencher manuellement un rafraîchissement
   const handleRefresh = () => {
     setRefreshTrigger(prev => prev + 1);
   };
@@ -71,7 +69,6 @@ const AdminDashboard = ({ onLogout }) => {
         throw new Error(data.message || 'Erreur lors de l\'approbation du témoignage');
       }
       
-      // Déclencher le rafraîchissement
       setRefreshTrigger(prev => prev + 1);
       
     } catch (err) {
@@ -100,7 +97,6 @@ const AdminDashboard = ({ onLogout }) => {
         throw new Error(data.message || 'Erreur lors de la suppression du témoignage');
       }
       
-      // Déclencher le rafraîchissement
       setRefreshTrigger(prev => prev + 1);
       
     } catch (err) {

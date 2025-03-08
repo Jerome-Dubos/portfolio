@@ -3,13 +3,10 @@ const dotenv = require('dotenv');
 const Testimonial = require('./models/Testimonial');
 const connectDB = require('./config/db');
 
-// Charger les variables d'environnement
 dotenv.config();
 
-// Connecter à la base de données
 connectDB();
 
-// Témoignages existants à migrer
 const existingTestimonials = [
     {
         name: "Alice Dupont",
@@ -36,14 +33,12 @@ const existingTestimonials = [
 
 const migrateTestimonials = async () => {
     try {
-        // Vérifier si des témoignages existent déjà
         const count = await Testimonial.countDocuments();
 
         if (count > 0) {
             console.log(`${count} témoignages existent déjà dans la base de données.`);
             console.log('Voulez-vous quand même importer les témoignages existants ? (y/n)');
 
-            // Attendre l'entrée de l'utilisateur
             process.stdin.once('data', async (data) => {
                 if (data.toString().trim().toLowerCase() === 'y') {
                     await importTestimonials();
@@ -63,7 +58,6 @@ const migrateTestimonials = async () => {
 
 const importTestimonials = async () => {
     try {
-        // Insérer les témoignages
         const result = await Testimonial.insertMany(existingTestimonials);
 
         console.log(`${result.length} témoignages ont été importés avec succès.`);

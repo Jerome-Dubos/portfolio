@@ -260,8 +260,6 @@
   }
 }
 
-/* Ajouter à la fin de TestimonialsSection.css */
-
 .testimonials-wrapper.loading,
 .testimonials-wrapper.error,
 .testimonials-slider.empty .testimonials-wrapper {

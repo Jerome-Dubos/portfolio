@@ -8,7 +8,6 @@ const AdminPage = () => {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   
   useEffect(() => {
-    // Vérifier si un token existe déjà dans le localStorage
     const checkAuthentication = async () => {
       const token = localStorage.getItem('adminToken');
       
@@ -19,7 +18,6 @@ const AdminPage = () => {
       }
       
       try {
-        // Vérifier la validité du token
         const response = await fetch('http://localhost:5000/api/auth/profile', {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -29,7 +27,6 @@ const AdminPage = () => {
         if (response.ok) {
           setIsAuthenticated(true);
         } else {
-          // Token invalide, le supprimer
           localStorage.removeItem('adminToken');
           setIsAuthenticated(false);
         }

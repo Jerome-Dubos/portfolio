@@ -61,7 +61,6 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
       rating: newRating
     });
     
-    // Effacer l'erreur de rating quand l'utilisateur sélectionne une note
     setErrors(prev => ({
       ...prev,
       rating: ''
@@ -95,7 +94,6 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
     const positionValid = validateField('position', formData.position);
     const textValid = validateField('text', formData.text);
     
-    // Validation de la note
     let ratingValid = true;
     if (formData.rating === 0) {
       setErrors(prev => ({
@@ -110,7 +108,6 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
         setIsSubmitting(true);
         setApiError('');
         
-        // Envoyer les données à l'API
         const response = await fetch('http://localhost:5000/api/testimonials', {
           method: 'POST',
           headers: {
@@ -125,12 +122,10 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
           throw new Error(data.message || 'Une erreur s\'est produite');
         }
         
-        // Si onSubmit existe, l'appeler avec les données
         if (onSubmit) {
           onSubmit(formData);
         }
         
-        // Réinitialiser le formulaire
         setFormData({
           name: '',
           position: '',

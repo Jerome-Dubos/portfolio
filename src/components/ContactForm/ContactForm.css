@@ -203,7 +203,6 @@
   }
 }
 
-/* Styles pour la Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -289,7 +288,6 @@
   background-color: rgba(var(--gold-rgb), 0.1);
 }
 
-/* Mode clair */
 [data-theme="light"] .contact-form,
 [data-theme="light"] .modal {
   background: var(--bg-card);
@@ -329,7 +327,6 @@
   background-color: rgba(var(--gold-rgb), 0.05);
 }
 
-/* Animations */
 @keyframes slideUp {
   from { 
     opacity: 0; 
@@ -341,7 +338,6 @@
   }
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .contact-section {
     padding: var(--spacing-2xl) 0;

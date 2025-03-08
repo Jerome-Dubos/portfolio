@@ -20,7 +20,6 @@ const TestimonialsSection = () => {
   const autoplayRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  // Récupérer les témoignages depuis l'API
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
@@ -37,7 +36,6 @@ const TestimonialsSection = () => {
         if (data.data && data.data.length > 0) {
           setTestimonials(data.data);
         } else {
-          // Si aucun témoignage n'est retourné, utiliser un tableau vide
           setTestimonials([]);
         }
       } catch (err) {
@@ -65,7 +63,6 @@ const TestimonialsSection = () => {
     setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
   
-  // Configurer l'autoplay
   useEffect(() => {
     if (testimonials.length <= 1) return;
     
@@ -93,14 +90,10 @@ const TestimonialsSection = () => {
     }
   };
   
-  // Après la soumission d'un nouveau témoignage, rafraîchir la liste après quelques secondes
   const handleSubmitTestimonial = (testimonialData) => {
     console.log("Témoignage soumis:", testimonialData);
     
-    // Optionnel: rafraîchir la liste des témoignages approuvés après un court délai
     setTimeout(() => {
-      // Cette fonction n'est pas vraiment nécessaire car les nouveaux témoignages
-      // doivent être approuvés avant d'apparaître sur la page principale
     }, 5000);
   };
   
@@ -209,7 +202,7 @@ const TestimonialsSection = () => {
         ) : (
           <div className="testimonials-slider empty">
             <div className="testimonials-wrapper">
-              <p className="empty-text">Aucun témoignage disponible pour le moment. Soyez le premier à partager votre expérience!</p>
+              <p className="empty-text">Aucun avis disponible pour le moment. Soyez le premier à partager votre expérience!</p>
             </div>
           </div>
         )}

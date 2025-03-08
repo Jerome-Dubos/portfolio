@@ -1,21 +1,17 @@
 const jwt = require('jsonwebtoken');
 const Admin = require('../models/Admin');
 
-// Générer JWT
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };
 
-// @desc    Authentifier admin & obtenir token
-// @route   POST /api/auth/login
-// @access  Public
 const loginAdmin = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Vérifier si l'utilisateur existe
     const admin = await Admin.findOne({ username }).select('+password');
     
     if (admin && (await admin.matchPassword(password))) {
@@ -33,14 +29,10 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-// @desc    Enregistrer un nouvel admin
-// @route   POST /api/auth/register
-// @access  Private
 const registerAdmin = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Vérifier si l'utilisateur existe déjà
     const adminExists = await Admin.findOne({ username });
 
     if (adminExists) {
@@ -48,7 +40,6 @@ const registerAdmin = async (req, res) => {
       return;
     }
 
-    // Créer un nouvel admin
     const admin = await Admin.create({
       username,
       password,
@@ -69,9 +60,7 @@ const registerAdmin = async (req, res) => {
   }
 };
 
-// @desc    Obtenir le profil admin
-// @route   GET /api/auth/profile
-// @access  Private
+
 const getAdminProfile = async (req, res) => {
   try {
     const admin = await Admin.findById(req.admin._id);

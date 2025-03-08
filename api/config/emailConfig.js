@@ -1,20 +1,17 @@
 const nodemailer = require('nodemailer');
 
-// Configuration du transporteur d'email
 const transporter = nodemailer.createTransport({
     service: 'gmail', 
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
-    // Configuration de sécurité supplémentaire
     secure: true,
     port: 465,
     logger: true,
     debug: true
 });
 
-// Fonction pour envoyer un email de notification de témoignage
 const sendNotificationEmail = async (testimonial) => {
     try {
         const mailOptions = {
@@ -50,7 +47,6 @@ const sendNotificationEmail = async (testimonial) => {
     }
 };
 
-// Tester la connexion
 transporter.verify((error, success) => {
     if (error) {
         console.error('Erreur de configuration du transporteur email:', error);

@@ -45,10 +45,8 @@ const AdminLogin = ({ onLogin }) => {
         throw new Error(data.message || 'Échec de la connexion');
       }
       
-      // Stocker le token dans le localStorage
       localStorage.setItem('adminToken', data.token);
       
-      // Appeler la fonction de connexion réussie
       onLogin();
       
     } catch (err) {

@@ -1,39 +1,32 @@
 const nodemailer = require('nodemailer');
 
-// Assurez-vous que le transporteur est correctement exporté
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
-    // Debug SMTP
     logger: true,
     debug: true  
 });
 
-// Validation des données de contact
 const validateContactForm = (data) => {
   console.log('Données reçues pour validation:', data);
   const errors = {};
 
-  // Validation du nom
   if (!data.name || data.name.trim().length < 2 || data.name.trim().length > 40) {
     errors.name = "Le nom doit contenir entre 2 et 40 caractères";
   }
 
-  // Validation de l'email
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   if (!data.email || !emailRegex.test(data.email)) {
     errors.email = "Adresse email invalide";
   }
 
-  // Validation du message
   if (!data.message || data.message.trim().length < 10 || data.message.trim().length > 500) {
     errors.message = "Le message doit contenir entre 10 et 500 caractères";
   }
 
-  // Validation optionnelle du téléphone si présent
   if (data.phone) {
     const phoneRegex = /^(\+33|0)[1-9](\d{2}){4}$/;
     if (!phoneRegex.test(data.phone)) {
@@ -47,7 +40,6 @@ const validateContactForm = (data) => {
   };
 };
 
-// Fonction de test de connexion SMTP
 const testSmtpConnection = async () => {
   try {
     await transporter.verify();
@@ -59,15 +51,11 @@ const testSmtpConnection = async () => {
   }
 };
 
-// @desc    Envoyer un email de contact
-// @route   POST /api/contact
-// @access  Public
 const sendContactEmail = async (req, res) => {
   try {
     console.log('--------- DEBUT TRAITEMENT CONTACT ---------');
     console.log('Corps de la requête reçue:', req.body);
 
-    // Test de connexion SMTP avant traitement
     const smtpConnected = await testSmtpConnection();
     if (!smtpConnected) {
       return res.status(500).json({ 
@@ -76,7 +64,6 @@ const sendContactEmail = async (req, res) => {
       });
     }
 
-    // Validation des données
     const validation = validateContactForm(req.body);
     if (!validation.isValid) {
       console.log('Erreurs de validation:', validation.errors);
@@ -88,7 +75,6 @@ const sendContactEmail = async (req, res) => {
 
     const { name, email, phone, message } = req.body;
 
-    // Vérification des variables d'environnement
     if (!process.env.EMAIL_USER) {
       console.error('EMAIL_USER non défini');
       return res.status(500).json({ 
@@ -118,7 +104,6 @@ const sendContactEmail = async (req, res) => {
       `
     };
 
-    // Envoi de l'email avec gestion des erreurs détaillée
     try {
       console.log('Tentative d\'envoi d\'email...');
       const info = await transporter.sendMail(mailOptions);
@@ -150,7 +135,7 @@ const sendContactEmail = async (req, res) => {
   }
 };
 
-// Test de connexion lors du démarrage
+
 testSmtpConnection();
 
 module.exports = { sendContactEmail };

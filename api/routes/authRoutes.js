@@ -5,7 +5,7 @@ const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 router.post('/login', loginAdmin);
-router.post('/register', protect, registerAdmin); // Protégé - seul un admin peut créer un autre admin
+router.post('/register', protect, registerAdmin);
 router.get('/profile', protect, getAdminProfile);
 
 module.exports = router;
