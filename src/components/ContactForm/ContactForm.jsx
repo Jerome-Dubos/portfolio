@@ -188,7 +188,7 @@ const ContactForm = () => {
       />
 
       <div className="container">
-        <h2 className="contact-title">Contactez-nous</h2>
+        <h2 className="contact-title">Contactez-moi !</h2>
         <div className="form-legend">
           <span className="required">*</span> <span className="legend-text">Champs obligatoires</span>
         </div>
