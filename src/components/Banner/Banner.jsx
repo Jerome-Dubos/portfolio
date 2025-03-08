@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import handleContactClick from '../../utils/handleContactClick'; // Import centralisé
+import handleContactClick from '../../utils/handleContactClick'; 
 import HeroWave from '../DecorativeElements/HeroWave';
 import { FaArrowRight, FaArrowDown } from 'react-icons/fa';
 import './Banner.css';
@@ -11,7 +11,6 @@ const Banner = () => {
   const location = useLocation();
   const [typewriter, setTypewriter] = useState({ text: '', index: 0 });
 
-  // Effet d'écriture Typewriter
   useEffect(() => {
     if (typewriter.index < "Web Developer".length) {
       const timeout = setTimeout(() => {
@@ -24,19 +23,18 @@ const Banner = () => {
     }
   }, [typewriter]);
 
-  //Animations
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
   };
 
-  // Défilement vers la section suivante
   const scrollToNextSection = () => {
     const nextSection = document.querySelector('.banner').nextElementSibling;
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+  
   const getScrollIndicatorDelay = () => {
     return 1.2;
   };
@@ -149,7 +147,11 @@ const Banner = () => {
         <span>En savoir plus</span>
       </motion.div>
 
-      <HeroWave className="banner-wave" />
+      <HeroWave 
+        className="banner-wave" 
+        tiltAngle={-8} 
+        animated={true} 
+      />
     </section>
   );
 };
