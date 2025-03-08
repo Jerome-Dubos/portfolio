@@ -1,4 +1,3 @@
-/* Tech Stack Styles */
 .tech-section {
   position: relative;
   padding: var(--spacing-3xl) 0;
@@ -30,7 +29,7 @@
   cursor: pointer;
   padding: var(--spacing-md);
   border-radius: var(--radius-lg);
-  position: relative; /* Ajout pour que le pseudo-élément ::before fonctionne correctement */
+  position: relative;
 }
 
 .tech-logo img {
@@ -60,7 +59,6 @@
   color: var(--gold);
 }
 
-/* Effet de glow subtil */
 .tech-logo::before {
   content: '';
   position: absolute;
@@ -84,7 +82,6 @@
   opacity: 0.5;
 }
 
-/* Média queries pour la responsivité */
 @media (max-width: 1024px) {
   .tech-logos {
     gap: var(--spacing-xl);
