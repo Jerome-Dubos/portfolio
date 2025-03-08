@@ -45,7 +45,6 @@ const ProjectsFilter = ({ activeFilter, setActiveFilter, searchTerm, setSearchTe
         ))}
       </div>
       
-      {/* Barre de recherche */}
       <div className="search-container">
         <div className="search-input-group">
           <FaSearch className="search-icon" />
