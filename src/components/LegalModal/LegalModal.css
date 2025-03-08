@@ -4,8 +4,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Réduction de l'opacité */
-    backdrop-filter: blur(10px); /* Effet verre */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,8 +13,8 @@
   }
   
   .legal-modal {
-    background: rgba(20, 20, 20, 0.6); /* Transparence ajustée */
-    backdrop-filter: blur(20px); /* Effet verre plus marqué */
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(20px);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     padding: var(--spacing-xl);

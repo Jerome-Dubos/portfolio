@@ -26,11 +26,11 @@ const LegalModal = () => {
             <h2 className="legal-title">Mentions légales</h2>
             <div className="legal-content">
               <p><strong>Éditeur du site :</strong> Dubos Web Services</p>
-              <p><strong>Responsable de publication :</strong> [Ton Nom]</p>
-              <p><strong>Adresse :</strong> [Ton adresse ou mention "Adresse sur demande"]</p>
+              <p><strong>Responsable de publication :</strong> Jérôme Dubos</p>
+              <p><strong>Adresse :</strong> Adresse sur demande</p>
               <p><strong>Email :</strong> contact@duboswebservices.com</p>
-              <p><strong>Numéro SIRET :</strong> [Ton SIRET une fois enregistré]</p>
-              <p><strong>Hébergeur :</strong> [Nom de l'hébergeur, ex : Vercel, Netlify, OVH...]</p>
+              <p><strong>Numéro SIRET :</strong> 94064933800016</p>
+              <p><strong>Hébergeur :</strong> Vercel</p>
               <p>
                 Conformément à l'article 6 de la loi LCEN, ces mentions légales
                 précisent l'identité de l'éditeur et les modalités d'hébergement.
