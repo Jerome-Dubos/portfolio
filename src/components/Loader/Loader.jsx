@@ -1,30 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import './Loader.css';
 
 const Loader = ({ fullScreen = true }) => {
   return (
-    <div 
-      className="loader-container" 
-      style={{
-        position: fullScreen ? 'fixed' : 'relative',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: fullScreen ? '100vh' : '300px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'var(--bg-body)',
-        zIndex: 9999,
-        overflow: 'hidden'
-      }}
-    >
+    <div className={`loader-container ${!fullScreen ? 'relative' : ''}`}>
       <motion.div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1rem'
-        }}
+        className="loader-dots"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ 
           opacity: [0.5, 1, 0.5],
@@ -37,20 +19,13 @@ const Loader = ({ fullScreen = true }) => {
         }}
       >
         {[
-          { color: 'var(--gold)', delay: 0 },
-          { color: 'var(--gold-soft)', delay: 0.2 },
-          { color: 'var(--gold-light)', delay: 0.4 }
+          { className: 'loader-dot-1', delay: 0 },
+          { className: 'loader-dot-2', delay: 0.2 },
+          { className: 'loader-dot-3', delay: 0.4 }
         ].map((dot, index) => (
           <motion.div 
             key={index}
-            style={{
-              width: '20px',
-              height: '20px',
-              borderRadius: '50%',
-              backgroundColor: dot.color,
-              boxShadow: 'var(--glow-gold-soft)',
-              opacity: 0.8
-            }}
+            className={`loader-dot ${dot.className}`}
             animate={{
               scale: [1, 1.2, 1],
               opacity: [0.8, 1, 0.8]
@@ -65,21 +40,8 @@ const Loader = ({ fullScreen = true }) => {
         ))}
       </motion.div>
       
-      {/* Effet de fond subtil */}
       <motion.div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          width: '200px',
-          height: '200px',
-          background: 'radial-gradient(circle, rgba(var(--gold-rgb), 0.1), transparent 70%)',
-          borderRadius: '50%',
-          transform: 'translate(-50%, -50%)',
-          opacity: 0.3,
-          filter: 'blur(50px)',
-          zIndex: -1
-        }}
+        className="loader-background"
         animate={{
           scale: [1, 1.2, 1],
           rotate: [0, 360, 0]
