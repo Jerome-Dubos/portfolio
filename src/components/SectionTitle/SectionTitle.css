@@ -1,4 +1,3 @@
-/* Section Title Styles */
 .section-title {
   margin-bottom: var(--spacing-2xl);
   position: relative;
@@ -49,7 +48,6 @@
   text-align: center;
 }
 
-/* Média queries pour la responsivité */
 @media (max-width: 768px) {
   .section-title {
     margin-bottom: var(--spacing-xl);
