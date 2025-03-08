@@ -8,6 +8,7 @@ import Projects from './pages/Projects/Projects';
 import Services from './pages/Services/Services';
 import About from './pages/About/About';
 import Error from './components/Error/Error';
+import AdminPage from './admin/AdminPage'; // Importez la page d'administration
 
 const router = createBrowserRouter([
   {
@@ -33,8 +34,13 @@ const router = createBrowserRouter([
       }
     ],
   },
+  // Ajoutez une route séparée pour l'administration (sans le NavBar et Footer)
+  {
+    path: '/admin',
+    element: <AdminPage />,
+    errorElement: <Error />,
+  },
 ], {
-  // Ajout d'options pour améliorer le comportement de navigation
   basename: '/',
 });
 

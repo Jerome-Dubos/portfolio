@@ -1,0 +1,368 @@
+/* Styles généraux pour l'administration */
+.admin-page {
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .admin-loading-auth,
+  .admin-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  /* Styles pour la page de connexion */
+  .admin-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .admin-login-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .admin-login-card h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .admin-login-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+  }
+  
+  .admin-form-group {
+    margin-bottom: 20px;
+  }
+  
+  .admin-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .admin-form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  .admin-form-group input:focus {
+    outline: none;
+    border-color: #3498db;
+  }
+  
+  /* Styles pour le Dashboard */
+  .admin-dashboard {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-header h2 {
+    color: #2c3e50;
+    margin: 0;
+  }
+  
+  .admin-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-tab {
+    background: none;
+    border: none;
+    padding: 15px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #7f8c8d;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    flex: 1;
+    text-align: center;
+  }
+  
+  .admin-tab:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .admin-tab.active {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .admin-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-content h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .admin-empty-message {
+    color: #7f8c8d;
+    text-align: center;
+    padding: 30px;
+    font-style: italic;
+  }
+  
+  .admin-testimonials-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .admin-testimonial-card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #e74c3c;
+  }
+  
+  .admin-testimonial-card.approved {
+    border-left: 4px solid #2ecc71;
+  }
+  
+  .admin-testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .admin-testimonial-info h4 {
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+  }
+  
+  .admin-testimonial-info p {
+    color: #7f8c8d;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  
+  .admin-testimonial-rating {
+    color: #f1c40f;
+    font-size: 1rem;
+  }
+  
+  .admin-testimonial-rating .star {
+    color: rgba(0, 0, 0, 0.2);
+    margin-left: 3px;
+  }
+  
+  .admin-testimonial-rating .star.active {
+    color: #f1c40f;
+  }
+  
+  .admin-testimonial-content {
+    color: #34495e;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .admin-testimonial-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+  }
+  
+  .admin-testimonial-date {
+    color: #95a5a6;
+    font-size: 0.85rem;
+  }
+  
+  .admin-testimonial-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Boutons */
+  .admin-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .admin-btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  .admin-btn:active {
+    transform: translateY(0);
+  }
+  
+  .admin-btn-primary {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .admin-btn-primary:hover {
+    background-color: #2980b9;
+  }
+  
+  .admin-btn-approve {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .admin-btn-approve:hover {
+    background-color: #27ae60;
+  }
+  
+  .admin-btn-delete {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .admin-btn-delete:hover {
+    background-color: #c0392b;
+  }
+  
+  .admin-btn-logout {
+    background-color: #e74c3c;
+    color: #fff;
+  }
+  
+  .admin-btn-logout:hover {
+    background-color: #c0392b;
+  }
+  
+  .admin-btn:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  /* Messages d'erreur */
+  .admin-error {
+    background-color: #fdecea;
+    color: #e74c3c;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .admin-error svg {
+    font-size: 1.2rem;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .admin-dashboard {
+      padding: 15px;
+    }
+    
+    .admin-header {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+    
+    .admin-tabs {
+      flex-direction: column;
+    }
+    
+    .admin-content {
+      padding: 20px;
+    }
+    
+    .admin-testimonial-footer {
+      flex-direction: column;
+      gap: 15px;
+      align-items: flex-start;
+    }
+    
+    .admin-testimonial-actions {
+      width: 100%;
+    }
+    
+    .admin-btn-approve,
+    .admin-btn-delete {
+      flex: 1;
+      justify-content: center;
+    }
+  }
+
+  /* Animation pour l'icône de rafraîchissement */
+.icon-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.admin-header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-btn-refresh {
+  background-color: #3498db;
+  color: white;
+}
+
+.admin-btn-refresh:hover {
+  background-color: #2980b9;
+}
+

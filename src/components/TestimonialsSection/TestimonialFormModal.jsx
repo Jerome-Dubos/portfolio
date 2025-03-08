@@ -85,7 +85,10 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
     return !errorMsg;
   };
   
-  const handleSubmit = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState('');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const nameValid = validateField('name', formData.name);
@@ -103,20 +106,48 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
     }
     
     if (nameValid && positionValid && textValid && ratingValid) {
-      onSubmit(formData);
-      
-      setFormData({
-        name: '',
-        position: '',
-        rating: 0,
-        text: ''
-      });
-      
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
-        onClose();
-      }, 3000);
+      try {
+        setIsSubmitting(true);
+        setApiError('');
+        
+        // Envoyer les données à l'API
+        const response = await fetch('http://localhost:5000/api/testimonials', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.message || 'Une erreur s\'est produite');
+        }
+        
+        // Si onSubmit existe, l'appeler avec les données
+        if (onSubmit) {
+          onSubmit(formData);
+        }
+        
+        // Réinitialiser le formulaire
+        setFormData({
+          name: '',
+          position: '',
+          rating: 0,
+          text: ''
+        });
+        
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          onClose();
+        }, 3000);
+      } catch (error) {
+        setApiError(error.message);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -251,8 +282,19 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
                   </div>
                 </div>
                 
+                {apiError && (
+                  <div className="form-group">
+                    <ErrorMessage message={apiError} />
+                  </div>
+                )}
+                
                 <div className="form-actions">
-                  <button type="button" className="btn btn-secondary" onClick={onClose}>
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary" 
+                    onClick={onClose}
+                    disabled={isSubmitting}
+                  >
                     Annuler
                   </button>
                   <motion.button 
@@ -260,8 +302,15 @@ const TestimonialFormModal = ({ isOpen, onClose, onSubmit }) => {
                     className="btn btn-primary btn-cta btn-glow-hover"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
+                    disabled={isSubmitting}
                   >
-                    <FaPaperPlane className="btn-icon" /> Envoyer
+                    {isSubmitting ? (
+                      'Envoi en cours...'
+                    ) : (
+                      <>
+                        <FaPaperPlane className="btn-icon" /> Envoyer
+                      </>
+                    )}
                   </motion.button>
                 </div>
               </form>

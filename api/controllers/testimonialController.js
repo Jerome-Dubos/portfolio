@@ -1,4 +1,5 @@
 const Testimonial = require('../models/Testimonial');
+const { sendNotificationEmail } = require('../config/emailConfig');
 
 // @desc    Créer un nouveau témoignage
 // @route   POST /api/testimonials
@@ -19,6 +20,17 @@ const createTestimonial = async (req, res) => {
       text,
       isApproved: false
     });
+
+    // Envoyer une notification par email
+    sendNotificationEmail(testimonial)
+      .then(success => {
+        if (!success) {
+          console.log('L\'email de notification n\'a pas pu être envoyé, mais le témoignage a été créé');
+        }
+      })
+      .catch(err => {
+        console.error('Erreur d\'envoi d\'email:', err);
+      });
 
     res.status(201).json({
       success: true,
@@ -108,7 +120,8 @@ const deleteTestimonial = async (req, res) => {
       return;
     }
     
-    await testimonial.remove();
+    // Utiliser deleteOne() au lieu de remove()
+    await Testimonial.deleteOne({ _id: req.params.id });
     
     res.status(200).json({
       success: true,
