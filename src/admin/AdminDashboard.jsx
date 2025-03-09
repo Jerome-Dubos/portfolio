@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaCheck, FaTimes, FaSignOutAlt, FaExclamationCircle, FaStar, FaSync } from 'react-icons/fa';
+import ProjectsAdminPanel from './ProjectsAdminPanel';
 import './AdminStyles.css';
 
 const AdminDashboard = ({ onLogout }) => {
@@ -7,6 +8,7 @@ const AdminDashboard = ({ onLogout }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('pending');
+  const [mainSection, setMainSection] = useState('testimonials');
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
   
@@ -134,7 +136,23 @@ const AdminDashboard = ({ onLogout }) => {
   return (
     <div className="admin-dashboard">
       <div className="admin-header">
-        <h2>Gestion des témoignages</h2>
+        <div className="admin-header-title">
+          <h2>Administration</h2>
+        </div>
+        <div className="admin-main-nav">
+          <button 
+            className={`admin-nav-btn ${mainSection === 'testimonials' ? 'active' : ''}`}
+            onClick={() => setMainSection('testimonials')}
+          >
+            Témoignages
+          </button>
+          <button 
+            className={`admin-nav-btn ${mainSection === 'projects' ? 'active' : ''}`}
+            onClick={() => setMainSection('projects')}
+          >
+            Projets
+          </button>
+        </div>
         <div className="admin-header-actions">
           <button 
             className="admin-btn admin-btn-refresh" 
@@ -158,128 +176,136 @@ const AdminDashboard = ({ onLogout }) => {
         </div>
       )}
       
-      <div className="admin-tabs">
-        <button 
-          className={`admin-tab ${activeTab === 'pending' ? 'active' : ''}`}
-          onClick={() => setActiveTab('pending')}
-        >
-          En attente ({pendingTestimonials.length})
-        </button>
-        <button 
-          className={`admin-tab ${activeTab === 'approved' ? 'active' : ''}`}
-          onClick={() => setActiveTab('approved')}
-        >
-          Approuvés ({approvedTestimonials.length})
-        </button>
-      </div>
+      {mainSection === 'testimonials' && (
+        <>
+          <div className="admin-tabs">
+            <button 
+              className={`admin-tab ${activeTab === 'pending' ? 'active' : ''}`}
+              onClick={() => setActiveTab('pending')}
+            >
+              En attente ({pendingTestimonials.length})
+            </button>
+            <button 
+              className={`admin-tab ${activeTab === 'approved' ? 'active' : ''}`}
+              onClick={() => setActiveTab('approved')}
+            >
+              Approuvés ({approvedTestimonials.length})
+            </button>
+          </div>
+          
+          <div className="admin-content">
+            {activeTab === 'pending' && (
+              <>
+                <h3>Témoignages en attente d'approbation</h3>
+                
+                {pendingTestimonials.length === 0 ? (
+                  <p className="admin-empty-message">Aucun témoignage en attente d'approbation.</p>
+                ) : (
+                  <div className="admin-testimonials-list">
+                    {pendingTestimonials.map(testimonial => (
+                      <div key={testimonial._id} className="admin-testimonial-card">
+                        <div className="admin-testimonial-header">
+                          <div className="admin-testimonial-info">
+                            <h4>{testimonial.name}</h4>
+                            <p>{testimonial.position}</p>
+                          </div>
+                          <div className="admin-testimonial-rating">
+                            {[...Array(5)].map((_, index) => (
+                              <FaStar 
+                                key={index}
+                                className={index < testimonial.rating ? 'star active' : 'star'}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="admin-testimonial-content">
+                          <p>{testimonial.text}</p>
+                        </div>
+                        
+                        <div className="admin-testimonial-footer">
+                          <span className="admin-testimonial-date">
+                            Soumis le {formatDate(testimonial.createdAt)}
+                          </span>
+                          
+                          <div className="admin-testimonial-actions">
+                            <button 
+                              className="admin-btn admin-btn-approve"
+                              onClick={() => handleApprove(testimonial._id)}
+                            >
+                              <FaCheck /> Approuver
+                            </button>
+                            <button 
+                              className="admin-btn admin-btn-delete"
+                              onClick={() => handleDelete(testimonial._id)}
+                            >
+                              <FaTimes /> Supprimer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+            
+            {activeTab === 'approved' && (
+              <>
+                <h3>Témoignages approuvés</h3>
+                
+                {approvedTestimonials.length === 0 ? (
+                  <p className="admin-empty-message">Aucun témoignage approuvé.</p>
+                ) : (
+                  <div className="admin-testimonials-list">
+                    {approvedTestimonials.map(testimonial => (
+                      <div key={testimonial._id} className="admin-testimonial-card approved">
+                        <div className="admin-testimonial-header">
+                          <div className="admin-testimonial-info">
+                            <h4>{testimonial.name}</h4>
+                            <p>{testimonial.position}</p>
+                          </div>
+                          <div className="admin-testimonial-rating">
+                            {[...Array(5)].map((_, index) => (
+                              <FaStar 
+                                key={index}
+                                className={index < testimonial.rating ? 'star active' : 'star'}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="admin-testimonial-content">
+                          <p>{testimonial.text}</p>
+                        </div>
+                        
+                        <div className="admin-testimonial-footer">
+                          <span className="admin-testimonial-date">
+                            Approuvé le {formatDate(testimonial.updatedAt)}
+                          </span>
+                          
+                          <div className="admin-testimonial-actions">
+                            <button 
+                              className="admin-btn admin-btn-delete"
+                              onClick={() => handleDelete(testimonial._id)}
+                            >
+                              <FaTimes /> Supprimer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </>
+      )}
       
-      <div className="admin-content">
-        {activeTab === 'pending' && (
-          <>
-            <h3>Témoignages en attente d'approbation</h3>
-            
-            {pendingTestimonials.length === 0 ? (
-              <p className="admin-empty-message">Aucun témoignage en attente d'approbation.</p>
-            ) : (
-              <div className="admin-testimonials-list">
-                {pendingTestimonials.map(testimonial => (
-                  <div key={testimonial._id} className="admin-testimonial-card">
-                    <div className="admin-testimonial-header">
-                      <div className="admin-testimonial-info">
-                        <h4>{testimonial.name}</h4>
-                        <p>{testimonial.position}</p>
-                      </div>
-                      <div className="admin-testimonial-rating">
-                        {[...Array(5)].map((_, index) => (
-                          <FaStar 
-                            key={index}
-                            className={index < testimonial.rating ? 'star active' : 'star'}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="admin-testimonial-content">
-                      <p>{testimonial.text}</p>
-                    </div>
-                    
-                    <div className="admin-testimonial-footer">
-                      <span className="admin-testimonial-date">
-                        Soumis le {formatDate(testimonial.createdAt)}
-                      </span>
-                      
-                      <div className="admin-testimonial-actions">
-                        <button 
-                          className="admin-btn admin-btn-approve"
-                          onClick={() => handleApprove(testimonial._id)}
-                        >
-                          <FaCheck /> Approuver
-                        </button>
-                        <button 
-                          className="admin-btn admin-btn-delete"
-                          onClick={() => handleDelete(testimonial._id)}
-                        >
-                          <FaTimes /> Supprimer
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-        
-        {activeTab === 'approved' && (
-          <>
-            <h3>Témoignages approuvés</h3>
-            
-            {approvedTestimonials.length === 0 ? (
-              <p className="admin-empty-message">Aucun témoignage approuvé.</p>
-            ) : (
-              <div className="admin-testimonials-list">
-                {approvedTestimonials.map(testimonial => (
-                  <div key={testimonial._id} className="admin-testimonial-card approved">
-                    <div className="admin-testimonial-header">
-                      <div className="admin-testimonial-info">
-                        <h4>{testimonial.name}</h4>
-                        <p>{testimonial.position}</p>
-                      </div>
-                      <div className="admin-testimonial-rating">
-                        {[...Array(5)].map((_, index) => (
-                          <FaStar 
-                            key={index}
-                            className={index < testimonial.rating ? 'star active' : 'star'}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="admin-testimonial-content">
-                      <p>{testimonial.text}</p>
-                    </div>
-                    
-                    <div className="admin-testimonial-footer">
-                      <span className="admin-testimonial-date">
-                        Approuvé le {formatDate(testimonial.updatedAt)}
-                      </span>
-                      
-                      <div className="admin-testimonial-actions">
-                        <button 
-                          className="admin-btn admin-btn-delete"
-                          onClick={() => handleDelete(testimonial._id)}
-                        >
-                          <FaTimes /> Supprimer
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      {mainSection === 'projects' && (
+        <ProjectsAdminPanel />
+      )}
     </div>
   );
 };

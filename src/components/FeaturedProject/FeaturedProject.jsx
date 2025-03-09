@@ -7,27 +7,61 @@ import "./FeaturedProject.css";
 
 const FeaturedProject = () => {
   const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/data/projects.json")
-      .then((response) => response.json())
-      .then((data) => {
-        const latestProject = data.reduce((latest, current) => {
-          const [latestMonth, latestYear] = latest.year.split("/").map(Number);
-          const [currentMonth, currentYear] = current.year.split("/").map(Number);
+    const fetchFeaturedProject = async () => {
+      try {
+        setLoading(true);
+        
+        const response = await fetch("http://localhost:5000/api/projects");
+        
+        if (!response.ok) {
+          throw new Error("Erreur lors du chargement des projets");
+        }
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+          throw new Error(result.message || "Erreur lors de la récupération des projets");
+        }
+        
+        const featuredProjects = result.data.filter(project => project.featured);
+        
+        if (featuredProjects.length === 0) {
+          const sortedProjects = [...result.data].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setProject(sortedProjects[0]);
+        } else {
+          const sortedFeatured = [...featuredProjects].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setProject(sortedFeatured[0]);
+        }
+      } catch (err) {
+        console.error("Erreur lors du chargement du projet:", err);
+        setError(err.message);
+        
+        try {
+          const response = await fetch("/data/projects.json");
+          const data = await response.json();
+          const featuredProject = data.find(p => p.featured) || data[0];
+          setProject(featuredProject);
+        } catch (backupErr) {
+          console.error("Erreur lors du chargement du backup:", backupErr);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-          const latestDate = new Date(latestYear, latestMonth - 1);
-          const currentDate = new Date(currentYear, currentMonth - 1);
-
-          return currentDate > latestDate ? current : latest;
-        });
-
-        setProject(latestProject);
-      })
-      .catch((error) => console.error("Erreur lors du chargement du projet:", error));
+    fetchFeaturedProject();
   }, []);
 
+  if (loading) return null;
+  if (error && !project) return null;
   if (!project) return null;
+
+  const projectGithub = project.githubLink || project.github || '';
+  const projectDemo = project.demoLink || project.demo || '';
 
   return (
     <section className="featured-project">
@@ -52,17 +86,19 @@ const FeaturedProject = () => {
             <p>{project.description}</p>
             
             <div className="featured-tags">
-              {project.tags.map((tech, index) => (
+              {project.tags && project.tags.map((tech, index) => (
                 <span key={index} className="tag">{tech}</span>
               ))}
             </div>
             
             <div className="project-links">
-              <Link to={project.demo} className="btn btn-primary btn-cta" target="_blank" rel="noopener noreferrer">
-                Voir le site <FaArrowRight className="btn-icon" />
-              </Link>
-              {project.github && (
-                <Link to={project.github} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+              {projectDemo && (
+                <Link to={projectDemo} className="btn btn-primary btn-cta" target="_blank" rel="noopener noreferrer">
+                  Voir le site <FaArrowRight className="btn-icon" />
+                </Link>
+              )}
+              {projectGithub && (
+                <Link to={projectGithub} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                   Code source
                 </Link>
               )}

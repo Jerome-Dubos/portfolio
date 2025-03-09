@@ -6,6 +6,10 @@ import './ProjectCard.css';
 const ProjectCard = ({ project, featured = false, delay = 0 }) => {
   if (!project) return null;
   
+  const projectGithub = project.githubLink || project.github || '';
+  const projectDemo = project.demoLink || project.demo || '';
+  const projectYear = project.year || (project.createdAt ? new Date(project.createdAt).toLocaleDateString('fr-FR', { month: '2-digit', year: 'numeric' }).replace('/', '/') : '');
+  
   return (
     <motion.div
       className={`project-card ${featured ? 'featured-project-card' : ''}`}
@@ -18,9 +22,9 @@ const ProjectCard = ({ project, featured = false, delay = 0 }) => {
         <img src={project.image} alt={project.title} loading="lazy" />
         <div className="project-overlay">
           <div className="project-actions">
-            {project.github && (
+            {projectGithub && (
               <a 
-                href={project.github} 
+                href={projectGithub} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="project-link"
@@ -29,9 +33,9 @@ const ProjectCard = ({ project, featured = false, delay = 0 }) => {
                 <FaGithub />
               </a>
             )}
-            {project.demo && (
+            {projectDemo && (
               <a 
-                href={project.demo} 
+                href={projectDemo} 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="project-link"
@@ -56,7 +60,7 @@ const ProjectCard = ({ project, featured = false, delay = 0 }) => {
           </div>
           
           <div className="project-info">
-            {project.year && <span className="project-year">{project.year}</span>}
+            {projectYear && <span className="project-year">{projectYear}</span>}
             {project.durationHours && (
               <span className="project-duration">
                 <FaRegCalendarAlt /> {project.durationHours}h

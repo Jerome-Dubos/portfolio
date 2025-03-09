@@ -9,7 +9,6 @@ import { CircleShape } from '../../components/DecorativeElements/DecorativeShape
 import { ProjectsCacheManager } from '../../utils/ProjectsCacheManager';
 import './Projects.css';
 
-// Normalisation
 const normalizeName = (name, preserveCase = false) => 
   name ? (preserveCase ? name.trim().replace(/\s+/g, ' ') : name.toLowerCase().trim().replace(/\s+/g, ' ')) : '';
 
@@ -20,42 +19,78 @@ const Projects = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshKey, setRefreshKey] = useState(0); 
 
-  const fetchProjects = useCallback(async () => {
+  const handleRefresh = () => {
+    ProjectsCacheManager.clearCache();
+    setRefreshKey(prev => prev + 1);
+  };
+
+  const fetchProjects = useCallback(async (forceRefresh = false) => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const cachedProjects = ProjectsCacheManager.getCachedProjects();
-
-      if (cachedProjects) {
-        processProjects(cachedProjects);
-        return;
+      if (!forceRefresh) {
+        const cachedProjects = ProjectsCacheManager.getCachedProjects();
+        const cacheExpiry = ProjectsCacheManager.getCacheExpiry();
+        
+        const now = new Date().getTime();
+        if (cachedProjects && cacheExpiry && now < cacheExpiry) {
+          console.log("Utilisation des données en cache");
+          processProjects(cachedProjects);
+          return;
+        }
+      } else {
+        console.log("Rechargement forcé des projets");
       }
-      const response = await fetch('/data/projects.json');
+      
+      console.log("Chargement des projets depuis l'API");
+      const response = await fetch('http://localhost:5000/api/projects');
       if (!response.ok) {
         throw new Error(`Erreur de chargement : ${response.status}`);
       }
 
-      const data = await response.json();
+      const result = await response.json();
       
-      const validProjects = data.filter(project => 
-        project.id && 
-        project.title && 
-        project.category && 
-        project.description
-      ).map(project => ({
+      if (!result.success) {
+        throw new Error(result.message || 'Erreur lors de la récupération des projets');
+      }
+      
+      console.log("Projets chargés depuis l'API:", result.data);
+      const data = result.data;
+      
+      const validProjects = data.map(project => ({
         ...project,
+        id: project._id,
         normalizedCategory: normalizeName(project.category, true),
         originalCategory: project.category
       }));
 
-      ProjectsCacheManager.saveProjects(validProjects);
+      const cacheExpiry = new Date().getTime() + 2 * 60 * 1000;
+      ProjectsCacheManager.saveProjects(validProjects, cacheExpiry);
       processProjects(validProjects);
 
     } catch (err) {
       console.error('Erreur de chargement des projets :', err);
       setError('Impossible de charger les projets. Veuillez réessayer.');
+      
+      try {
+        const response = await fetch('/data/projects.json');
+        const data = await response.json();
+        
+        console.log("Chargement de secours depuis JSON:", data);
+        
+        const validProjects = data.map(project => ({
+          ...project,
+          normalizedCategory: normalizeName(project.category, true),
+          originalCategory: project.category
+        }));
+        
+        processProjects(validProjects);
+      } catch (backupErr) {
+        console.error('Échec du chargement de secours:', backupErr);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +98,7 @@ const Projects = () => {
 
   const processProjects = (loadedProjects) => {
     const uniqueCategories = ['all', ...new Set(
-      loadedProjects.map(p => p.originalCategory)
+      loadedProjects.map(p => p.originalCategory || p.category)
     )];
 
     setProjects(loadedProjects);
@@ -71,7 +106,19 @@ const Projects = () => {
   };
 
   useEffect(() => {
-    fetchProjects();
+    fetchProjects(refreshKey > 0);
+  }, [fetchProjects, refreshKey]);
+
+  useEffect(() => {
+    const checkForUpdates = () => {
+      if (ProjectsCacheManager.isCacheExpired()) {
+        fetchProjects(true);
+      }
+    };
+    
+    const intervalId = setInterval(checkForUpdates, 30000);
+    
+    return () => clearInterval(intervalId);
   }, [fetchProjects]);
 
   const filteredProjects = useMemo(() => {
@@ -79,7 +126,7 @@ const Projects = () => {
 
     if (activeFilter !== 'all') {
       results = results.filter(project => 
-        normalizeName(project.normalizedCategory) === normalizeName(activeFilter)
+        normalizeName(project.normalizedCategory || project.category) === normalizeName(activeFilter)
       );
     }
 
@@ -104,7 +151,7 @@ const Projects = () => {
     return <Loader />;
   }
 
-  if (error) {
+  if (error && projects.length === 0) {
     return (
       <div className="projects-page error-container">
         <motion.p 
@@ -115,7 +162,7 @@ const Projects = () => {
           {error}
         </motion.p>
         <motion.button 
-          onClick={fetchProjects}
+          onClick={handleRefresh}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="btn btn-primary"
@@ -137,7 +184,18 @@ const Projects = () => {
         opacity={0.05} 
       />
       
-      {/* Filtres */}
+      <div className="refresh-container">
+        <motion.button 
+          className="refresh-button"
+          onClick={handleRefresh}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          title="Rafraîchir les projets"
+        >
+          Rafraîchir
+        </motion.button>
+      </div>
+      
       <section className="projects-showcase">
         <div className="container">
           <ProjectsFilter 
@@ -148,7 +206,6 @@ const Projects = () => {
             setSearchTerm={setSearchTerm}
           />
           
-          {/* Projets mis en avant */}
           {activeFilter === 'all' && !searchTerm && (
             <motion.div 
               className="featured-projects"
@@ -167,7 +224,7 @@ const Projects = () => {
                   .filter(project => project.featured)
                   .map((project, index) => (
                     <ProjectCard 
-                      key={project.id}
+                      key={project.id || project._id}
                       project={project}
                       featured={true}
                       delay={index * 0.1}
@@ -214,7 +271,7 @@ const Projects = () => {
               >
                 {filteredProjects.map((project, index) => (
                   <ProjectCard 
-                    key={project.id}
+                    key={project.id || project._id}
                     project={project}
                     delay={index * 0.1}
                   />

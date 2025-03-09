@@ -10,6 +10,7 @@ connectDB();
 const testimonialRoutes = require('./routes/testimonialRoutes');
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/projects', projectRoutes);
 
 app.get('/', (req, res) => {
   res.send('Portfolio API is running...');
