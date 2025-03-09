@@ -7,6 +7,7 @@ import NoProjectsFound from '../../components/NoProjectsFound/NoProjectsFound';
 import Loader from '../../components/Loader/Loader';
 import { CircleShape } from '../../components/DecorativeElements/DecorativeShapes';
 import { ProjectsCacheManager } from '../../utils/ProjectsCacheManager';
+import WebSocketManager from '../../utils/webSocketManager';
 import './Projects.css';
 
 const normalizeName = (name, preserveCase = false) => 
@@ -19,33 +20,12 @@ const Projects = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [refreshKey, setRefreshKey] = useState(0); 
 
-  const handleRefresh = () => {
-    ProjectsCacheManager.clearCache();
-    setRefreshKey(prev => prev + 1);
-  };
-
-  const fetchProjects = useCallback(async (forceRefresh = false) => {
+  const fetchProjects = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      if (!forceRefresh) {
-        const cachedProjects = ProjectsCacheManager.getCachedProjects();
-        const cacheExpiry = ProjectsCacheManager.getCacheExpiry();
-        
-        const now = new Date().getTime();
-        if (cachedProjects && cacheExpiry && now < cacheExpiry) {
-          console.log("Utilisation des données en cache");
-          processProjects(cachedProjects);
-          return;
-        }
-      } else {
-        console.log("Rechargement forcé des projets");
-      }
-      
-      console.log("Chargement des projets depuis l'API");
       const response = await fetch('http://localhost:5000/api/projects');
       if (!response.ok) {
         throw new Error(`Erreur de chargement : ${response.status}`);
@@ -57,9 +37,7 @@ const Projects = () => {
         throw new Error(result.message || 'Erreur lors de la récupération des projets');
       }
       
-      console.log("Projets chargés depuis l'API:", result.data);
       const data = result.data;
-      
       const validProjects = data.map(project => ({
         ...project,
         id: project._id,
@@ -67,58 +45,84 @@ const Projects = () => {
         originalCategory: project.category
       }));
 
-      const cacheExpiry = new Date().getTime() + 2 * 60 * 1000;
-      ProjectsCacheManager.saveProjects(validProjects, cacheExpiry);
-      processProjects(validProjects);
+      const uniqueCategories = ['all', ...new Set(
+        validProjects.map(p => p.originalCategory || p.category)
+      )];
 
+      setProjects(validProjects);
+      setCategories(uniqueCategories);
     } catch (err) {
       console.error('Erreur de chargement des projets :', err);
       setError('Impossible de charger les projets. Veuillez réessayer.');
-      
-      try {
-        const response = await fetch('/data/projects.json');
-        const data = await response.json();
-        
-        console.log("Chargement de secours depuis JSON:", data);
-        
-        const validProjects = data.map(project => ({
-          ...project,
-          normalizedCategory: normalizeName(project.category, true),
-          originalCategory: project.category
-        }));
-        
-        processProjects(validProjects);
-      } catch (backupErr) {
-        console.error('Échec du chargement de secours:', backupErr);
-      }
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  const processProjects = (loadedProjects) => {
-    const uniqueCategories = ['all', ...new Set(
-      loadedProjects.map(p => p.originalCategory || p.category)
-    )];
-
-    setProjects(loadedProjects);
-    setCategories(uniqueCategories);
-  };
-
   useEffect(() => {
-    fetchProjects(refreshKey > 0);
-  }, [fetchProjects, refreshKey]);
+    fetchProjects();
 
-  useEffect(() => {
-    const checkForUpdates = () => {
-      if (ProjectsCacheManager.isCacheExpired()) {
-        fetchProjects(true);
-      }
+    const handleProjectCreated = (newProject) => {
+      setProjects(prev => {
+        const updatedProjects = [...prev, {
+          ...newProject,
+          normalizedCategory: normalizeName(newProject.category, true),
+          originalCategory: newProject.category
+        }];
+        
+        const updatedCategories = ['all', ...new Set(
+          updatedProjects.map(p => p.originalCategory || p.category)
+        )];
+        setCategories(updatedCategories);
+        
+        return updatedProjects;
+      });
     };
-    
-    const intervalId = setInterval(checkForUpdates, 30000);
-    
-    return () => clearInterval(intervalId);
+
+    const handleProjectUpdated = (updatedProject) => {
+      setProjects(prev => {
+        const updatedProjects = prev.map(p => 
+          p._id === updatedProject._id 
+            ? {
+                ...updatedProject,
+                normalizedCategory: normalizeName(updatedProject.category, true),
+                originalCategory: updatedProject.category
+              }
+            : p
+        );
+        
+        const updatedCategories = ['all', ...new Set(
+          updatedProjects.map(p => p.originalCategory || p.category)
+        )];
+        setCategories(updatedCategories);
+        
+        return updatedProjects;
+      });
+    };
+
+    const handleProjectDeleted = (projectId) => {
+      setProjects(prev => {
+        const updatedProjects = prev.filter(p => p._id !== projectId);
+        
+        const updatedCategories = ['all', ...new Set(
+          updatedProjects.map(p => p.originalCategory || p.category)
+        )];
+        setCategories(updatedCategories);
+        
+        return updatedProjects;
+      });
+    };
+
+    const projectCreatedListener = WebSocketManager.on('project:created', handleProjectCreated);
+    const projectUpdatedListener = WebSocketManager.on('project:updated', handleProjectUpdated);
+    const projectDeletedListener = WebSocketManager.on('project:deleted', handleProjectDeleted);
+
+    // Nettoyage des écouteurs
+    return () => {
+      WebSocketManager.off('project:created', projectCreatedListener);
+      WebSocketManager.off('project:updated', projectUpdatedListener);
+      WebSocketManager.off('project:deleted', projectDeletedListener);
+    };
   }, [fetchProjects]);
 
   const filteredProjects = useMemo(() => {
@@ -162,7 +166,7 @@ const Projects = () => {
           {error}
         </motion.p>
         <motion.button 
-          onClick={handleRefresh}
+          onClick={fetchProjects}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="btn btn-primary"
@@ -174,7 +178,6 @@ const Projects = () => {
   }
 
   return (
-    
     <div className="projects-page">
       <CircleShape 
         top="-200px" 
@@ -183,18 +186,6 @@ const Projects = () => {
         color="var(--primary)" 
         opacity={0.05} 
       />
-      
-      <div className="refresh-container">
-        <motion.button 
-          className="refresh-button"
-          onClick={handleRefresh}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          title="Rafraîchir les projets"
-        >
-          Rafraîchir
-        </motion.button>
-      </div>
       
       <section className="projects-showcase">
         <div className="container">
@@ -233,8 +224,6 @@ const Projects = () => {
               </div>
             </motion.div>
           )}
-          
-          
           <motion.div 
             className="all-projects"
             initial={{ opacity: 0 }}

@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const http = require('http');
+const path = require('path');
+const { Server } = require('socket.io');
 const connectDB = require('./config/db');
 
 dotenv.config();
@@ -13,6 +16,13 @@ const contactRoutes = require('./routes/contactRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  }
+});
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -38,9 +48,31 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const DEFAULT_PROJECT_IMAGE = 'https://picsum.photos/800/800';
+
+app.use((req, res, next) => {
+  req.defaultProjectImage = DEFAULT_PROJECT_IMAGE;
+  next();
+});
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
+});
+
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
+io.on('connection', (socket) => {
+  console.log('Nouveau client WebSocket connecté');
+
+  socket.on('disconnect', () => {
+    console.log('Client WebSocket déconnecté');
+  });
 });
 
 app.use('/api/testimonials', testimonialRoutes);
@@ -66,14 +98,14 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, () => {
+const httpServer = server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`Mode: ${process.env.NODE_ENV || 'development'}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  server.close(() => process.exit(1));
+  httpServer.close(() => process.exit(1));
 });
 
-module.exports = app;
+module.exports = { app, io, DEFAULT_PROJECT_IMAGE };

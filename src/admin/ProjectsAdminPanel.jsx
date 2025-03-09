@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlus, FaEdit, FaTimes, FaExclamationCircle, FaStar, FaRegStar, FaSync, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import ProjectFormModal from './ProjectFormModal';
-import './ProjectsAdminSyles.css'
+import './AdminStyles.css';
+
 
 const ProjectsAdminPanel = () => {
   const [projects, setProjects] = useState([]);
